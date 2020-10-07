@@ -138,11 +138,11 @@ export class MyApp {
       let reporteItems = [];
       this.cuentaTercero = this.usuario.esCuentaTercero();
 
-      if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) && this.cuentaTercero) {
+      if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) ) {
         ventaItems.push(this.getRedirectMenuItem('Cobranzas', VENTA_PAGE));
       }
 
-      if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) && this.cuentaTercero) {
+      if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) ) {
         ventaItems.push(this.getRedirectMenuItem('Reimpresión de comprobantes', REIMPRESION_COMPROBANTES_PAGE));
       }
 
