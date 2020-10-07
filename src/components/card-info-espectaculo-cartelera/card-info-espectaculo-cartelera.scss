@@ -1,0 +1,154 @@
+card-info-espectaculo-cartelera {
+
+  font-size: 12px;
+
+  .card-md {
+    width: unset;
+
+  }
+
+  ion-card.info-espectaculo {
+
+    margin: 10px;
+
+    border-radius: 4px;
+    height: 95%;
+    position: relative;
+
+    .card-info-espectaculo-cartelera-footer {
+      position: absolute;
+      bottom: 5px;
+      width: 95%;
+    }
+
+    ion-card-title.espectaculo-nombre {
+
+      padding: 0;
+      background: #232323;
+      display: block;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+
+      div {
+        h6 {  
+          color: #fff;
+          font-size: 12px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .container-image {
+      text-align: center;
+
+    }
+
+    ion-card-content {
+      .espectaculo-resumen {
+        font-size: 12px;
+        overflow-y: auto;
+        height: 55px;
+
+        span {
+          p {
+            font-size: 12px
+          }
+        }
+      }
+
+      .especaculo-info-lugar {
+        font-size: 12px;
+        color: #888;
+        line-height: 1.2;
+        margin-bottom: 40px;
+
+        ion-icon {
+          color: #FE8934;
+          font-size: 25px;
+          padding-right: 3px;
+          margin: 2px;
+        }
+
+        span {
+          vertical-align: sub;
+        }
+      }
+
+      .espectaculo-mas-informacion {
+        color: #FFF;
+        .boton-compra {
+          
+          span {
+            color: #FFF;
+          }
+        }
+      }
+    }
+  
+    .agotado {
+  
+      /* Safari */
+      -webkit-transform: rotate(-20deg);
+  
+      /* Firefox */
+      -moz-transform: rotate(-20deg);
+  
+      /* IE */
+      -ms-transform: rotate(-20deg);
+  
+      /* Opera */
+      -o-transform: rotate(-20deg);
+  
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  
+      border: 3px solid #000;
+      display:inline-block;
+      font-family:Georgia, "Times New Roman", Times, serif;
+      font-weight:900; font-size:36px;
+      position:absolute;
+      left: -10px;
+      top: 15%;
+      background:#fff;
+      color: red;
+      padding:0 12px;
+  
+    }
+    .cancelado {
+  
+      /* Safari */
+      -webkit-transform: rotate(-20deg);
+  
+      /* Firefox */
+      -moz-transform: rotate(-20deg);
+  
+      /* IE */
+      -ms-transform: rotate(-20deg);
+  
+      /* Opera */
+      -o-transform: rotate(-20deg);
+  
+      /* Internet Explorer */
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  
+      border: 3px solid #000;
+      display:inline-block;
+      font-family:Georgia, "Times New Roman", Times, serif;
+      font-weight:900;
+      font-size:48px;
+      position:absolute;
+      left: -10px;
+      top:30%;
+      background:#fff;
+      color: red;
+      padding:0 12px;
+  
+    }
+
+  }
+  
+
+  
+
+}

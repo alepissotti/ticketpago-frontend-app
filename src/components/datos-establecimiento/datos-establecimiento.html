@@ -1,0 +1,12 @@
+<!-- Generated template for the DatosEstablecimientoComponent component -->
+<div>
+  <h4>
+    {{establecimiento.nombre}}
+    <span *ngIf="establecimiento.direccion">
+                    - {{ establecimiento.direccion.detalle }}
+                  </span>
+  </h4>
+</div>
+<div *ngIf="establecimiento.direccion && establecimiento.direccion.google_maps_iframe">
+  <span [innerHTML]="establecimiento.direccion.google_maps_iframe | safeHtml"></span>
+</div>

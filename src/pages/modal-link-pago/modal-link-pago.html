@@ -1,0 +1,38 @@
+<ion-card class="contenedor">
+    <ion-card-header text-wrap >
+      <ion-card-title class="titulo">Link de Pago</ion-card-title>
+      <ion-label text-wrap>
+        Envíele al cliente el siguiente link para que pueda realizar el pago de la operación:
+      </ion-label>
+    </ion-card-header>
+
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <h3 style="text-align: center; border: 2px solid orangered; border-radius: 18px;" class="link">
+                    {{url}}
+                    </h3>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-buttons right class="link">
+                        <button id="botonCopiar" ion-button  solid color="primary" (click)='copiarUrl()'>
+                          Copiar Url
+                        </button>
+                        <button class="botonCompartir" ion-button solid (click)='compartirUrl()'>
+                            Compartir
+                        </button>
+                        <button *ngIf="urlCopiada"  ion-button outline color="danger" (click)="salir()">
+                            Salir
+                        </button>
+                    </ion-buttons>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>
+  

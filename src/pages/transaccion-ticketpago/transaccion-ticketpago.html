@@ -1,0 +1,87 @@
+<ion-content padding-vertical class="no-scrollbar">
+    <ion-grid class="full-height">
+        <ion-row class="full-height">
+            <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+                <div class="ticketway-card full-height">
+                    <ion-header>
+                        <ion-toolbar color="primary">
+                            <ion-title>TicketPago</ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="venta-content no-scrollbar">
+                        <ion-content padding>
+                            <ion-spinner *ngIf="loading"></ion-spinner>
+
+                            <ion-card *ngIf="!loading">
+                                <ion-item>
+                                    <ion-label class="punto-venta"><ion-icon name="cart"></ion-icon> {{puntoVenta.nombre}} </ion-label>
+                                </ion-item>
+
+                                <ion-card-content *ngIf="respuestaConsulta">
+                                    <ion-grid class="titulo">
+                                        <ion-row>
+                                            <ion-col col-12>Datos de la transacción</ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <ion-grid class="tabla">
+                                        <ion-row class="header-tabla">
+                                            <ion-col col-3>ID TRANSACCION</ion-col>
+                                            <ion-col col-3>TOTAL</ion-col>
+                                            <ion-col col-3>CUOTAS</ion-col>
+                                            <ion-col col-3>ESTADO</ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ion-col col-3>{{respuestaConsulta.transaccion_id}}</ion-col>
+                                            <ion-col col-3>${{respuestaConsulta.importe_autorizado
+                                                              ?respuestaConsulta.importe_autorizado
+                                                              :respuestaConsulta.precio_transaccion}}</ion-col>
+                                            <ion-col col-3>{{respuestaConsulta.cuotas
+                                                               ?respuestaConsulta.cuotas
+                                                               :1}}</ion-col>                  
+                                            <ion-col col-3>{{respuestaConsulta.estado_autorizacion_tarjeta
+                                                             ?respuestaConsulta.estado_autorizacion_tarjeta
+                                                             :respuestaConsulta.transaccion_estado_nombre}}</ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <ion-grid class="titulo" *ngIf="respuestaConsulta.marca_tarjeta">
+                                        <ion-row>
+                                            <ion-col col-12>Datos de la tarjeta</ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <ion-grid class="tabla" *ngIf="respuestaConsulta.marca_tarjeta">
+                                        <ion-row class="header-tabla">
+                                            <ion-col col-3>MARCA</ion-col>
+                                            <ion-col col-3>ULTIMOS 4 DIGITOS</ion-col>
+                                            <ion-col col-3>TITULAR</ion-col>
+                                            <ion-col col-3>{{respuestaConsulta.detalle_documento | uppercase}}</ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ion-col col-3>{{respuestaConsulta.marca_tarjeta}}</ion-col>
+                                            <ion-col col-3>{{respuestaConsulta.ultimos_cuatro_digitos_tarjeta}}</ion-col>
+                                            <ion-col col-3>{{respuestaConsulta.nombre_apellido_titular}}</ion-col>
+                                            <ion-col col-3>{{respuestaConsulta.nro_documento}}</ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                                <ion-card-content *ngIf="!respuestaConsulta">
+                                    <ion-grid>
+                                        <ion-row>
+                                            <ion-col col-12>
+                                                <ion-item>
+                                                    <ion-label block text-wrap>
+                                                        <ion-icon name="ios-information-circle-outline"></ion-icon>
+                                                        La transaccion no existe o ha sido cancelada.
+                                                    </ion-label>
+                                                </ion-item>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </ion-content>
+                    </ion-content>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

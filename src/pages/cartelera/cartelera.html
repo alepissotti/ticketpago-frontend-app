@@ -1,0 +1,39 @@
+<ion-content no-padding >
+  
+  <ion-grid no-margin no-padding>
+    <ion-row class="header-cartelera">
+      <img src="assets/images/header.jpg" />
+      <div class="div-slogan">
+        <span class="slogan hidden-xs">tu portal de eventos</span>
+        <span class="slogan-movil hidden-sm hidden-md hidden-lg hidden-xl">tu portal de eventos</span>
+      </div>
+    </ion-row>
+    <ion-row *ngIf="espectaculos && !loading" class="search-row" >
+        <ion-col col-md-8>
+          <ion-searchbar float-left no-padding [(ngModel)]="busqueda" placeholder="Buscar">
+          </ion-searchbar>
+        </ion-col>
+        <ion-col col-md-4>
+          <ion-select placeholder="Localidad" [(ngModel)]="localidadBuscada" *ngIf="localidadesDisponibles">
+            <ion-option *ngFor="let localidad of localidadesDisponibles" [value]="localidad">
+              {{localidad}}
+            </ion-option>
+          </ion-select>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="loading" text-center>
+      <ion-col col-5></ion-col>
+      <ion-col col-2><ion-spinner ></ion-spinner></ion-col>
+      <ion-col col-5></ion-col>
+    </ion-row>
+    <ion-row>
+      <card-info-espectaculo-cartelera [espectaculo]="espectaculo" (selected)="getInformacion($event)" *ngFor="let espectaculo of espectaculos | buscadorTituloEspectaculo: busqueda | buscadorLocalidadEspectaculo: localidadBuscada" col-12 col-md-3>
+      </card-info-espectaculo-cartelera>
+    </ion-row>
+    <ion-row class="footer-cartelera">
+      <ion-col>
+        <common-page-footer></common-page-footer>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,72 @@
+<ion-content padding-vertical class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header id="header">
+            <ion-toolbar color="primary">
+              <ion-title><ion-label text-wrap>{{nombreEmpresa}}</ion-label></ion-title>
+              <ion-buttons end>
+                <button ion-button icon-only (click)="getEmpresa()" [hidden]="nombreEmpresa">
+                  <ion-icon name="md-refresh"></ion-icon>
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content id="venta-content" padding-vertical class="venta-content no-scrollbar">
+            <ion-grid *ngIf="nombreEmpresa">   
+              <ion-row id="badge-monto">
+                  <ion-col col-12 padding-vertical>
+                      <ion-badge style="width: 100%;" text-wrap color="primary">Ingrese el monto a cobrar al cliente (OBLIGATORIO)</ion-badge>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col col-md-6 text-wrap id="monto">
+                    <ion-item>
+                      <ion-label stacked>Monto de la operación</ion-label>
+                      <ion-input id="montoCobranza"  type="number" [(ngModel)]="montoCobranza" (ionFocus)="focusMonto()" #montoInput></ion-input>
+                    </ion-item>
+                    <div padding-left ion-text [hidden]="montoValido()" color="danger">* {{(montoCobranza === 0) ?'El monto no puede ser Cero' :'El monto es requedido'}}.</div> 
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col col-12>
+                      <ion-badge style="width: 100%;" text-wrap color="primary">Indique DNI y/o detalle del cliente (OPCIONAL)</ion-badge>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col  col-12 col-md-6 text-wrap>
+                    <ion-item>
+                      <ion-label stacked>DNI del cliente</ion-label>
+                      <ion-input id="dniCliente"  type="number" [(ngModel)]="dniCliente" (ionFocus)="focusDniCliente()"></ion-input>
+                    </ion-item>
+                    <div padding-left ion-text [hidden]="dniValido()" color="danger">* DNI con formato incorrecto.</div> 
+                  </ion-col>
+                  <ion-col col-12 col-md-6 text-wrap>
+                    <ion-item>
+                      <ion-label stacked>Detalle del cliente</ion-label>
+                      <ion-input id="detalleCliente"  type="text" [(ngModel)]="detalleCliente" (ionFocus)="focusDetalleCliente()"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              <ion-row>
+                <ion-col col-12 [hidden]="!formValid()">
+                  <ion-buttons right>
+                    <button ion-button outline color="primary" (click)="generarLinkPago()">Generar Link de pago</button>
+                    <button ion-button outline color="primary" (click)="continuarOperacion()">Siguiente</button>
+                  </ion-buttons>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+          <ion-footer id="footer">
+            <ion-toolbar>
+              <cancelar-venta [ventaReservada]="ventaReservada"></cancelar-venta>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

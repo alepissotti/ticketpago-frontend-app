@@ -1,0 +1,32 @@
+page-searchable-entity-criteria {
+  .text-input-md {
+    margin: 0px;
+  }
+
+  .select-md {
+    padding: 0px;
+  }
+
+  .scroll-content {
+    overflow-y: auto;
+  }
+
+  ion-item-divider .label-md {
+    margin: 0px;
+  }
+
+  ion-select {
+    max-width: 100%;
+  }
+
+  .foundedSearchableEntityHeader {
+    border: 2px solid #dedede;
+  }
+
+  .foundedSearchableEntity {
+    cursor: pointer;
+  }
+  .foundedSearchableEntity:hover {
+    background: #dedede;
+  }
+}

@@ -1,0 +1,243 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Detalles de Operación
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content padding>
+
+            <ion-card>
+              <!--<ion-card-header>
+                Buscador
+              </ion-card-header>-->
+              <ion-card-content>
+                <searchable-operacion [(ngModel)]="searchableEntityOperacion"
+                                        (update)="updateSearchableOperacion($event)"
+                                        [label]="'Operacion'"
+                                        #searchableOperacion>
+                </searchable-operacion>
+              </ion-card-content>
+            </ion-card>
+
+            <ion-grid *ngIf="operacion" class="detalle_operacion" >
+              <ion-row>
+                <ion-col col-6>
+                  <ion-card>
+                    <ion-card-header>
+                      Estado operación ({{operacion.nro_operacion}})
+                    </ion-card-header>
+                    <ion-card-content>
+                      <ion-grid>
+                        <ion-row>
+                          <ion-col col-2>
+                            Detalle:
+                          </ion-col>
+                          <ion-col col-10>
+                            {{operacion.detalle_operacion}}
+                          </ion-col>
+                        </ion-row>
+                        <ion-row>
+                          <ion-col col-2>
+                            Estado:
+                          </ion-col>
+                          <ion-col col-10>
+                            {{operacion.operacion_tipo.nombre}}
+                          </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="operacion.operacion_medios_pago.length">
+                          <ion-col col-2>
+                            Id pago:
+                          </ion-col>
+                          <ion-col col-10>
+                            {{operacion.operacion_medios_pago[0].id}}
+                          </ion-col>
+                        </ion-row>
+                        <ion-row>
+                          <ion-col col-2>
+                            Realizada hace:
+                          </ion-col>
+                          <ion-col col-10>
+                            {{operacion.dias_operacion}} dias
+                          </ion-col>
+                        </ion-row>
+                        <ion-row>
+                          <ion-col col-2>
+                            Realizada por:
+                          </ion-col>
+                          <ion-col col-10>
+                              {{operacion.usuario.persona.apellido}}, {{operacion.usuario.persona.nombres}}
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+                <ion-col col-6>
+                  <ion-card>
+                    <ion-card-header>
+                      Resumen
+                    </ion-card-header>
+                    <ion-card-content>
+                      <ion-col text-right>
+                        <ion-row *ngFor="let detalleResumen of operacion.resumen_operacion"
+                                  [class.total]="detalleResumen.tipo_concepto == 2">
+                            <ion-col col-6>{{ detalleResumen.detalle }} </ion-col>
+                            <ion-col col-3>{{ detalleResumen.importe.importe_formateado }} </ion-col>
+                            <ion-col col-3></ion-col>
+                        </ion-row>
+                      </ion-col>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-card>
+                  <ion-card-header>
+                    Detalle pagos y devoluciones
+                  </ion-card-header>
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row class="header">
+                        <ion-col col-1>Id Caja</ion-col>
+                        <ion-col col-2>Cajero</ion-col>
+                        <ion-col col-2>Usuario</ion-col>
+                        <ion-col col-2>Fecha</ion-col>
+                        <ion-col col-1>Tipo Movimiento</ion-col>
+                        <ion-col col-1>Medio de Pago</ion-col>
+                        <ion-col col-1 text-right>Importe</ion-col>
+                        <ion-col col-1 text-right>Financiación</ion-col>
+                        <ion-col col-1 text-right>Total</ion-col>
+                      </ion-row>
+                      <ion-row  *ngFor="let operacionMedioPago of operacion.operacion_medios_pago" 
+                                (click)="verDetalleOperacionMedioPago(operacionMedioPago)"
+                                [class.anulacion]="operacionMedioPago.es_anulacion" [class.pago]="!operacionMedioPago.es_anulacion"
+                                class="pointer">
+                        <ion-col col-1>
+                          {{operacionMedioPago.caja_operacion.id}}
+                        </ion-col>
+                        <ion-col col-2>
+                          {{operacionMedioPago.caja_operacion.caja.usuario.persona.apellido}}, {{operacionMedioPago.caja_operacion.caja.usuario.persona.nombres}}
+                        </ion-col>
+                        <ion-col col-2>
+                          {{operacion.usuario.persona.apellido}}, {{operacion.usuario.persona.nombres}} - {{operacion.usuario.persona.nro_dni}}
+                        </ion-col>
+                        <ion-col col-2>
+                          {{operacionMedioPago.fec_pago | date:'dd-MM-yyyy HH:mm:ss'}}
+                        </ion-col>
+                        <ion-col col-1>
+                          {{ operacionMedioPago.tipo_movimiento.detalle }}
+                        </ion-col>
+                        <ion-col col-1>
+                          {{operacionMedioPago.medio_pago.detalle}} 
+                          <label *ngIf="operacionMedioPago.operacion_medio_pago_autorizacion && operacionMedioPago.operacion_medio_pago_autorizacion.cuotas">
+                            - {{operacionMedioPago.operacion_medio_pago_autorizacion.cuotas}} Cuotas
+                          </label>
+                        </ion-col>
+                        <ion-col col-1 text-right>
+                            {{operacionMedioPago.total_sin_financiacion.importe_formateado}}
+                        </ion-col>
+                        <ion-col col-1 text-right>
+                            {{operacionMedioPago.total_financiado.importe_formateado}}
+                        </ion-col>
+                        <ion-col col-1 text-right>
+                            {{operacionMedioPago.total_neto.importe_formateado}}
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+
+                  </ion-card-content>
+                </ion-card>
+              </ion-row>
+
+              <ion-row *ngFor="let operacionFuncionSector of operacion.operacion_funcion_sectores">
+                <ion-card>
+                  <ion-card-header>
+                    Detalle función
+                  </ion-card-header>
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col col-2 class="header">Espectaculo - Función Sector:</ion-col>
+                        <ion-col col-6>{{operacionFuncionSector.espectaculo.nombre}} - {{operacionFuncionSector.funcion_sector.nombre_sector}}</ion-col>
+                      </ion-row>
+                      <ion-row>
+                          <ion-col col-2 class="header">Fecha Función:</ion-col>
+                          <ion-col col-6>{{operacionFuncionSector.funcion.fec_inicio | date:'dd-MM-yyyy HH:mm:ss'}}</ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col col-2 class="header">Establecimiento:</ion-col>
+                            <ion-col col-6>{{operacionFuncionSector.espectaculo.establecimiento.nombre}} - {{operacionFuncionSector.espectaculo.establecimiento.direccion?.detalle}}</ion-col>
+                          </ion-row>
+                    </ion-grid>
+                    <ion-card>
+                        <ion-card-header>
+                          Detalle ubicaciones
+                        </ion-card-header>
+                        <ion-card-content>
+                          <ion-grid>
+                            <ion-row class="header">
+                              <ion-col col-1>Id</ion-col>
+                              <ion-col col-3>Detalle Ubicacíon</ion-col>
+                              <ion-col col-2>Total ubicación</ion-col>
+                              <ion-col col-2>Descuento</ion-col>
+                              <ion-col col-2>Total neto</ion-col>
+                              <ion-col col-2>Estado</ion-col>
+                            </ion-row>
+                            <ion-row *ngFor="let operacionUbicacion of operacionFuncionSector.ubicaciones"
+                                    [class.anulacion]="operacionUbicacion.ubicacion_estado.anulada" 
+                                    [class.pago]="!operacionUbicacion.ubicacion_estado.anulada">
+                              <ion-col col-1>
+                                {{operacionUbicacion.id}}
+                              </ion-col>
+                              <ion-col col-3>
+                                {{operacionUbicacion.detalle_ubicacion}}
+                              </ion-col>
+                              <ion-col col-2>
+                                  {{operacionUbicacion.total_bruto.importe_formateado}}
+                                </ion-col>
+                              <ion-col col-2>
+                                {{operacionUbicacion.descuento.importe_formateado}}
+                              </ion-col>
+                              <ion-col col-2>
+                                  {{operacionUbicacion.total_neto.importe_formateado}}
+                                </ion-col>
+                              <ion-col col-2>
+                                {{operacionUbicacion.ubicacion_estado.nombre}}
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                        </ion-card-content>
+                      </ion-card>
+                  </ion-card-content>
+                </ion-card>
+                
+              </ion-row>
+
+            </ion-grid>
+            
+
+          </ion-content>
+
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+  

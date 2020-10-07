@@ -1,0 +1,59 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Busqueda por criterio ({{searchableEntityProvider.getEntityName()}})</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="searchable-entity-criteria">
+    <ion-row >
+      <ion-col col-8 >
+        <ion-label>Detalle</ion-label>
+        <ion-input placeholder="Ingrese {{criteria.detail.toLowerCase()}}" [(ngModel)]="detalle" type="text"
+                   (keyup.enter)="search()" #idInput>
+
+        </ion-input>
+      </ion-col>
+
+      <ion-col col-4 >
+        <ion-label>Criterios</ion-label>
+        <ion-select [(ngModel)]="criteria" placeholder="Seleccione criterio">
+          <ion-option *ngFor="let searchableCriteria of searchableCriterias" [value]="searchableCriteria" >{{searchableCriteria.detail}}</ion-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-item-divider></ion-item-divider>
+    </ion-row>
+    <ion-row *ngIf="foundedSearchableEntities" class="foundedSearchableEntityHeader">
+      <ion-col col-10>
+        Detalle
+      </ion-col>
+      <ion-col col-2>
+        Identificador
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let searchableEntity of foundedSearchableEntities" (click)="selectEntity(searchableEntity)" class="foundedSearchableEntity">
+      <ion-col col-10>{{searchableEntity.detalle}}</ion-col>
+      <ion-col col-2>{{searchableEntity.id_representado}}</ion-col>
+    </ion-row>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button *ngIf="createPage" ion-button (click)="createEntity()">
+          Nuevo
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button solid (click)='cancelar()'>
+        Cancelar
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

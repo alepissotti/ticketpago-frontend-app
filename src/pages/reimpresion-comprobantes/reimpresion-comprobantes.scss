@@ -1,0 +1,42 @@
+reimpresion-comprobantes {
+    > .content {
+      background-color: color($colors, light);
+    }
+    ion-spinner {
+      width: 100%;
+    }
+    .detalle-operacion {
+      color: #999;
+    }
+  
+    ion-select {
+      max-width: none;
+    }
+
+    .item-respuesta {
+      border: 3px double #3880ff;
+      border-radius: 20px 20px 20px 20px;
+      margin-top: 20px;
+    }
+
+    .seleccion-operacion {
+      width: 100%;
+      height: 100%;
+      margin: auto;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      text-align: center;
+      text-decoration: none;
+    }
+
+
+  
+    /*
+      Oculta spin button
+    */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }

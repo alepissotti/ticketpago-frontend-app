@@ -1,0 +1,109 @@
+cartelera-espectaculo {
+
+  .image-background {
+    display: table;
+
+    img {
+      max-height: 400px;
+    }
+  }
+
+  ion-card {
+    ion-card-header.card-header-md {
+      padding-top: 0px;
+      padding-bottom: 0px;
+
+      ion-card-title.card-title-md {
+        color: #1e807d;
+        font-size: 22px;
+        font-weight: 900;
+        font-variant: all-small-caps;
+      }
+    }
+  }
+
+  ion-footer {
+    button {
+      float: right;
+      margin-right: 20px;
+      width: 8em !important;
+    }
+
+    .boton-regreso {
+      margin-right: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    ion-content {
+      ion-card.cartelera-espectaculo {
+        margin: 0px;
+      }
+    }
+  }
+
+    ion-content {
+      border-radius: 10px;
+    }
+    button {
+      .left {
+        float: left
+      }
+      .right {
+        float: right;
+      }
+    }
+
+  .boton-compra {
+    color: #FFF;
+    border-radius: 16px;
+    background-color: #1e807d;
+    font-size: 14px;
+    //font-weight: 900;
+    padding: 16px 20px;
+    text-transform: uppercase;
+    width: unset;
+  }
+
+  .card-medio-pago {
+    img {
+      max-width: 35px;
+    }
+  }
+
+  .label-md {
+    margin: 0px 8px 0px 0px;
+  }
+  .ion-card-content div {
+    margin: 10px 0px 10px 0px;
+  }
+
+  .item-punto-venta {
+    min-height: 1.4em;
+    border-bottom: 1px solid #05726e;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+
+  .item-punto-venta:last-child {
+    padding-bottom: 0px;
+    border-bottom: none;
+  }
+
+  .nombre-punto-venta {
+    color: #05726e;
+    font-weight: 900;
+  }
+
+  .contactos {
+    float: left;
+    width: 20%;
+    margin-bottom:1em;
+
+    .social-icon {
+      width: 75%;
+    }
+    
+  }
+  
+}

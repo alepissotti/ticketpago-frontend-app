@@ -1,0 +1,32 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                Preimprimir
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-spinner *ngIf="loading"></ion-spinner>
+            {{message}}
+            <button ion-item *ngFor="let punto of puntosDeVenta" (click)="puntoDeVentaClicked({id: punto.id})">
+              {{punto.nombre}}
+            </button>
+          </ion-content>
+          <ion-footer>
+            <ion-toolbar>
+              <cancelar-venta [ventaReservada]="ventaReservada"></cancelar-venta>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+      <ion-col col-12 col-md-3>
+        <resumen-venta [ventaReservada]="ventaReservada"></resumen-venta>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

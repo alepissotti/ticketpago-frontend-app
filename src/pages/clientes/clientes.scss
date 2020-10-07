@@ -1,0 +1,40 @@
+page-clientes {
+  ion-list {
+    border: 2px solid orange;
+  }
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+  .resumen-venta {
+    .title {
+      padding: 10px 5px;
+      text-align: center;
+      font-size: larger;
+      font-weight: bold;
+      background-color: color($colors, primary);
+      vertical-align: center;
+    }
+    .resumen-content {
+      padding: 10px 5px;
+      .precio {
+        font-weight: bold;
+        margin-top: 5px;
+        text-align: right;
+      }
+    }
+  }
+  .buttons-container {
+    text-align: right;
+  }
+  /*
+    Oculta spin button
+  */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

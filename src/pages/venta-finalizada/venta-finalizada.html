@@ -1,0 +1,97 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                Venta Finalizada
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <div >
+              Ticketpago agradece su compra, su operación ha sido aprobada.
+            </div>
+            <div *ngIf="ventaReservada && 
+            !ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.cobranza_cuenta_tercero ; else resumenCobroTercero">
+              <div class="field">
+                <span>Evento: {{ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.nombre}}</span>
+              </div>
+              <div class="field">
+                <span>Lugar:</span> {{ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.establecimiento.nombre}}
+              </div>
+              <div class="field" *ngIf="ventaReservada.operacion.operacion_funcion_sectores[0].funcion">
+                <span>Función:</span> {{ventaReservada.operacion.operacion_funcion_sectores[0].funcion.detalle}}<br>
+                <span>Fecha: </span>{{ventaReservada.operacion.operacion_funcion_sectores[0].funcion.fec_inicio | date:'dd-MM-yyyy'}}
+              </div>
+              <div *ngFor="let venta of ventaReservada?.operacion.operacion_funcion_sectores">
+                <div class="field" *ngIf="venta.funcion_sector">
+                  <span>Sector:</span> {{venta.funcion_sector.nombre_sector}}
+                </div>
+                <div class="field">
+                  <span>Entradas:</span> {{venta.ubicaciones.length}}<br>
+                </div>
+                <div class="field" *ngIf="venta.funcion_sector && venta.funcion_sector.tiene_plano">
+                  <div *ngFor="let ubicacion of venta.ubicaciones">
+                    {{ ubicacion.texto_fila }} {{ ubicacion.fila }} - {{ ubicacion.texto_ubicacion }} {{ ubicacion.asiento }}
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <span>Comprador:</span> {{userInfo.persona.apellido}}, {{userInfo.persona.nombres}} -
+                <span>{{userInfo.persona.tipo_documento.detalle}}:</span> {{userInfo.persona.nro_dni}}
+              </div>
+              <div class="field">
+                <span>Código de operación:</span> {{ventaReservada?.operacion.nro_operacion}}
+              </div>
+
+              <div class="field">
+                <span>IMPORTE COMPRA:</span> {{ventaReservada?.operacion.total_neto.importe_formateado}}
+              </div>
+
+              <div class="field" *ngIf="esVentaConTarjeta()">
+                <span>TARJETA:</span> {{ventaReservada?.operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.marca_tarjeta}} -
+                <span>TITULAR: </span> {{ventaReservada?.operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}} -
+                <span>{{ventaReservada?.operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.detalle_documento}}: </span> {{ventaReservada?.operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}
+              </div>
+
+              <div class="field" *ngIf="esVentaConTarjeta()">
+                <span>IMPORTE AUTORIZADO:</span> {{ventaReservada?.operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.importe_autorizado.importe_formateado}}
+              </div>
+
+              <div class="field" *ngIf="esVentaConTarjeta()">
+                <span>CUOTAS:</span> {{ventaReservada?.operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.cuotas}}
+              </div>
+
+            </div>
+
+            <ng-template #resumenCobroTercero>
+              <div class="field">
+                <span>Empresa: {{ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.nombre}}</span>
+              </div>
+              <div class="field">
+                <span>Código de operación:</span> {{ventaReservada?.operacion.nro_operacion}}
+              </div>
+
+              <div class="field">
+                <span>IMPORTE COMPRA:</span> {{ventaReservada?.operacion.total_neto.importe_formateado}}
+              </div>
+            </ng-template>
+          </ion-content>
+
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons right>
+                <button ion-button solid (click)='confirmarClicked()' color="primary">
+                  Aceptar
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

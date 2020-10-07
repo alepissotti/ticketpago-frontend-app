@@ -1,0 +1,55 @@
+<div class="searchable-entity">
+
+  <!-- Boton añadido para evitar que se ejecute por defecto el buscador por criterios -->
+  <ion-buttons tabindex="-1" hidden>
+    <button ion-button icon-only (click)="false" tabindex="-1" [tabindex]="-1">
+      <ion-icon name="{{buttonIconName}}" ></ion-icon>
+    </button>
+  </ion-buttons>
+
+  <ion-row class="label" *ngIf="label">
+    <ion-label stacked text-left>{{label}}</ion-label>
+  </ion-row>
+  <ion-row>
+
+    <ion-col col-1 class="search-id-col">
+      <form [formGroup]="SearchableForm">
+        <ion-item>
+        <ion-input  placeholder="Id" [(ngModel)]="idRepresentado" type="text"
+        (keypress)="keyPressed($event)"
+        (keyup.enter)="find()"
+        (blur)="find()" 
+        formControlName="id"
+        class="searchable-id"
+        #idInput>
+
+        </ion-input>
+      </ion-item>
+      
+      </form>
+    </ion-col>
+    
+
+    <ion-col col-3 margin-left class="search-detalle-col">
+      <ion-item [title]="detalle">
+        <ion-input placeholder="Detalle" [(ngModel)]="detalle" type="text"  
+                  [tabindex]="-1" [readonly]="true" class="searchable-detalle">
+                </ion-input>
+      </ion-item>
+    </ion-col>
+
+    <ion-col col-1 margin-left tabindex="-1" >
+      <ion-buttons tabindex="-1">
+      <button ion-button icon-only (click)="showCriteriaSearch()" tabindex="-1" [tabindex]="-1" tooltip="Buscar">
+      <ion-icon name="{{buttonIconName}}" ></ion-icon>
+      </button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+  <!--<error-display
+  [validation]="validation"
+  [formGroupElement]="SearchableForm"
+  fieldName="id"
+  *ngFor="let validation of validation_messages.id"
+></error-display>-->
+</div>

@@ -1,0 +1,69 @@
+<ion-card class="info-espectaculo" (click)="getInformacion(espectaculo)" no-margin>
+  <ion-card-title class="espectaculo-nombre">
+    <div>
+      <h6 class="title">{{espectaculo.nombre}}</h6>
+    </div>
+  </ion-card-title>
+  <span *ngIf="espectaculo.agotado" class="agotado">AGOTADO</span>
+  <span *ngIf="espectaculo.cancelado && !espectaculo.agotado" class="cancelado">CANCELADO</span>
+  <div class="container-image">
+    <img src="{{espectaculo.imagen_mini | baseUrl}}"/>
+  </div>
+  <ion-card-content no-padding>
+    <ion-grid no-margin>
+      <ion-row>
+        <ion-col>
+          <div class="espectaculo-resumen">
+            <span [innerHTML]="espectaculo.resumen | safeHtml"></span>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="especaculo-info-lugar">
+            <ion-grid no-margin>
+              <ion-row>
+                <ion-col col-2 no-padding text-center>
+                    <ion-icon name="md-calendar" ios="ios-calendar" md="md-calendar"></ion-icon>
+                </ion-col>
+                <ion-col col-10 no-padding>
+                  <span style="line-height: 2.5;">
+                    {{espectaculo.funciones[0].fecha_formateada.fecha_traducida_sin_anio}}
+                  </span>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col col-2 no-padding text-center>
+                    <ion-icon name="md-navigate" ios="ios-navigate" md="md-navigate"> </ion-icon>
+                </ion-col>
+                <ion-col col-10 no-padding>
+                  <span> {{espectaculo.establecimiento.nombre}} - </span>
+                  <span *ngIf="espectaculo.establecimiento.direccion.calle"> {{espectaculo.establecimiento.direccion.calle}}</span> 
+                  <span *ngIf="espectaculo.establecimiento.direccion.altura"> {{espectaculo.establecimiento.direccion.altura}}</span>
+                  <br/>
+                  <span *ngIf="espectaculo.establecimiento.direccion.localidad.nombre"> {{espectaculo.establecimiento.direccion.localidad.nombre}}</span>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="card-info-espectaculo-cartelera-footer">
+        <ion-col align-self-end>
+            <div class="espectaculo-mas-informacion">
+                <button clear="" color="primary" icon-start="" ion-button=""
+                        small="" class="boton-compra disable-hover button button-ios button-clear button-clear-ios button-small button-small-ios button-clear-ios-danger"
+          
+                >
+                              <span class="button-inner">
+                                <ion-icon name="share-alt" role="img" class="icon icon-ios ion-ios-share-alt" aria-label="share alt"></ion-icon>
+                                Info
+                              </span>
+                  <div class="button-effect"></div>
+                </button>
+              </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

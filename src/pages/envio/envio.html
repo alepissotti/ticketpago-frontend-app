@@ -1,0 +1,221 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                Seleccionar tipo de envío
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-spinner *ngIf="loading"></ion-spinner>
+            <ion-list radio-group [(ngModel)]="selectedEnvio" (ionChange)="tipoEnvioChanged()">
+              <ion-item *ngIf="!loading && ventaTelefonica">
+                <ion-label>
+                  <div>Sin Envio</div>
+                  <div>Costo de envío: $ 0</div>
+                </ion-label>
+                <ion-radio item-end [value]="{id: 0}" ></ion-radio>
+              </ion-item>
+              <ion-item *ngFor="let envio of envios">
+                <ion-label>
+                  <div>{{envio.leyenda}}</div>
+                  <div *ngIf="envio.costo">Costo de envío: $ {{envio.costo}}</div>
+                </ion-label>
+                <ion-radio item-end [value]="envio"></ion-radio>
+              </ion-item>
+            </ion-list>
+
+            <div *ngIf="selectedEnvio?.requiere_direccion" >
+              <ion-list *ngIf="direccion && !ventaTelefonica">
+                <ion-item>
+                  <ion-checkbox [(ngModel)]="asignarDireccionDefault"></ion-checkbox>
+                  <ion-label>Cambiar dirección de envío</ion-label>
+                </ion-item>
+              </ion-list>
+              <ion-card *ngIf="(direccion && !asignarDireccionDefault) && !ventaTelefonica">
+                <ion-card-header>Direccion de envio</ion-card-header>
+                <ion-card-content text-wrap>{{direccion.detalle}}</ion-card-content>
+              </ion-card>
+              <ion-card *ngIf="asignarDireccionDefault || ventaTelefonica">
+                <ion-card-header>
+                  Ingresar dirección de envío
+                </ion-card-header>
+                <ion-card-content>
+                  <form [formGroup]="direccionForm">
+                    <ion-item>
+                      <ion-label stacked color="primary">País</ion-label>
+                      <ion-select formControlName="pais" (ionChange)="paisChanged($event)"
+                                placeholder="{{loadingPaises ? 'Cargando...' : 'Seleccione un país'}}">
+                      <ion-option *ngFor="let pais of paisesOptions" [value]="pais.id">{{pais.nombre}}</ion-option>
+                      </ion-select>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label stacked color="primary">Provincia</ion-label>
+                      <ion-select formControlName="provincia" (ionChange)="provinciaChanged($event)"
+                                  placeholder="{{loadingProvincias ? 'Cargando...' : (!provinciasOptions.length ? 'Debe seleccionar un país' : 'Seleccione una provincia')}}">
+                        <ion-option *ngIf="!loadingProvincias" [value]="0">Cargar nueva provincia</ion-option>
+                        <ion-option *ngFor="let provincia of provinciasOptions" [value]="provincia.id">{{provincia.nombre}}
+                        </ion-option>
+                      </ion-select>
+                    </ion-item>
+                    <ion-item *ngIf="direccionForm.value.provincia === 0">
+                      <ion-label stacked color="primary">Nombre de provincia</ion-label>
+                      <ion-input type="text" formControlName="provincia_inexistente"></ion-input>
+                    </ion-item>
+                    <div ion-text *ngIf="direccionForm.value.provincia === 0"
+                         [hidden]="!direccionForm.controls.provincia.dirty || (direccionForm.controls.provincia.valid && direccionForm.controls.provincia.value > 0) || direccionForm.controls.provincia_inexistente.value?.trim().length"
+                         color="danger" padding-left>
+                      * Debe ingresar el nómbre de la provincia
+                    </div>
+                    <ion-item>
+                      <ion-label stacked color="primary">Localidad</ion-label>
+                      <ion-select formControlName="localidad" (ionChange)="localidadChanged($event)"
+                                  placeholder="{{loadingLocalidades ? 'Cargando...' : ((!direccionForm.value.provincia && direccionForm.value.provincia !== 0) ? 'Debe seleccionar una provincia' : 'Seleccione una localidad')}}">
+                        <ion-option *ngIf="!localidadesOptions && !direccionForm.value.provincia">Cargando...</ion-option>
+                        <ion-option *ngIf="!!localidadesOptions" [value]="0">Cargar nueva localidad</ion-option>
+                        <ion-option *ngFor="let localidad of localidadesOptions" [value]="localidad.id">{{localidad.nombre}} - {{localidad.cod_postal}}
+                        </ion-option>
+                      </ion-select>
+                    </ion-item>
+                    <ion-item *ngIf="direccionForm.value.localidad === 0">
+                      <ion-label stacked color="primary">Nombre de localidad</ion-label>
+                      <ion-input type="text" formControlName="localidad_inexistente"></ion-input>
+                    </ion-item>
+                    <div ion-text *ngIf="direccionForm.value.localidad === 0"
+                         [hidden]="(direccionForm.controls.localidad.valid && direccionForm.controls.localidad.value > 0) || direccionForm.controls.localidad_inexistente.value?.trim().length"
+                         color="danger" padding-left>
+                      * Debe ingresar el nómbre de la localidad
+                    </div>
+                    <ion-item *ngIf="direccionForm.value.localidad === 0">
+                      <ion-label stacked color="primary">Código postal</ion-label>
+                      <ion-input type="text" formControlName="localidad_inexistente_cod_postal"></ion-input>
+                    </ion-item>
+                    <div ion-text *ngIf="direccionForm.value.localidad === 0"
+                         [hidden]="(direccionForm.controls.localidad.valid && direccionForm.controls.localidad.value > 0) || direccionForm.controls.localidad_inexistente_cod_postal.value?.trim().length"
+                         color="danger" padding-left>
+                      * Debe ingresar el código postal de la localidad
+                    </div>
+                    <ion-item no-lines>
+                      <ion-label>Domicilio</ion-label>
+                    </ion-item>
+                    <ion-item>
+                      <ion-label stacked color="primary">Calle</ion-label>
+                      <ion-input type="text" formControlName="calle"></ion-input>
+                    </ion-item>
+                    <div ion-text [hidden]="!direccionForm.controls.calle.dirty || direccionForm.controls.calle.valid"
+                         color="danger" padding-left>
+                      * Debe ingresar la calle
+                    </div>
+                    <ion-grid no-padding>
+                      <ion-row>
+                        <ion-col>
+                          <ion-item>
+                            <ion-label stacked color="primary">Altura</ion-label>
+                            <ion-input type="number" formControlName="altura"></ion-input>
+                          </ion-item>
+                        </ion-col>
+                        <ion-col>
+                          <ion-item>
+                            <ion-label stacked color="primary">Piso</ion-label>
+                            <ion-input type="text" formControlName="piso"></ion-input>
+                          </ion-item>
+                        </ion-col>
+                        <ion-col>
+                          <ion-item>
+                            <ion-label stacked color="primary">Departamento</ion-label>
+                            <ion-input type="text" formControlName="departamento"></ion-input>
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                    <div ion-text [hidden]="!direccionForm.controls.altura.dirty || direccionForm.controls.altura.valid"
+                         color="danger" padding-left>
+                      * Debe ingresar la altura
+                    </div>
+                  </form>
+                </ion-card-content>
+              </ion-card>
+
+            </div>
+
+            <ion-list-header *ngIf="selectedEnvio?.requiere_punto_venta">
+              <ion-label>Seleccione un punto de venta</ion-label>
+            </ion-list-header>
+            <ion-list *ngIf="selectedEnvio?.requiere_punto_venta" radio-group [(ngModel)]="selectedPuntoVenta">
+              <ion-item *ngFor="let punto of puntosVenta">
+                <ion-label>
+                  <div>{{punto.nombre}}</div>
+                  <div>{{punto.direccion?.detalle}}</div>
+                </ion-label>
+                <ion-radio item-end [value]="punto"></ion-radio>
+              </ion-item>
+            </ion-list>
+
+            <ion-card *ngIf="selectedEnvio?.requiere_datos_persona">
+                <ion-grid>
+                    <ion-row>
+                      Quienes ocuparan las ubicaciones seleccionadas? (Puede ser la misma persona)
+                    </ion-row>
+                    <ion-row>
+                      <ion-col>
+                        <ion-row *ngFor="let personaETicket of this.personasETicket">
+                          <ion-col>
+                            <ion-row>
+                                Ubicacion: {{personaETicket.nombreFuncionSector}} - {{personaETicket.detalleUbicacion}} 
+                            </ion-row>
+                            <ion-row>
+                              <ion-col col-4>
+                                <ion-input type="text" placeholder="Nombres" [(ngModel)]="personaETicket.nombres"></ion-input>
+                              </ion-col>
+                              <ion-col col-4>
+                                <ion-input type="text" placeholder="Apellido" [(ngModel)]="personaETicket.apellido"></ion-input>
+                              </ion-col>
+                              <ion-col col-4>
+                                <ion-input type="text" placeholder="DNI" [(ngModel)]="personaETicket.dni"></ion-input>
+                              </ion-col>
+                            </ion-row>
+                          </ion-col>
+                        </ion-row>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+            </ion-card>
+          
+          </ion-content>
+
+          <ion-footer>
+            <ion-toolbar>
+              <cancelar-venta [ventaReservada]="ventaReservada"></cancelar-venta>
+              <ion-buttons right>
+                <button ion-button solid (click)="confirmarEnvio()" color="primary">
+                  Confirmar Tipo de Envío
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+      <ion-col col-12 col-md-3>
+        <div class="ticketway-card message-card" *ngIf="selectedEnvio?.informacion">
+            <div class="title">
+              Sobre el envío
+            </div>
+            <div class="resumen-content">
+              <span  [innerHTML]="selectedEnvio.informacion | safeHtml"></span>
+            </div>
+        </div>
+
+        <resumen-venta 
+          #resumenVenta 
+          [activo]="showResumen" 
+          [ventaReservada]="ventaReservada"
+          [puntoVentaId]="puntoVentaId"
+          ></resumen-venta>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

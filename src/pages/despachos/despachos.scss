@@ -1,0 +1,16 @@
+page-despachos {
+    searchable-lote-operacion-envio-estado {
+        div.searchable-entity {
+            padding-left: 16px;
+        }
+        [col-3] {
+            flex: 0 0 45%;
+            width: 45%;
+            max-width: 45%;
+        }
+    }
+    .max-height-500 {
+        max-height: 325px;
+        overflow-y: auto;
+    }
+}

@@ -1,0 +1,61 @@
+searchable-entity {
+}
+
+div.searchable-entity {
+
+  .searchable-id {
+    max-width: 90px;
+  }
+
+  .searchable-detalle {
+    max-width: 250px;
+  }
+
+  ion-col {
+    padding: 0px;
+  }
+
+  ion-row ion-label.label {
+    color: #fe8934;
+  }
+
+  form ion-item {
+    padding-left: 0px;
+  }
+
+  form .item-md.item-block div.item-inner {
+    padding-right: 0px;
+  }
+
+  ion-input {
+
+    margin-right: 0px;
+
+    input {
+      //border-bottom: 1px solid #DEDEDE;
+      margin: 0px;
+      padding: 0px;
+      padding-bottom: 8px;
+      width: 95%;
+    }
+
+    input:focus {
+      //border-bottom: 2px solid #488AFF;
+    }
+
+    input:valid {
+      //border-bottom: 2px solid #32db64;
+    }
+  }
+
+  button {
+    height: 30px;
+    margin: 0px;
+    width: 30px;
+
+  }
+
+  [col-3] {
+    min-width: 200px;
+  }
+}

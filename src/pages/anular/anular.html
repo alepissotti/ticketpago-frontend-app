@@ -1,0 +1,115 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Anulaciones
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-grid no-padding>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label stacked color="primary">Número de operación</ion-label>
+                    <ion-input type="number" [(ngModel)]="search.id" #nroOperacionInput
+                      (keyup.enter)="buscarOperacionesVendidas()"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col style="display: flex; align-content: flex-end; align-items: flex-end;" margin-left>
+                  <button ion-button (click)="buscarOperacionesVendidas()">
+                    Buscar
+                  </button>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="(operaciones.length > 0) && tipoAnulaciones">
+                <ion-item no-lines no-margin>
+                  <ion-select [(ngModel)]="anulacionElegida" required placeholder="Seleccione Anulación"
+                    cancelText="Cancelar">
+                    <ion-option *ngFor="let tipoAnulacion of tipoAnulaciones" [value]="tipoAnulacion.id">
+                      {{tipoAnulacion.detalle}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-row>
+            </ion-grid>
+
+            <p>{{message}}</p>
+
+            <ion-list *ngIf="operaciones && operaciones.length">
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-12>
+                    <ion-list-header color="light" no-margin text-wrap>
+                      <strong>{{operaciones[0].detalle_operacion | uppercase }}</strong><br />
+                      <strong>Cliente: </strong> {{operaciones[0].usuario.persona.apellido}},
+                      {{operaciones[0].usuario.persona.nombres}} <strong>DNI:
+                      </strong>{{operaciones[0].usuario.persona.nro_dni}}<br />
+                      <strong>Lugar donde se realizo la venta:
+                      </strong>{{operaciones[0].usuario.punto_venta.nombre}}<br />
+                      <strong>Tipo de pago: </strong>{{operaciones[0].operacion_medios_pago[0].medio_pago_tipo_detalle}}
+                      - {{operaciones[0].operacion_medios_pago[0].medio_pago_detalle}}<br />
+                      <strong>Espectaculo {{operaciones[0].operacion_funcion_sectores[0].espectaculo.id}}:
+                      </strong>{{operaciones[0].operacion_funcion_sectores[0].espectaculo.nombre}}<br />
+                      <strong>Funcion {{operaciones[0].operacion_funcion_sectores[0].funcion.id}}: </strong>
+                      {{operaciones[0].operacion_funcion_sectores[0].funcion.detalle}} el
+                      {{operaciones[0].operacion_funcion_sectores[0].funcion.fec_inicio |date:"shortDate" }}
+                      a las {{operaciones[0].operacion_funcion_sectores[0].funcion.fec_inicio |date:"shortTime" }}
+                    </ion-list-header>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+
+              <ion-item>
+                <ion-label item-left text-left>Selecciones: {{selectedOperacion.length}}</ion-label>
+                <ion-label item-right text-right>Seleccionar Todo</ion-label>
+                <ion-checkbox item-end [(ngModel)]="selectAll"  (click)="cambiarSeleccion()"></ion-checkbox>
+              </ion-item>
+          
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-12 *ngFor="let sector of operaciones[0].operacion_funcion_sectores" >
+                    <ion-item *ngFor="let ubicacion of sector.ubicaciones">
+                       <ion-label>
+                        {{sector.funcion_sector.nombre_sector}} - {{ubicacion.detalle_ubicacion}}<br/>
+                        {{ubicacion.total_neto.importe_formateado}}
+                        <span *ngIf="ubicacion.ubicacion_estado.anulada">- {{ubicacion.ubicacion_estado.nombre}}</span>
+                       </ion-label>
+                       <ion-checkbox [ngModel]="seleccionar(ubicacion.ubicacion_estado.nombre)" disabled="{{ubicacion.ubicacion_estado.anulada}}" (click)="ubicacionClicked(ubicacion.id)" item-end></ion-checkbox>
+                  </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              
+
+
+              <ion-item style="display: none;">
+                <ion-label>{{mostrarOperaciones()}}</ion-label>
+              </ion-item>
+
+            </ion-list>
+
+          </ion-content>
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+              <ion-buttons right *ngIf="operaciones && operaciones.length && anulacionElegida">
+                <button ion-button solid color="primary" (click)='anularClicked(operaciones[0].id)'>
+                  Anular
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,12 @@
+<ion-list>
+  <div *ngFor="let item of menuItems">
+
+    <button ion-item (click)="item.action()" *ngIf="item.enable" menuClose>{{item.title}} <span>test test</span>
+      <!--<span *ngFor="let subMenuItem of menuItems.subMenuItems">test test - {{subMenuItem.title}}</span>-->
+    </button>
+    <!--<side-menu [menuItems]="menuItems.subMenuItems" *ngIf="menuItems.subMenuItems"></side-menu>-->
+    <div *ngFor="let subMenuItem of menuItems.subMenuItems">
+      <button ion-item (click)="subMenuItem.action()" *ngIf="subMenuItem.enable" menuClose>{{subMenuItem.title}}</button>
+    </div>
+  </div>
+</ion-list>

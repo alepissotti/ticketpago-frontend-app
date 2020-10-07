@@ -1,0 +1,129 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Reservas
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-grid no-padding>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <searchable-espectaculo [(ngModel)]="selectedEspectaculo" [label]="'Espectaculo'"
+                      #searchableEspectaculo>
+                    </searchable-espectaculo>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label stacked color="primary">Documento del Cliente</ion-label>
+                    <ion-input type="number" [(ngModel)]="search.reserva_dni" (keyup.enter)="buscarReservas()">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-label stacked color="primary">Detalle del Cliente</ion-label>
+                    <ion-input type="text" [(ngModel)]="search.reserva_detalle" (keyup.enter)="buscarReservas()">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label stacked color="primary">Número de operación</ion-label>
+                    <ion-input type="number" [(ngModel)]="search.nro_operacion" #nroOperacionInput
+                      (keyup.enter)="buscarReservas()"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col style="display: flex; align-content: flex-end; align-items: flex-end;" margin-left>
+                  <button ion-button (click)="buscarReservas()">
+                    Buscar
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12>
+                  <p>{{message}}</p>
+                  <ion-item *ngIf="reservas && reservas.length">
+                    <ion-label item-left text-left>Selecciones: {{selectedReservas.length}}</ion-label>
+                    <ion-label text-wrap item-right text-right>Seleccionar Todo</ion-label>
+                    <ion-checkbox item-end [(ngModel)]="selectAll" (click)="cambiarSeleccion()"></ion-checkbox>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12>
+                  <ion-list text-wrap *ngIf="reservas && reservas.length">
+                    <ion-list-header color="light" no-margin>
+                      <strong>{{reservas[0].detalle_operacion | uppercase }}</strong><br />
+                      <strong>Usuario quien hizo la reserva: </strong> {{reservas[0].usuario.persona.apellido}},
+                      {{reservas[0].usuario.persona.nombres}}<br />
+                      <strong>Reservado para {{reservas[0].reserva_dni}}: </strong>{{reservas[0].reserva_detalle}}<br />
+                      <strong>Espectaculo {{reservas[0].operacion_funcion_sectores[0].espectaculo.id}}:
+                      </strong>{{reservas[0].operacion_funcion_sectores[0].espectaculo.nombre}}<br />
+                      <strong>Funcion {{reservas[0].operacion_funcion_sectores[0].funcion.id}}: </strong>
+                      {{reservas[0].operacion_funcion_sectores[0].funcion.detalle}} el
+                      {{reservas[0].operacion_funcion_sectores[0].funcion.fec_inicio |date:"shortDate" }}
+                      a las {{reservas[0].operacion_funcion_sectores[0].funcion.fec_inicio |date:"shortTime" }}
+                    </ion-list-header>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col col-12 *ngFor="let sector of reservas[0].operacion_funcion_sectores">
+                          <ion-item *ngFor="let ubicacion of sector.ubicaciones">
+                            <ion-label>
+                              {{sector.funcion_sector.nombre_sector}} - {{ubicacion.detalle_ubicacion}}<br />
+                              {{ubicacion.total_neto.importe_formateado}}
+                              <span *ngIf="ubicacion.ubicacion_estado.anulada">-
+                                {{ubicacion.ubicacion_estado.nombre}}</span>
+                            </ion-label>
+                            <ion-checkbox [ngModel]="seleccionar(ubicacion.ubicacion_estado.nombre)"
+                              disabled="{{ubicacion.ubicacion_estado.anulada}}" (click)="ubicacionClicked(ubicacion.id)"
+                              item-end></ion-checkbox>
+                          </ion-item>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-list>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+          
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+              <ion-buttons right *ngIf="reservas && reservas.length">
+                <button [disabled]="selectedReservas.length ==0" ion-button (click)="liberarClicked(reservas[0].id)" color="danger">
+                  Liberar
+                </button>
+                <button [disabled]="botonEmitir || selectedReservas.length ==0" ion-button solid color="primary" (click)='emitirClicked(reservas[0].id)'>
+                  Emitir
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

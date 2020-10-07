@@ -1,0 +1,10 @@
+<!-- Generated template for the FuncionDetalleComponent component -->
+<p *ngFor="let funcion of espectaculo.funciones">
+  <span *ngIf="funcion.fecha_funcion_activa != null && funcion.fecha_funcion_activa">
+  <span *ngIf="!funcion.agotada && !funcion.cancelada" style='color:black; cursor: pointer;' (click)="verPrecios(funcion)"> {{funcion.fec_inicio | date:"short"}} - {{funcion.detalle}} <ion-icon name="pricetags"> <span>Ver precios</span></ion-icon></span>
+  <span *ngIf="funcion.agotada || funcion.cancelada" style='color:red;text-decoration:line-through'><span style='color:black'> {{funcion.fec_inicio | date:"short"}} - {{funcion.detalle}}</span></span>
+  <span *ngIf="funcion.agotada" style='color:red; font-weight: 900;'>AGOTADA</span>
+  <span *ngIf="funcion.cancelada" style='color:red; font-weight: 900;'>CANCELADA</span>
+  <span *ngIf="funcion.cancelada && muestra_detalle_cancelacion">{{funcion.detalle_cancelacion}}</span>
+  </span>
+</p>

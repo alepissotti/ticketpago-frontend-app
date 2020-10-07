@@ -1,0 +1,29 @@
+resumen-venta {
+  .title {
+    padding: 10px 5px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    background-color: color($colors, primary);
+    vertical-align: center;
+  }
+  .resumen-content {
+    padding: 10px 5px;
+    .tiempo_restante {
+      font-size: 3em;
+      font-weight: bold;
+    }
+    .nombre {
+      font-weight: bold;
+    }
+    .precio {
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 5px;
+      text-align: right;
+    }
+    .right {
+      float: right;
+    }
+  }
+}

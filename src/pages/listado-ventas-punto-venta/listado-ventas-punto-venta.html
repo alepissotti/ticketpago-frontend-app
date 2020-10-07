@@ -1,0 +1,67 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Listado Ventas por punto de venta
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content padding>
+
+            <ion-card>
+              <ion-card-header>
+                Criterios de informe
+              </ion-card-header>
+              <ion-card-content>
+                <searchable-punto-venta *ngIf="usuarioPuedeUtilizarBuscadorPuntosVenta()" [(ngModel)]="puntoVenta"
+                                  [label]="'Punto de Venta'"
+                                  #searchablePuntoVenta>
+                </searchable-punto-venta>
+                <searchable-espectaculo [(ngModel)]="espectaculo"
+                                        (update)="updateSearchableFuncion($event)"
+                                        [label]="'Espectaculo'"
+                                        [required]="true"
+                                        #searchableEspectaculo>
+                </searchable-espectaculo>
+                <searchable-funcion [(ngModel)]="funcion"
+                                    (update)="null"
+                                    [label]="'Funcion'"
+                                    #searchableFuncion>
+                </searchable-funcion>
+
+                <ion-item no-padding>
+                  <ion-label stacked color="primary">Solo espectaculos vigentes</ion-label>
+                  <ion-checkbox (click)="soloEspectaculosActivosClicked()" [(ngModel)]="soloEspectaculosActivos"></ion-checkbox>
+                </ion-item>
+
+                <selector-salida-reporte (tipoSalidaSeleccionado)="setTipoSalida($event)"></selector-salida-reporte>
+
+                <ion-item>
+                  <button ion-button (click)="getListadoVentasPuntoVenta()">
+                    Ver Informe
+                  </button>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+
+          </ion-content>
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+  

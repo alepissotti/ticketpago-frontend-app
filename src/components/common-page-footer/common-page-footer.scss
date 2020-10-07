@@ -1,0 +1,39 @@
+common-page-footer {
+    .copyright {
+        font-size: 10px;
+    }
+
+    .social-icons {
+        color: #fe8934;
+
+        div {
+            width: 20%;
+        }
+    }
+
+    .hidden-md, .hidden-lg, .hidden-xl {
+        .social-icons {
+            font-size: 2.2em;
+        }
+    }
+    
+    ion-grid {
+        background: #252525;
+        border-radius: 5px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+  
+        label {
+            color: #f0efed;
+        }
+        .copyright {
+            float: right;
+            color: #fe8934;
+        }
+    }
+
+    .pointer:hover {
+        color: #fe8934;
+    }
+  
+}

@@ -1,0 +1,26 @@
+page-envio {
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+  .title {
+    padding: 10px 5px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    background-color: color($colors, primary);
+    vertical-align: center;
+  }
+  .resumen-content {
+    padding: 10px 5px;
+  }
+  .ticketway-card {
+    &.message-card {
+      span {
+        white-space: pre-line;
+      }
+    }
+  }
+}

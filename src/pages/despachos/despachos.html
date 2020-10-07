@@ -1,0 +1,140 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Despachos
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content class="no-scrollbar">
+              <ion-grid>
+                <ion-row>
+                  <ion-col col-6>
+                    <button ion-button outline full (click)="setMostrarReimprimirLote(false)">
+                      <ion-icon name="send" padding-right ></ion-icon>
+                      Despachos
+                    </button>
+                  </ion-col>
+                  <ion-col col-6>
+                    <button ion-button outline full (click)="setMostrarReimprimirLote(true)">
+                      <ion-icon name="print" padding-right ></ion-icon>
+                      Reimpresión de lotes
+                    </button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+            <!--<ion-content *ngIf="!mostrarReimprimirLote">-->
+            
+            <ion-grid no-padding [hidden]="mostrarReimprimirLote">
+              <ion-row>
+                <ion-col col-12>
+                  <searchable-espectaculo [hidden]="cuentaTercero" [(ngModel)]="selectedEspectaculo" 
+                                          [label]="'Espectaculo'"
+                                          #searchableEspectaculo>
+                  </searchable-espectaculo>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col col-5>
+                  <ion-item no-padding>
+                    <ion-label stacked color="primary">Tipo Envio</ion-label>
+                    <ion-select [(ngModel)]="selectedTipoEnvio" placeholder="Seleccione tipo envío" (ionChange)="selectedTipoEnvioChanged()">
+                      <ion-option *ngFor="let tipoEnvio of tipoEnvios" [value]="tipoEnvio">{{tipoEnvio.detalle}}</ion-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-5>
+                  <ion-item>
+                    <ion-label stacked color="primary">Estado Envio</ion-label>
+                    <ion-select *ngIf="selectedTipoEnvio" [(ngModel)]="selectedTipoEnvioEstado" placeholder="PROCESADAS" (ionChange)="selectedTipoEnvioEstadoChaged()">
+                      <ion-option>PROCESADAS</ion-option>
+                      <ion-option *ngFor="let tipoEnvioEstado of selectedTipoEnvio.tipo_envio_estados" [value]="tipoEnvioEstado">{{tipoEnvioEstado.detalle}}</ion-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col style="display: flex; align-content: flex-end; align-items: flex-end;" col-2>
+                  <button ion-button (click)="buscarOperaciones()" *ngIf="selectedTipoEnvio">
+                    Buscar
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            
+            <div class="max-height-500" *ngIf="!mostrarReimprimirLote" margin-top>
+            <p>{{message}}</p>
+            <ion-list *ngIf="operaciones && operaciones.length">
+              <ion-item >
+                <ion-label item-right text-right>Seleccionar Todo</ion-label>
+                <ion-checkbox item-end [(ngModel)]="selectAll"  (click)="cambiarSeleccion()" ></ion-checkbox>
+              </ion-item>
+              <ion-list-header color="light" no-margin>
+                <ion-label item-left text-left>Operaciones</ion-label>
+                <ion-label item-left text-left style="display: none;"> {{mostrarSelecciones()}}</ion-label>
+              </ion-list-header>
+              <ion-item *ngFor="let operacion of operaciones">
+                <ion-label>
+                  <div>{{operacion.detalle_operacion}}</div>
+                </ion-label>
+                <ion-checkbox item-end [ngModel]="seleccion" (click)="operacionClicked(operacion.id)"></ion-checkbox>
+              </ion-item>
+            </ion-list>
+            </div>
+            <!--</ion-content>-->
+          
+            <!-- REIMPRESIÓN DE LOTES -->
+            <ion-grid [hidden]="!mostrarReimprimirLote" no-padding>
+              <ion-row>
+                <ion-col>
+                  <searchable-lote-operacion-envio-estado (update)="setLoteAReimprimir($event)"
+                                                          [label]="'Id lote a reimprimir'"
+                                                          #searchableLoteOperacionEnvioEstado>
+
+                  </searchable-lote-operacion-envio-estado>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+
+
+          </ion-content>
+
+          <ion-footer *ngIf="!cuentaTercero">
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+              <ion-buttons right  >
+
+                <button ion-button (click)="seguienteEstadoClicked()" color="danger" *ngIf="operaciones && operaciones.length
+                && siguienteEnvioEstado && !mostrarReimprimirLote" >
+                  Actualizar estado a {{ siguienteEnvioEstado }}
+                </button>
+
+                <button ion-button (click)="reimprimirLote()" color="danger" *ngIf="mostrarReimprimirLote && loteAReimprimir"> Reimprimir</button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+          <ion-footer *ngIf="cuentaTercero">
+            <ion-toolbar>
+              <ion-buttons right  >
+
+                <button ion-button (click)="imprimirComprobantesTerceros()"  color="danger" *ngIf="selectedOperaciones.length != 0" >
+                  Imprimir Comprobantes
+                </button>
+                <button ion-button (click)="reimprimirLote()" color="danger" *ngIf="mostrarReimprimirLote && loteAReimprimir"> Reimprimir</button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

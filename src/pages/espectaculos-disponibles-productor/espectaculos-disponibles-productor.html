@@ -1,0 +1,39 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <div></div>
+    <ion-row class="full-height">
+
+      <ion-col col-12 push-md-9 col-md-3 >
+
+        <div class="ticketway-card" padding *ngIf="puntoVentaMensajes != 0">
+          <ion-title>
+            <div class="title" >
+              Mensajes
+            </div>
+          </ion-title>
+          <ion-list no-margin>
+            <ion-item ion-item no-padding text-wrap *ngFor="let message of puntoVentaMensajes">
+              {{message.texto}}
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+
+      <ion-col col-12  col-md-6 class="full-height" *ngIf="!espectaculo">
+        <listado-espectaculos-disponibles [espectaculos]="espectaculos" [loading]="loading">
+
+        </listado-espectaculos-disponibles>
+      </ion-col>
+      <ion-col col-12  col-md-6 class="full-height" *ngIf="espectaculo && !funcion">
+        <listado-funciones [funciones]="funciones" [loading]="loading">
+
+        </listado-funciones>
+      </ion-col>
+      <ion-col col-12 col-md-6 class="full-height" *ngIf="espectaculo && funcion">
+        <listado-funcion-sectores [funcionSectores]="funcionSectores" [loading]="loading">
+          
+        </listado-funcion-sectores>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

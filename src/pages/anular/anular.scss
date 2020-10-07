@@ -1,0 +1,24 @@
+page-anular {
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+  .detalle-operacion {
+    color: #999;
+  }
+
+  ion-select {
+    max-width: none;
+  }
+
+  /*
+    Oculta spin button
+  */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

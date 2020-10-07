@@ -1,0 +1,41 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                Cerrar Venta
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <button ion-button *ngIf="user.permiso(user.PERMISO_VENTA_REGISTRAR)" block margin-vertical (click)="finalizarVentaClicked()">
+              Finalizar venta
+            </button>
+            <button ion-button *ngIf="user.permiso(user.PERMISO_PREIMPRIMIR)" block margin-vertical (click)="preimpresionClicked()">
+              Preimpresión
+            </button>
+            <button ion-button *ngIf="user.permiso(user.PERMISO_RESERVAR)" block margin-vertical (click)="reservaClicked()">
+              Reserva
+            </button>
+          </ion-content>
+
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="cancelarClicked()" color="danger">
+                  Cancelar
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+      <ion-col col-12 col-md-3>
+        <resumen-venta [ventaReservada]="ventaReservada"></resumen-venta>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

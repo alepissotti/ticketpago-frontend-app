@@ -1,0 +1,38 @@
+<ion-content padding-vertical class="no-scrollbar">
+    <ion-grid class="full-height">
+        <ion-row class="full-height">
+            <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+                <div class="ticketway-card full-height">
+                    <ion-header>
+                        <ion-toolbar color="primary">
+                            <ion-title>TicketPago</ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="venta-content no-scrollbar">
+                        <ion-content padding>
+                            <ion-spinner *ngIf="loading"></ion-spinner>
+
+                            <ion-card *ngIf="!loading">
+
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row>
+                                            <ion-col col-12>
+                                                <ion-item *ngIf='!isEmpty(denegadoText)'>
+                                                    <ion-label block text-wrap>
+                                                        <ion-icon name="ios-information-circle-outline"></ion-icon>
+                                                        {{denegadoText}}
+                                                    </ion-label>
+                                                </ion-item>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </ion-content>
+                    </ion-content>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

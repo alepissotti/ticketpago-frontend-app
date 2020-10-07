@@ -1,0 +1,18 @@
+page-espectaculos-disponibles {
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+  .espectaculo {
+    ion-thumbnail {
+      min-height: 60px;
+      img {
+        height: 60px;
+        object-fit: cover;
+      }
+    }
+  }
+
+}

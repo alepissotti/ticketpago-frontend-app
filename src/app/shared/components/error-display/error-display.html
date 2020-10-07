@@ -1,0 +1,5 @@
+<div  *ngIf=" formGroupElement.get(fieldName) && 
+              formGroupElement.get(fieldName).hasError(validation.type)"
+      class="validator-error">
+  {{validation.message}}
+</div>

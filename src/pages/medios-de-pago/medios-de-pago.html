@@ -1,0 +1,115 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                Finalizar venta
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <div [hidden]="(!consentimiento && user.isPuntoDeVentaOnline())">
+              <div *ngIf="!user.isPuntoDeVentaOnline() && !loading">
+                <ion-label stacked>Mail de comprobante de venta</ion-label>
+                <ion-input placeholder="email@email.com" [(ngModel)]="mailComprobante" (ionFocus)="focusMailComprobante()"></ion-input>
+              </div>
+
+              <ion-spinner *ngIf="loading"></ion-spinner>
+
+              {{message}}
+              <ion-list>
+                <ion-item *ngIf="mediosDePago.length">
+                  <ion-label>Medio de pago</ion-label>
+                  <ion-select [(ngModel)]="selectedMedio" placeholder="Seleccione medio de pago" (ionChange)="selectedMedioChanged()">
+                    <ion-option *ngFor="let medio of mediosDePago" [value]="medio">{{medio.detalle}}</ion-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item *ngIf="selectedMedio">
+                  <ion-label>Plan</ion-label>
+                  <ion-select [(ngModel)]="selectedPlan" placeholder="Seleccione el plan" (ionChange)="selectedPlanChanged()">
+                    <ion-option *ngFor="let plan of selectedMedio.planes" [value]="plan">{{plan.detalle}}</ion-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item *ngIf="selectedPlan">
+                  <ion-label>Cuotas</ion-label>
+                  <ion-select [(ngModel)]="selectedCuota" placeholder="Seleccione cantidad de cuotas">
+                    <ion-option *ngFor="let cuota of selectedPlan.plan_cuotas" [value]="cuota.id">{{cuota.cuotas}} - {{cuota.total_cuota_financiada.importe_formateado}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-list>
+
+              <ion-list *ngIf="selectedPlan?.necesita_autorizacion && selectedCuota">
+                Datos de la tarjeta
+                <ion-item>
+                  <ion-label stacked>Numero de la tarjeta</ion-label>
+                  <ion-input  type="number" 
+                              [(ngModel)]="cardData.card_number" 
+                              id="card_number"
+                              (ionFocus)="focusNumeroTarjeta()" 
+                              #cardNumberInput></ion-input>
+                </ion-item>
+                <ion-item no-lines>
+                  <ion-label stacked>Vencimiento de la tarjeta (MMAA)</ion-label>
+                  <ion-input  type="string" 
+                              [(ngModel)]="auxCardData.vencimiento"
+                              (ionFocus)="focusVencimientoTarjeta()" 
+                              placeholder="MMAA" 
+                              maxlength="4"
+                              id="vencimiento"></ion-input>
+                  <!--<ion-input col-1 type="number" min="1" max="12" [(ngModel)]="mesVencimiento" placeholder="MM"></ion-input>
+                  <ion-input col-1 type="number" min="00" max="99" [(ngModel)]="anioVencimiento" placeholder="AA"></ion-input>-->
+                <!--<ion-datetime displayFormat="MM/YYYY" [min]="today" [max]="'2030'" [(ngModel)]="auxCardData.vencimiento"></ion-datetime>-->
+                </ion-item>
+                <ion-item>
+                  <ion-label stacked>Nombre del dueño de la tarjeta</ion-label>
+                  <ion-input [(ngModel)]="cardData.card_holder_name" (ionFocus)="focusTitularTarjeta()" id="card_holder_name"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label stacked>Código de seguridad</ion-label>
+                  <ion-input  type="password" 
+                              [(ngModel)]="cardData.security_code"
+                              (ionFocus)="focusCodigoSeguridad()"
+                              (blur)="checkFields()"
+                              id="security_code">
+                  </ion-input>
+                </ion-item>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col col-3>
+                      <ion-item>
+                        <ion-label stacked>Tipo de documento</ion-label>
+                        <ion-select [(ngModel)]="tipoDocumento">
+                          <ion-option *ngFor="let tipoDoc of selectTipoDni" [value]="tipoDoc.detalle">{{tipoDoc.detalle}}</ion-option>
+                        </ion-select>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col col-9>
+                      <ion-item no-lines>
+                        <ion-label stacked>DNI</ion-label>
+                        <ion-input [(ngModel)]="nroDocumento" (ionFocus)="focusDniTitular()"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-list>
+            </div>
+          </ion-content>
+
+          <ion-footer>
+            <ion-toolbar>
+              <cancelar-venta [ventaReservada]="ventaReservada"></cancelar-venta>
+              <ion-buttons right [hidden]="(!consentimiento && user.isPuntoDeVentaOnline())">
+                <button ion-button solid (click)='pagarClicked()' color="primary">
+                  Pagar
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

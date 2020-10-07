@@ -1,0 +1,52 @@
+<div [formGroup]="localidadFormGroup">
+<ion-item>
+  <ion-label stacked color="primary">País</ion-label>
+  <ion-select formControlName="pais" (ionChange)="paisChanged($event)"
+              placeholder="{{loadingPaises ? 'Cargando...' : 'Seleccione un país'}}">
+    <ion-option *ngFor="let pais of paisesOptions" [value]="pais.id">{{pais.nombre}}</ion-option>
+  </ion-select>
+</ion-item>
+<ion-item>
+  <ion-label stacked color="primary">Provincia</ion-label>
+  <ion-select formControlName="provincia" (ionChange)="provinciaChanged($event)"
+              placeholder="{{loadingProvincias ? 'Cargando...' : (!provinciasOptions.length ? 'Debe seleccionar un país' : 'Seleccione una provincia')}}">
+    <ion-option *ngIf="!loadingProvincias" [value]="0">Cargar nueva provincia</ion-option>
+    <ion-option *ngFor="let datosProvincia of provinciasOptions" [value]="datosProvincia.id">{{datosProvincia.nombre}}
+    </ion-option>
+  </ion-select>
+</ion-item>
+<ion-item *ngIf="localidadFormGroup.value.provincia === 0">
+  <ion-label stacked color="primary">Nombre de provincia</ion-label>
+  <ion-input type="text" formControlName="provincia_inexistente"></ion-input>
+</ion-item>
+<div ion-text *ngIf="localidadFormGroup.value.provincia === 0"
+     [hidden]="!localidadFormGroup.controls.provincia.dirty || (localidadFormGroup.controls.provincia.valid && localidadFormGroup.controls.provincia.value > 0) || localidadFormGroup.controls.provincia_inexistente.value?.trim().length"
+     color="danger" padding-left>
+  * Debe ingresar el nómbre de la provincia
+</div>
+<ion-item>
+  <ion-label stacked color="primary">Localidad</ion-label>
+  <ion-input type="text" formControlName="codPostal" placeholder="Código Postal"></ion-input>
+</ion-item>
+<ion-item *ngIf="localidadesOptions.length > 1 && localidadFormGroup.value.codPostal && localidadFormGroup.value.codPostal.length > 2">
+    <ion-select *ngIf="localidadFormGroup.value.codPostal && localidadFormGroup.value.codPostal.length > 2" 
+        formControlName="localidad" 
+        (ionChange)="localidadChanged($event)"
+        placeholder="{{loadingLocalidades ? 'Cargando...' : ((!localidadFormGroup.value.provincia && localidadFormGroup.value.provincia !== 0) ? 'Debe seleccionar una provincia' : 'Seleccione una localidad')}}">
+    <ion-option *ngIf="!localidadesOptions">Cargando...</ion-option>
+    <ion-option *ngIf="!!localidadesOptions" [value]="0">Cargar nueva localidad</ion-option>
+    <ion-option *ngFor="let localidad of localidadesOptions | filtroLocalidadSegunCodigoPostalPipe: localidadFormGroup.value.codPostal" 
+        [value]="localidad.id">{{localidad.nombre}} ( {{localidad.cod_postal}} )
+    </ion-option>
+    </ion-select>
+</ion-item>
+<ion-item *ngIf="localidadFormGroup.value.localidad === 0">
+  <ion-label stacked color="primary">Nombre de localidad</ion-label>
+  <ion-input type="text" formControlName="localidad_inexistente"></ion-input>
+</ion-item>
+<div ion-text *ngIf="localidadFormGroup.value.localidad === 0"
+     [hidden]="(localidadFormGroup.controls.localidad.valid && localidadFormGroup.controls.localidad.value > 0) || localidadFormGroup.controls.localidad_inexistente.value?.trim().length"
+     color="danger" padding-left>
+  * Debe ingresar el nómbre de la localidad
+</div>
+</div>

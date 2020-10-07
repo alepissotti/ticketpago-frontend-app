@@ -1,0 +1,50 @@
+<ion-content padding-vertical class="no-scrollbar">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 offset-md-3 col-md-6 class="ticketway-card" padding>
+        <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()" id='form'>
+          <ion-item>
+            <ion-label stacked color="primary">Usuario</ion-label>
+            <ion-input #usernameInput type="email" formControlName="username"></ion-input>
+          </ion-item>
+          <div ion-text [hidden]="!loginForm.controls.username.dirty || loginForm.controls.username.valid"
+               color="danger" padding-left>
+            * Debe ingresar el usuario
+          </div>
+          <ion-item>
+            <ion-label stacked color="primary">Contraseña</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+          <div ion-text [hidden]="!loginForm.controls.password.dirty || loginForm.controls.password.valid"
+               color="danger" padding-left>
+            * Debe ingresar la contraseña
+          </div>
+          <button ion-button 
+                  class="boton-compra"
+                  type="submit"
+                  [disabled]="!loginForm.valid" 
+                  [hidden]="true"
+                  margin-top block>
+            Iniciar sesión
+          </button>
+        </form>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-12>
+              <button ion-button block 
+                      class="boton-compra"
+                      type="submit"
+                      [disabled]="!loginForm.valid" 
+                      (click)="loginSubmit()"
+                      margin-top block>
+                Iniciar sesión
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

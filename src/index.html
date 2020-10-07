@@ -2,32 +2,112 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <title>Ionic App</title>
+  <title>Ticketpago</title>
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" /> 
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Thu, 01 Dec 1994 16:00:00 GMT" />
 
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
 
-  <!-- add to homescreen for ios -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!-- librerias para poder utilizar lectores de tarjeta -->
+  <!--<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />-->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/cardswipe/jquery.cardswipe.js">
+  </script>
 
-  <!-- cordova.js required for cordova apps (remove if not needed) -->
-  <script src="cordova.js"></script>
+  <!-- google analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93752435-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-93752435-1');
+  </script>
 
-  <!-- un-comment this code to enable service worker
+  <script>
+    var data = null;
+                  
+    // Parser for card reader
+    var ticketWay = function (rawData) {
+        var card_data = rawData;
+
+        if( $("#card_holder_name > input")[0] && 
+            $("#card_number > input")[0] && 
+            $("#vencimiento > input")[0] && 
+            $("#security_code > input")[0]) {
+          var details1 = card_data.split("&");
+
+          var card_number = details1[0];
+          card_number = card_number.substring(2);
+
+          var card_holder_name = details1[1].trim();
+
+          var details2 = details1[2];
+          var card_expiration_year = details2.substring(0,2);
+          var card_expiration_month = details2.substring(2,4);
+
+          var cardData = {
+                  type: "TicketWay",
+                  card_number: card_number,
+                  card_holder_name: card_holder_name,
+                  card_expiration_year:  card_expiration_year,
+                  card_expiration_month: card_expiration_month,
+                  card_expiration: card_expiration_month + card_expiration_year
+          };
+
+          $("#card_holder_name > input")[0].value = cardData.card_holder_name;
+          $("#card_number > input")[0].value = cardData.card_number;
+          $("#vencimiento > input")[0].value = cardData.card_expiration;
+          $("#security_code > input")[0].focus();
+
+        }
+
+
+        return cardData;
+      }
+
+      var success = function (data) {
+      }
+
+      var error = function () {
+      }
+
+      $.cardswipe({
+          firstLineOnly: false,
+          parsers: [ ticketWay ],
+          success: success,
+          failure: error,
+          debug: false
+      });
+    </script>
+    <!-- fin de scripts de lectura de tarjetas -->
+
+  <!-- cordova.js required for cordova apps -->
+  <!--<script src="cordova.js"></script>-->
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('service worker installed'))
         .catch(err => console.error('Error', err));
+      
+      caches.keys().then(function(cacheNames) {
+        cacheNames.forEach(function(cacheName) {
+          caches.delete(cacheName);
+        });
+      });  
     }
-  </script>-->
+  </script>
 
-  <link href="build/main.css" rel="stylesheet">
+  <link href="build/main.css?1.00" rel="stylesheet">
 
 </head>
 <body>
@@ -36,14 +116,15 @@
   <ion-app></ion-app>
 
   <!-- The polyfills js is generated during the build process -->
-  <script src="build/polyfills.js"></script>
+  <script src="build/polyfills.js?1.00"></script>
 
   <!-- The vendor js is generated during the build process
        It contains all of the dependencies in node_modules -->
-  <script src="build/vendor.js"></script>
+  <script src="build/vendor.js?1.00"></script>
 
   <!-- The main bundle js is generated during the build process -->
-  <script src="build/main.js"></script>
+  <script src="build/main.js?1.00"></script>
+
 
 </body>
 </html>

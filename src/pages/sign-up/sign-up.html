@@ -1,0 +1,173 @@
+<ion-content padding-vertical class="no-scrollbar">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 offset-md-3 col-md-6 class="ticketway-card" padding>
+        <form [formGroup]="signUpForm" (ngSubmit)="signUpSubmit()">
+          <div formGroupName="emails">
+            <ion-item>
+              <ion-label stacked color="primary">Email</ion-label>
+              <ion-input type="email" formControlName="email" #inputEmail></ion-input>
+            </ion-item>
+            <div ion-text
+                 [hidden]="!signUpForm.controls['emails'].controls.email.dirty || signUpForm.controls['emails'].controls.email.valid"
+                 color="danger" padding-left>
+              * Debe ingresar un email válido
+            </div>
+            <ion-item>
+              <ion-label stacked color="primary">Repetir email</ion-label>
+              <ion-input type="email" formControlName="repeat"></ion-input>
+            </ion-item>
+            <div ion-text
+                 [hidden]="!signUpForm.controls['emails'].controls.repeat.dirty || signUpForm.controls['emails'].valid"
+                 color="danger" padding-left>
+              * Los emails deben coincidir
+            </div>
+          </div>
+          <div formGroupName="passwords">
+            <ion-item>
+              <ion-label stacked color="primary">Contraseña</ion-label>
+              <ion-input type="password" formControlName="password"></ion-input>
+            </ion-item>
+            <div ion-text
+                 [hidden]="!signUpForm.controls['passwords'].controls.password.dirty || signUpForm.controls['passwords'].controls.password.valid"
+                 color="danger" padding-left>
+              * Debe ingresar la contraseña
+            </div>
+            <ion-item>
+              <ion-label stacked color="primary">Repita la contraseña</ion-label>
+              <ion-input type="password" formControlName="repeat"></ion-input>
+            </ion-item>
+            <div ion-text
+                 [hidden]="!signUpForm.controls['passwords'].controls.repeat.dirty || signUpForm.controls['passwords'].valid"
+                 color="danger" padding-left>
+              * Las contraseñas deben coincidir
+            </div>
+          </div>
+          <ion-item>
+            <ion-label stacked color="primary">Nombres</ion-label>
+            <ion-input type="text" formControlName="nombres"></ion-input>
+          </ion-item>
+          <div ion-text [hidden]="!signUpForm.controls.nombres.dirty || signUpForm.controls.nombres.valid"
+               color="danger" padding-left>
+            * Debe ingresar el nombre
+          </div>
+          <ion-item>
+            <ion-label stacked color="primary">Apellido</ion-label>
+            <ion-input type="text" formControlName="apellido"></ion-input>
+          </ion-item>
+          <div ion-text [hidden]="!signUpForm.controls.apellido.dirty || signUpForm.controls.apellido.valid"
+               color="danger" padding-left>
+            * Debe ingresar el apellido
+          </div>
+          <ion-item>
+            <ion-label stacked color="primary">Sexo</ion-label>
+            <ion-select formControlName="sexo">
+              <ion-option *ngFor="let sexoOption of sexoOptions" value="{{sexoOption.id}}">{{sexoOption.detalle}}
+              </ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked color="primary">Tipo de documento</ion-label>
+            <ion-select formControlName="tipoDocumento">
+              <ion-option *ngFor="let tipoDoc of tipoDniOptions" [value]="tipoDoc.id">{{tipoDoc.detalle}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked color="primary">Número de documento</ion-label>
+            <ion-input type="number" formControlName="nroDocumento"></ion-input>
+          </ion-item>
+          <div ion-text [hidden]="!signUpForm.controls.nroDocumento.dirty || signUpForm.controls.nroDocumento.valid"
+               color="danger" padding-left>
+            * Debe ingresar el número de documento
+          </div>
+          <selector-localidad [formGroup]="signUpForm.controls.localidad"></selector-localidad>
+          <ion-item no-lines>
+            <ion-label>Domicilio</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked color="primary">Calle</ion-label>
+            <ion-input type="text" formControlName="calle"></ion-input>
+          </ion-item>
+          <div ion-text [hidden]="!signUpForm.controls.calle.dirty || signUpForm.controls.calle.valid"
+               color="danger" padding-left>
+            * Debe ingresar la calle
+          </div>
+          <ion-grid no-padding>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label stacked color="primary">Altura</ion-label>
+                  <ion-input type="number" formControlName="altura"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label stacked color="primary">Piso</ion-label>
+                  <ion-input type="text" formControlName="piso"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label stacked color="primary">Departamento</ion-label>
+                  <ion-input type="text" formControlName="departamento"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <div ion-text [hidden]="!signUpForm.controls.altura.dirty || signUpForm.controls.altura.valid"
+               color="danger" padding-left>
+            * Debe ingresar la altura
+          </div>
+          <ion-item no-lines>
+            <ion-label>Teléfono</ion-label>
+          </ion-item>
+          <ion-grid no-padding>
+            <ion-row>
+              <ion-col col-3>
+                <ion-item>
+                  <ion-label stacked color="primary">Característica</ion-label>
+                  <ion-input type="number" placeholder="342" formControlName="telCaracteristica"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-9>
+                <ion-item>
+                  <ion-label stacked color="primary">Número</ion-label>
+                  <ion-input type="number" placeholder="4567890" formControlName="telNumero"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <div ion-text [hidden]="(!signUpForm.controls.telCaracteristica.dirty || signUpForm.controls.telCaracteristica.valid) && (!signUpForm.controls.telNumero.dirty || signUpForm.controls.telNumero.valid)"
+               color="danger" padding-left>
+            * Debe ingresar el número de telefono
+          </div>
+        </form>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-5>
+              <button ion-button
+                      class="boton-regreso"
+                      (click)="goCartelera()"
+                      margin-top block>
+                Volver
+              </button>
+            </ion-col>
+            <ion-col col-1></ion-col>
+            <ion-col col-1></ion-col>
+            <ion-col col-5>
+              <button ion-button 
+                      class="boton-compra"
+                      type="submit" 
+                      [disabled]="!signUpForm.valid"
+                      (click)="signUpSubmit()"
+                      margin-top block>
+                Registrarme
+              </button>
+            </ion-col>
+          </ion-row>
+            
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

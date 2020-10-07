@@ -1,0 +1,165 @@
+<ion-content >
+  <!-- google analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93752435-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-93752435-1');
+  </script>
+  <ion-grid no-padding no-margin class="full-height">
+    <ion-row *ngIf="!espectaculo" text-center>
+      <ion-col col-5></ion-col>
+      <ion-col col-2><ion-spinner ></ion-spinner></ion-col>
+      <ion-col col-5></ion-col>
+    </ion-row>
+    <ion-grid>
+      <ion-row no-padding col-12 *ngIf="espectaculo" class="image-background">
+        <img align-self-center 
+        *ngIf="espectaculo.imagen" 
+        class="hidden-xs hidden-sm" 
+        src="{{espectaculo.imagen | baseUrl}}" />
+        <img align-self-center 
+        *ngIf="espectaculo.imagen_extendida" 
+        class="hidden-md hidden-lg hidden-xl"
+        src="{{espectaculo.imagen_extendida | baseUrl}}" />
+      </ion-row>
+    </ion-grid>
+    <ion-row class="full-height" *ngIf="espectaculo && espectaculo.nombre">
+      <ion-col col-12 col-md-3>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Funciones
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <funcion-detalle [espectaculo]="espectaculo" [muestra_detalle_cancelacion]="true"></funcion-detalle>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Lugar
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <datos-establecimiento class="espectaculo-lugar" [establecimiento]="espectaculo.establecimiento" margin-top margin-bottom></datos-establecimiento>
+          </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="espectaculo.medios_pago.length > 0" class="card-medio-pago">
+          <ion-card-header>
+            <ion-card-title>
+              Medios de pago
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-2 *ngFor="let medioPago of espectaculo.medios_pago">
+                  <img src="{{medioPago.imagen | baseUrl}}"/>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col col-12 col-md-6>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title class="espectaculo-nombre">
+                {{espectaculo.nombre}}
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content text-wrap >
+              <div margin-top margin-bottom>
+                <h4>
+                  <span class="espectaculo-genero">Género:</span> {{espectaculo.genero.nombre}} - {{espectaculo.id}}<br>
+                  <span class="espectaculo-genero">Link:
+                    <a href="{{url_const + espectaculo.id}}" target="_blank">  {{url_const + espectaculo.id}}</a>  
+                    <button style="vertical-align: middle;" ion-button small solid color="primary" (click)='copiarUrl(espectaculo.id)' id="botonCopiar">
+                      Copiar URL
+                    </button>
+                  </span>
+                </h4>
+              </div>
+
+              
+
+
+
+              <p margin-top margin-bottom>
+                <span [innerHTML]="espectaculo.detalle | safeHtml"></span>
+              </p>
+
+            </ion-card-content>
+          </ion-card>
+      </ion-col>
+      <ion-col col-12 col-md-3>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Puntos de Venta
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p *ngFor="let punto_venta of espectaculo.puntos_venta_espectaculo" class="item-punto-venta" no-margin no-padding>
+              <span class="nombre-punto-venta">{{punto_venta.nombre}}</span>
+              <span *ngIf="punto_venta.direccion"> | {{punto_venta.direccion.detalle }}</span>
+              <span *ngIf="punto_venta.telefono"> | {{punto_venta.telefono.formateado }}</span>
+              <span *ngIf="punto_venta.horarios_atencion"> | {{punto_venta.horarios_atencion}}</span>
+            </p>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              Contactanos
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="contactos" *ngFor="let redSocial of cartelera.getEmpresa().redes_sociales">
+              <img class="social-icon pointer" src="{{ redSocial.imagen | baseUrl}}" (click)="openURL(redSocial.url)">
+            </div>
+          </ion-card-content>
+        </ion-card>
+        
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="espectaculo">
+      <ion-col col-12 col-md-3>
+      </ion-col>
+      <ion-col col-12 col-md-6>
+        </ion-col>
+      <ion-col col-12 col-md-3>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div *ngIf="cartelera.espectaculoElegido!=null">
+      <button clear="" color="primary" icon-start="" ion-button=""
+              small="" class="boton-compra disable-hover button button-ios button-clear button-clear-ios button-small button-small-ios button-clear-ios-danger"
+              (click)="comprar()" *ngIf="mostrarBotonDeCompra()"
+      >
+                  <span class="button-inner">
+                    Comprar
+                  </span>
+        <div class="button-effect"></div>
+      </button>
+      <button clear="" color="primary" icon-start="" ion-button=""
+              small="" class="boton-regreso disable-hover button button-ios button-clear button-clear-ios button-small button-small-ios button-clear-ios-danger"
+              (click)="regresarACartelera()"
+      >
+                  <span class="button-inner">
+                    Cartelera
+                  </span>
+        <div class="button-effect"></div>
+      </button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+

@@ -1,0 +1,78 @@
+<div class="ticketway-card resumen-venta" *ngIf="ventaReservada?.operacion.tiempo_vida_compra_restante">
+  <div class="title">
+    Tiempo Restante de Compra
+  </div>
+  <div class="resumen-content">
+    <div class="tiempo_restante" text-center>
+      <span *ngIf="timer.minutos<10">0</span>{{timer.minutos}}:<span *ngIf="timer.segundos<10">0</span>{{timer.segundos}}
+    </div>
+    <div text-center>
+      Minutos
+    </div>
+  </div>
+</div>
+
+<div class="ticketway-card resumen-venta" *ngIf="loading">
+  <div class="title">
+    Resumen venta
+  </div>
+  <div class="resumen-content" *ngIf="ventaReservada && !cobranzaCuentaTercero else resumenCobroTercero" >
+    <div class="nombre">
+      {{ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.nombre}}
+    </div>
+    <div class="lugar">
+      Lugar: {{ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.establecimiento.nombre}}
+    </div>
+    <div class="funcion" *ngIf="ventaReservada.operacion.operacion_funcion_sectores[0].funcion">
+      Función: {{ventaReservada.operacion.operacion_funcion_sectores[0].funcion.detalle}}<br>
+      {{ventaReservada.operacion.operacion_funcion_sectores[0].funcion.fec_inicio | date:'dd-MM-yyyy'}}
+    </div>
+    <div *ngFor="let venta of ventaReservada?.operacion.operacion_funcion_sectores">
+      <div class="sector" *ngIf="venta.funcion_sector">
+        Sector: {{venta.funcion_sector.nombre_sector}}
+      </div>
+      <div class="entradas" *ngIf="venta.ubicaciones">
+        Entradas: {{venta.ubicaciones.length}}<br>
+        Total Precio:<span class="right" *ngIf="precioDiferencial(venta.funcion_sector.id) == -1">{{venta.total_precio.importe_formateado}}</span>
+                    <span class="right" *ngIf="precioDiferencial(venta.funcion_sector.id) != -1">$ {{precioDiferencial(venta.funcion_sector.id) * venta.ubicaciones.length}}</span><br>
+        Total Cargo Servicio:<span class="right" *ngIf="cargoDiferencial(venta.funcion_sector.id) == -1">{{venta.total_cargo_servicio.importe_formateado}}</span>
+                              <span class="right" *ngIf="cargoDiferencial(venta.funcion_sector.id) != -1">$ {{cargoDiferencial(venta.funcion_sector.id) * venta.ubicaciones.length}}</span>
+      </div>
+    </div>
+    <div class="descuento" *ngIf="ventaReservada?.operacion.total_descuento">
+      Descuentos Aplicados:
+      <span class="right">- {{ventaReservada?.operacion.total_descuento.importe_formateado}}</span>
+    </div>
+    <div class="envio" *ngIf="ventaReservada?.operacion.total_envio">
+      Envio: {{ventaReservada?.operacion?.operacion_envio.leyenda}}
+      <span class="right">{{ventaReservada?.operacion.total_envio.importe_formateado}}</span>
+    </div>
+
+    <div class="precio" *ngIf="ventaReservada.total || ventaReservada?.operacion.total_neto">
+      <br/>
+      <span class="right">$ {{ventaReservada.total ?ventaReservada.total :ventaReservada.operacion.total_neto.importe}}</span>
+    </div>
+
+
+  </div>
+  <ng-template #resumenCobroTercero>
+    <div class="resumen-content">
+      <div class="nombre" *ngIf="ventaReservada">
+      {{ventaReservada.operacion.operacion_funcion_sectores[0].espectaculo.nombre}}<br><br>
+      </div>
+      
+      <div class="entradas" *ngIf="ventaReservada.total">
+        Total Precio:<span class="right">$ {{ventaReservada.total}}</span>
+      </div><br>
+      
+      <div class="precio" *ngIf="ventaReservada.total || ventaReservada?.operacion.total_neto">
+        <br/>
+        <span class="right">$ {{ventaReservada.total ?ventaReservada.total :ventaReservada.operacion.total_neto.importe}}</span>
+      </div>
+    </div>
+  </ng-template>
+  
+  <div class="buttons-container">
+    <cancelar-venta (estado)="update($event)" #cancelarVenta [ventaReservada]="ventaReservada"></cancelar-venta>
+  </div>
+</div>

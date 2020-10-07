@@ -1,0 +1,41 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                Reserva
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-item>
+              <ion-label stacked>DNI del Cliente</ion-label>
+              <ion-input type="number" placeholder="12345678"  #dniCliente [(ngModel)]="clienteDni"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked>Detalle del Cliente</ion-label>
+              <ion-input type="text" placeholder="Nombre del Cliente , Empresa , etc." [(ngModel)]="clienteDetalle"></ion-input>
+            </ion-item>
+            <ion-buttons right >
+              <button *ngIf="mostrarBoton()" ion-button solid color="primary" (click)="reservarEntradas()">
+                Reservar
+              </button>
+            </ion-buttons>
+            
+          </ion-content>
+          <ion-footer>
+            <ion-toolbar>
+              <cancelar-venta [ventaReservada]="ventaReservada"></cancelar-venta>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+      <ion-col col-12 col-md-3>
+        <resumen-venta [ventaReservada]="ventaReservada"></resumen-venta>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

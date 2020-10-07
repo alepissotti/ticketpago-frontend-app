@@ -1,0 +1,135 @@
+<ion-content padding>
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Caja del Sistema
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-grid no-padding>
+              <ion-row *ngIf="loading" text-center>
+                <ion-col col-5></ion-col>
+                <ion-col col-2><ion-spinner ></ion-spinner></ion-col>
+                <ion-col col-5></ion-col>
+              </ion-row>
+              <ion-row class="selectores">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label stacked color="primary">Fecha Desde Apertura</ion-label>
+                        <ion-input type="date" [(ngModel)]="datosCaja.fecDesdeApertura"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label stacked color="primary">Fecha Hasta Apertura</ion-label>
+                        <ion-input type="date" [(ngModel)]="datosCaja.fecHastaApertura"></ion-input>
+                        <!--<ion-datetime displayFormat="YYYY/MM/DD" [min]="2018" [max]="today" [(ngModel)]="datosCaja.fecHastaApertura"></ion-datetime>-->
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-row *ngIf="puntosVenta && puntosVenta.length">
+                          <ion-item>
+                            <ion-label stacked color="primary">Punto de Venta</ion-label>
+                            <ion-select [(ngModel)]="datosCaja.puntoVenta" placeholder="Seleccione Punto de Venta">
+                              <ion-option [value]="0" [selected]>Todos</ion-option>
+                              <ion-option *ngFor="let puntoVenta of puntosVenta" [value]="puntoVenta.id">{{puntoVenta.id}} - {{puntoVenta.nombre}}</ion-option>
+                            </ion-select>
+                          </ion-item>
+                      </ion-row>
+                      <ion-row>
+                        <ion-item>
+                          <ion-label stacked color="primary">Buscar solo cajas abiertas</ion-label>
+                          <ion-checkbox item-end [(ngModel)]="datosCaja.soloCajasAbiertas"></ion-checkbox>
+                        </ion-item>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col no-padding padding-left>
+                          <selector-salida-reporte (tipoSalidaSeleccionado)="setTipoSalida($event)"> </selector-salida-reporte>
+                        </ion-col>
+                      </ion-row>
+                    </ion-col>
+                    <ion-col text-center>
+                      <button ion-button (click)="buscarCajas()">
+                        Buscar
+                      </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-row>
+              <ion-row *ngIf="cajas && cajas.length">
+                <ion-grid>
+                  <ion-row class='header-item-caja'>
+                    <ion-col col-1>
+                      Caja
+                    </ion-col>
+                    <ion-col col-3>
+                      Punto Venta
+                    </ion-col>
+                    <ion-col col-2 text-center>
+                      Apertura
+                    </ion-col>
+                    <ion-col col-2 text-center>
+                      Cierre
+                    </ion-col>
+                    <ion-col col-2 text-right>
+                      Total
+                    </ion-col>
+                    <ion-col col-2 text-center>
+                      Seleccionar
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class='item-caja' *ngFor="let caja of cajas">
+                    <ion-col col-1>
+                      {{caja.id}}
+                    </ion-col>
+                    <ion-col col-3>
+                      {{caja.punto_venta.id}} - {{caja.punto_venta.nombre}}
+                    </ion-col>
+                    <ion-col col-2 text-center>
+                      {{caja.fec_apertura}}
+                    </ion-col>
+                    <ion-col col-2 *ngIf="caja.fec_cierre" text-center>
+                      {{caja.fec_cierre}}
+                    </ion-col>
+                    <ion-col col-2 *ngIf="!caja.fec_cierre" text-center>
+                      Caja Abierta
+                    </ion-col>
+                    <ion-col col-2 text-right>
+                      {{caja.total.importe_formateado}}
+                    </ion-col>
+                    <ion-col col-2 text-center>
+                      <ion-checkbox item-end (click)="cajasClicked(caja.id)"></ion-checkbox>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left float-left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+              <ion-buttons right float-right>
+                <button ion-button solid color="primary" (click)='imprimirListadosCajasClicked()'>
+                  Imprimir Reporte Cajas
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

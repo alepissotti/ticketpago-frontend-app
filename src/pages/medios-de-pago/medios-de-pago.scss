@@ -1,0 +1,11 @@
+page-medios-de-pago {
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+  .buttons-container {
+    text-align: right;
+  }
+}

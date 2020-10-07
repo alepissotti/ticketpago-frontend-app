@@ -1,13 +1,16 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Ticketpago",
+  "short_name": "Ticketpago",
   "start_url": "index.html",
   "display": "standalone",
-  "icons": [{
-    "src": "assets/imgs/logo.png",
-    "sizes": "512x512",
+  "icons": [
+    {
+    "src": "assets/images/ticketpago_icon.png",
+    "sizes": "682x682",
+    "purpose": "maskable any",
     "type": "image/png"
-  }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+    }
+  ],
+  "background_color": "#FE8934",
+  "theme_color": "#FE8934"
 }

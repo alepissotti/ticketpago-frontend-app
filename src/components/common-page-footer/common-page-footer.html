@@ -1,0 +1,69 @@
+<ion-grid>
+  <ion-row text-center class="hidden-xs hidden-sm">
+    <ion-col col-1></ion-col>
+    <ion-col col-10>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-3>
+            <label (click)="goTerminosCondiciones()" class="pointer">Términos y condiciones</label>
+          </ion-col>
+          <ion-col col-3>
+            <label (click)="goPoliticasPrivacidad()" class="pointer">Políticas de privacidad</label>
+          </ion-col>
+          <ion-col col-3>
+            <label (click)="goDefensaConsumidor()" class="pointer">Defensa del consumidor</label>
+          </ion-col>
+          <ion-col col-3>
+            <ion-grid no-margin no-padding>
+              <ion-row class="social-icons" *ngIf="cartelera.getEmpresa()">
+                  <!--<ion-col col-2 *ngFor="let redSocial of cartelera.getEmpresa().redes_sociales">-->
+                      <div right *ngFor="let redSocial of cartelera.getEmpresa().redes_sociales">
+                          <ion-icon class="pointer" name="{{redSocial.icono}}" (click)="openURL(redSocial.url)"></ion-icon>
+                        </div>
+                  <!--</ion-col>-->
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-col>
+    <ion-col col-1></ion-col>
+  </ion-row>
+  <ion-row text-center class="hidden-md hidden-lg hidden-xl">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+          <label (click)="goTerminosCondiciones()" class="pointer">Términos y condiciones</label>
+        </ion-col>
+        <ion-col col-4>
+          <label (click)="goPoliticasPrivacidad()" class="pointer">Políticas de privacidad</label>
+        </ion-col>
+        <ion-col col-4>
+          <label (click)="goDefensaConsumidor()" class="pointer">Defensa del consumidor</label>
+        </ion-col>
+      </ion-row>
+      <ion-row class="social-icons" *ngIf="cartelera.getEmpresa()">
+        <!--<ion-col col-2 *ngFor="let redSocial of cartelera.getEmpresa().redes_sociales">-->
+        <div right *ngFor="let redSocial of cartelera.getEmpresa().redes_sociales">
+          <ion-icon class="pointer" name="{{redSocial.icono}}" (click)="openURL(redSocial.url)"></ion-icon>
+        </div>
+        <!--</ion-col>-->
+      </ion-row>
+    </ion-grid>
+  </ion-row>
+  <ion-row class="copyright">
+    <ion-col col-3 text-center>
+      <img  src="assets/images/RapidSSL_SEAL-90x50.gif" 
+            alt="Sello de verificación RapidSSL" 
+            style="width: 70px"/>
+    </ion-col>
+    <ion-col col-6 text-center>
+      @Copyright 2013 <strong>ticket</strong>way. Diseñado por Bircher & Asociados - {{api.version}}
+    </ion-col>
+    <ion-col col-3 text-center>
+        <a href="http://qr.afip.gob.ar/?qr=HUAGZZ2u1SZNdEk-HWQKJg,," target="_F960AFIPInfo">
+          <img src="assets/images/datafiscal.png" border="0" style="height: 40px">
+        </a>
+    </ion-col>
+  </ion-row>
+</ion-grid>

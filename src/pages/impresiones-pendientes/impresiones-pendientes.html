@@ -1,0 +1,38 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>
+                Impresiones pendientes
+              </ion-title>
+              <ion-buttons end>
+                <button ion-button icon-only (click)="updateClicked()">
+                  <ion-icon name="md-refresh"></ion-icon>
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-spinner *ngIf="loading"></ion-spinner>
+            {{message}}
+            <button ion-item *ngFor="let pendiente of pendientes" (click)="pendienteClicked(pendiente)">
+              <div>{{pendiente.detalle_operacion}}</div>
+            </button>
+          </ion-content>
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons left>
+                <button ion-button (click)="salirClicked()" color="danger">
+                  Salir
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

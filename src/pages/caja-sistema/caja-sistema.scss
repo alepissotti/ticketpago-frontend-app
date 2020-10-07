@@ -1,0 +1,40 @@
+page-caja-sistema {
+
+  .selectores{
+    border: #afafaf solid 2px;
+    padding: 2px;
+    color: #999;
+
+    ion-col {
+      padding-left: 10px !important;
+      margin-bottom: 5px;
+    }
+
+    ion-select {
+      max-width: 95%;
+    }
+
+    .label-md {
+      font-size: 13px;
+      margin: 13px 8px 5px 0;
+    }
+
+    .select-md{
+      padding: 0px;
+      font-size: 15px;
+    }
+  }
+
+  .header-item-caja{
+    font-weight: bold;
+  }
+
+  .item-caja{
+    border-top: #afafaf solid 2px;
+  }
+
+  .vertical-center {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}

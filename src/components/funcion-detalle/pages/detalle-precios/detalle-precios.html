@@ -1,0 +1,41 @@
+<ion-content padding class="no-scrollbar">
+  <ion-grid class="full-height">
+    <ion-row class="full-height">
+      <ion-col class="full-height">
+        <div class="ticketway-card full-height">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>
+                {{ espectaculo.nombre }}
+              </ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-grid>
+              <ion-row *ngIf="funcion.imagen_plano_sectores">
+                <ion-col col-12>
+                    <img src="{{funcion.imagen_plano_sectores | baseUrl}}"/>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngFor="let funcionSector of funcion.funcion_sectores">
+                <ion-col col-4>{{ funcionSector.nombre }}</ion-col>
+                <ion-col col-4>{{ funcionSector.info_extra_cartelera }}</ion-col>
+                <ion-col col-4 text-right class="precio">{{ funcionSector.precio_neto.importe_formateado }}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+
+          <ion-footer>
+            <ion-toolbar>
+              <ion-buttons>
+                <button ion-button (click)="cerrar()" class="boton-regreso">
+                  Cerrar
+                </button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-footer>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

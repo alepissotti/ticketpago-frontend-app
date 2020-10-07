@@ -1,0 +1,56 @@
+link-ticket-pago {
+    > .content {
+      background-color: color($colors, light);
+  
+    }
+    .venta-content {
+      > .scroll-content {
+        padding: 0 !important;
+      }
+    }
+
+    .punto-venta {
+      text-align: center;
+      color: #e36c0b;
+    }
+    .venta-slides {
+      .swiper-slide {
+        font-size: 1.4rem;
+        visibility: hidden;
+        &.swiper-slide-active {
+          visibility: visible;
+        }
+        .slide-zoom {
+          height: 100%;
+          text-align: left;
+          .scroll-content {
+            padding-bottom: 32px;
+            .funciones {
+              ion-thumbnail {
+                min-height: 60px;
+                img {
+                  height: 60px;
+                  object-fit: cover;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    ion-spinner {
+      width: 100%;
+    }
+  
+    ion-modal {
+      .modal-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  
+  }

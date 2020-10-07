@@ -1,0 +1,77 @@
+page-detalles-operacion {
+    .ticketway-card {
+        max-width: none;
+    }
+
+    ion-card-header.card-header-md {
+        font-weight: 900;
+        padding: 5px;
+        text-align: center;
+    }
+
+    ion-card-content.card-content-md {
+        font-size: 13px;
+        line-height: 1;
+        padding: 5px;
+    }
+
+    searchable-operacion {
+        .searchable-entity {
+            ion-col[col-1] {
+                flex: 0 0 15%;
+                width: 15%;
+                max-width: 15%;
+            }
+            ion-col[col-3] {
+                flex: 0 0 60%;
+                width: 60%;
+                max-width: 60%;
+                
+                ion-input {
+                    input {
+                        width: 100%;
+                        font-size: 16px;
+                    }
+                }
+            }
+            .searchable-detalle {
+                max-width: none;
+            }
+        }
+    }
+
+    ion-grid.detalle_operacion {
+        padding: 0px;
+
+        .header {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        ion-card-content {
+            ion-item.item-block {
+                font-size: 12px;
+                min-height: 20px;
+            }
+        }
+
+        ion-item {
+
+            .label-md {
+                margin: 0px;
+            }
+        }
+    }
+
+    .total {
+        font-weight: 900;
+    }
+
+    .pago {
+        color: green;
+    }
+
+    .anulacion {
+        color: red;
+    }
+}

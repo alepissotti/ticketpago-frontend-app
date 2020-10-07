@@ -1,1 +1,37 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-header>
+  <ion-toolbar no-padding color="white" class="logo-header" align-items-center>
+    <ion-title text-center >
+      <ion-row col-12>
+      <ion-col col-4 no-margin>
+        <div float-left>
+          <button ion-button icon-only menuToggle *ngIf="userInfo">
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        </div>
+      </ion-col>
+      <ion-col col-4 no-margin>
+        <img src="assets/images/ticketpago_header.png" class="logo-ticketway"  alt="Ticketpago">
+      </ion-col>
+      </ion-row>
+
+    </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu [content]="content" *ngIf="userInfo">
+  <ion-header>
+    <div padding>
+      <div class="name">{{userInfo.persona.apellido}}, {{userInfo.persona.nombres}}</div>
+      <div class="email">{{userInfo.email}}</div>
+    </div>
+  </ion-header>
+
+  <ion-content>
+    <side-menu-content [settings]="sideMenuSettings" [options]="menuItems" (change)="onOptionSelected($event)"></side-menu-content>
+  </ion-content>
+</ion-menu>
+
+<ion-content>
+  <ion-nav #content [root]="rootPage"></ion-nav>
+</ion-content>

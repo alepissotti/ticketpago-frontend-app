@@ -1,0 +1,27 @@
+page-espectaculos-disponibles-productor {
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+  .ticketway-card {
+    ion-header {
+      position: inherit;
+    }
+    ion-content > div {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+    }
+  }
+
+  .espectaculo {
+    ion-thumbnail {
+      min-height: 60px;
+      img {
+        height: 60px;
+        object-fit: cover;
+      }
+    }
+  }
+}

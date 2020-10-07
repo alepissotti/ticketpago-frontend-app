@@ -1,0 +1,127 @@
+<ion-content padding class="no-scrollbar">
+    <ion-grid class="full-height">
+        <ion-row class="full-height">
+            <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+                <div class="ticketway-card full-height">
+                    <ion-header>  
+                        <ion-toolbar>
+                            <ion-title>
+                            Devoluciones
+                            </ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content>
+                        <ion-grid no-padding>
+                            <ion-row>
+                                <ion-col col-md-6>
+                                    <ion-item>
+                                        <ion-label stacked color="primary" >Número de operación</ion-label>
+                                        <ion-input 
+                                            type="number" 
+                                            [(ngModel)]="nroOperacion" 
+                                            #nroOperacionInput>
+                                        </ion-input>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col col-md-6 style="display: flex; align-content: flex-end; align-items: flex-end;">
+                                    <ion-buttons left>
+                                        <button ion-button (click)="buscarOperacion()">
+                                            Buscar
+                                        </button>
+                                    </ion-buttons>
+                                    <ion-buttons *ngIf="operaciones && operaciones.length" right>
+                                        <button ion-button color="secondary" (click)="verDevoluciones()">
+                                            Ver Devoluciones
+                                        </button>
+                                    </ion-buttons>
+                                </ion-col>
+                            </ion-row>
+                            <ion-grid>
+                                <ion-row *ngIf="operaciones && operaciones.length">
+                                    <ion-col col-6>
+                                        <ion-item text-wrap no-lines no-margin>
+                                            <ion-label style="display: none;">Tipo de devolucion</ion-label>
+                                            <ion-select (ionChange)="focusMontoDevolucionInput()"  [(ngModel)]="devolucionElegida" required placeholder="Seleccione Devolución"
+                                            cancelText="Cancelar">
+                                            <ion-option *ngFor="let tipoDevolucion of tipoDevoluciones" [value]="tipoDevolucion">
+                                              {{tipoDevolucion.nombre}}</ion-option>
+                                          </ion-select>
+                                        </ion-item>
+                                    </ion-col>
+                                    <ion-col col-6>
+                                        <ion-item *ngIf="devolucionElegida && !devolucionElegida.esTotal">
+                                            <ion-label stacked color="primary">Monto a devolver</ion-label>
+                                            <ion-input
+                                                type="text"
+                                                [(ngModel)]="montoDevolucionParcial"
+                                                #montoDevolucionParcialInput
+                                            >
+                                            </ion-input>
+                                        </ion-item>
+                                        <p *ngIf="devolucionElegida && !montoDevolucionValido() && montoDevolucionParcial"  style="color: red; font-weight: bold;">Formatos correctos: 1111 o 1111.11 </p>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-grid>
+                        
+                        <p>{{mensaje}}</p>
+
+                        <ion-list *ngIf="operaciones && operaciones.length">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col col-12>
+                                        <ion-list-header color="light" no-margin text-wrap>
+                                            <span class="subtitulo-list">DATOS DE LA OPERACIÓN</span><br/>
+                                            Operación: <strong>{{operaciones[0].detalle_operacion}}</strong><br/>
+                                            Estado de la operación: <strong>{{operaciones[0].operacion_tipo_nombre}}</strong><br/>
+                                            <span class="subtitulo-list">DATOS DEL PUNTO DE VENTA</span><br/>
+                                            Nombre: <strong>{{operaciones[0].usuario.punto_venta.nombre}}</strong><br/>
+                                            Usuario: <strong>{{operaciones[0].usuario.persona.nombres}} {{operaciones[0].usuario.persona.apellido}}</strong><br/>
+                                            <span class="subtitulo-list">{{operaciones[0].operacion_funcion_sectores[0].espectaculo.cobranza_cuenta_tercero ?'DATOS DE LA EMPRESA' :'DATOS DEL ESPECTÁCULO'}}</span><br/>
+                                            Nombre: <strong>{{operaciones[0].operacion_funcion_sectores[0].espectaculo.nombre}}</strong><br/>
+                                            <span *ngIf="!operaciones[0].operacion_funcion_sectores[0].espectaculo.cobranza_cuenta_tercero">
+                                                Función: <strong>{{operaciones[0].operacion_funcion_sectores[0].funcion.detalle}} 
+                                                    {{operaciones[0].operacion_funcion_sectores[0].funcion.fec_inicio |date:"shortDate" }}
+                                                    a las {{operaciones[0].operacion_funcion_sectores[0].funcion.fec_inicio |date:"shortTime" }}</strong><br/>
+                                            </span>
+                                            <span class="subtitulo-list">DATOS DEL MEDIO DE PAGO</span><br/>
+                                            Tipo: <strong>{{operaciones[0].operacion_medios_pago[0].medio_pago_tipo_detalle}}</strong><br/>
+                                            Nombre: <strong>{{operaciones[0].operacion_medios_pago[0].medio_pago_detalle}}</strong><br/>
+                                            Gateway: <strong>{{operaciones[0].operacion_medios_pago[0].nombre_gateway}}</strong><br/>
+                                            <span class="subtitulo-list">DATOS DE LA TRANSACCIÓN</span><br/>
+                                            Titular: <strong>{{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}}</strong><br/>
+                                            Documento: <strong>{{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.detalle_documento}} - {{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}</strong><br/>
+                                            Tarjeta: <strong>{{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.marca_tarjeta}}</strong><br/>
+                                            Últimos dígitos: <strong>{{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.ultimos_cuatro_digitos_tarjeta}}</strong><br/>
+                                            Importe autorizado: <strong>{{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.importe_autorizado.importe_formateado}}</strong><br/>
+                                            Estado autorización: <strong>{{operaciones[0].operacion_medios_pago[0].operacion_medio_pago_autorizacion.estado_autorizacion}}</strong><br/>
+                                            Cuotas: <strong>{{operaciones[0].operacion_medios_pago[0].cuotas}}</strong><br/>
+                                            Id de la transacción: <strong>{{operaciones[0].operacion_medios_pago[0].site_transaction_id}}</strong><br/> 
+                                        </ion-list-header>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-list>
+                        
+                    </ion-content>
+                    <ion-footer>
+                        <ion-toolbar>
+                            <ion-buttons left>
+                                <button ion-button (click)="salirClicked()" color="danger">
+                                    Salir
+                                </button>
+                            </ion-buttons>
+                            <ion-buttons right>
+                                <button *ngIf="montoDevolucionValido()" ion-button color="primary" (click)="alertDevolver()">
+                                    Devolver
+                                </button>
+                            </ion-buttons>
+                        </ion-toolbar>
+                    </ion-footer>
+                </div>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+    
+</ion-content>

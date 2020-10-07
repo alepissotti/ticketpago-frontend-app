@@ -14,3 +14,253 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+//DEFINICION DE FUENTE GENERAL DEL SITIO
+/* latin-ext */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(../assets/fonts/Raleway-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(../assets/fonts/Raleway-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+//LINES TO DEFINE CLASSES THAT HIDES COMPONENTS BY DISPLAY VIEW SIZE
+$breakpoints-keys: map-keys($screen-breakpoints);
+$breakpoints-values: map-values($screen-breakpoints);
+@for $i from 1 to length($breakpoints-keys)+1 {
+  @if $i < length($breakpoints-keys) {
+    .hidden-#{nth($breakpoints-keys, $i)} {
+      @media (min-width: nth($breakpoints-values, $i)) and (max-width: #{nth($breakpoints-values, $i+1)}) {
+        display: none !important;
+      }
+    }
+  } @else {
+    .hidden-#{nth($breakpoints-keys, $i)} {
+      @media (min-width: nth($breakpoints-values, $i)) {
+        display: none !important;
+      }
+    }
+  }
+}
+//END OF LINES TO DEFINE CLASSES THAT HIDES COMPONENTS BY DISPLAY VIEW SIZE
+
+ion-grid {
+  ion-row.header {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  ion-row.listado {
+    ion-col {
+      font-size: 1.2rem;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .item-md .toggle-md {
+      padding: 5px 8px 5px 16px;
+    }
+  }
+}
+
+.boton-compra {
+  color: #FFF;
+  border-radius: 16px;
+  background-color: #05726e;
+  font-size: 14px;
+  //font-weight: 900;
+  padding: 16px 20px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.boton-compra:hover {
+  background-color: #05726ec4;
+}
+
+.image-background {
+  background-color: #000;
+  text-align: center;
+
+  img {
+    margin: 0px;
+    padding: 0px;
+    display:inline;
+  }
+  
+}
+
+.logo-ticketway {
+  cursor: pointer;
+}
+
+ion-header {
+  .button-small-md {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0px;
+  }
+}
+
+.selected-menu-item {
+  background-color: #8B8B8B;
+}
+
+.boton-regreso {
+  color: #FFF;
+  border-radius: 16px;
+  background-color: #4d4d4d;
+  font-size: 14px;
+  padding: 16px 20px;
+  text-transform: uppercase;
+}
+
+.espectaculo-genero {
+  color: #fe8934;
+  font-weight: bold;
+}
+
+.espectaculo-lugar {
+  font-style: italic;
+}
+
+.espectaculo-nombre {
+  text-transform: uppercase;
+}
+
+.logo-header {
+  .toolbar-background {
+    background-color: white;
+  }
+  .toolbar-content {
+    height: $toolbar-md-height;
+  }
+}
+
+p[data-f-id="pbf"] {
+  display:none
+}
+
+.full-height {
+  height: 100%;
+}
+
+.no-scrollbar {
+  > ::-webkit-scrollbar{
+    display:none;
+  }
+}
+
+.ticketway-card {
+  background-color: white;
+  max-width: 600px;
+  margin: auto;
+  position: relative;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.item-cancelado {
+  color: red !important;
+  font-size: 25px !important;
+  font-weight: 900;
+  position: absolute;
+  top: 35%;
+  left: 35%;
+}
+
+.scroll-content {
+  overflow-y: auto
+}
+
+.modal-fullscreen {
+  .modal-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.app-root {
+  font-family: Raleway, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.alert-turno {
+
+  .alert-wrapper {
+    border-radius: 10px;
+    font-family: Raleway, Geneva, Arial, Helvetica, sans-serif;
+
+    .alert-head {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .alert-message {
+      border-bottom: 1px solid #4d4d4d;
+      border-top: 1px solid #4d4d4d;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .alert-button-group {
+      padding: 5px;
+      -webkit-flex-wrap: wrap-reverse; 
+      -ms-flex-wrap: wrap-reverse;
+      flex-wrap: wrap-reverse;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+
+      .alert-button {
+        width: 100%;
+
+        span {
+          -webkit-box-pack: center;
+          -webkit-justify-content: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+.font-bold {
+  font-weight: 900 !important;
+}
+
+.pointer {cursor: pointer;}
+
+.zoom {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+alert-movil {
+  position: fixed;
+  background-color: #3880ff;
+}
+
+ion-alert {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

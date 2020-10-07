@@ -1,0 +1,107 @@
+<ion-content padding>
+    <ion-grid class="full-height">
+      <ion-row class="full-height">
+        <ion-col col-12 offset-md-1 col-md-10 class="full-height">
+          <div class="ticketway-card full-height">
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>
+                  Entrega de tickets
+                </ion-title>
+              </ion-toolbar>
+            </ion-header>
+  
+            <ion-content>
+
+              <ion-grid no-padding>
+                <ion-row>
+                  <ion-col>
+                    Para la entrega de tickets en boletería o punto de entrega, solicitar el documento del titular de la tarjeta que realizo el pago.
+                    Una vez firmado el cupon de entrega marcar el cupon como entregado.
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                      <ion-item>
+                        <ion-label stacked color="primary">Dni Titular Tarjeta</ion-label>
+                        <ion-input [(ngModel)]="dniTitularTarjeta" (keyup.enter)="closeKeyboard()">
+                        </ion-input>
+                      </ion-item>
+                      <ion-item>
+                        <button ion-button (click)="buscarOperaciones()">Buscar tickets</button>
+                      </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+              <ion-grid *ngIf="operaciones.length == 0 && busquedaIniciada">
+                <ion-row>
+                  <ion-col>
+                      No se han encontrado operaciones para ser entregadas en este momento
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+              <div *ngIf="operaciones && busquedaIniciada">
+                <ion-card *ngFor="let operacion of operaciones">
+                  <ion-card-header>
+                    <ion-card-title>
+                      Espectaculo: {{ operacion.nombre_espectaculo}}
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <ion-grid no-padding>
+                      <ion-row class="header nro-cupon">
+                        Cupón: {{ operacion.orden_envio }}
+                      </ion-row>
+                      <ion-row class="datos-compra">
+                          <ion-grid no-padding>
+                          <ion-row class="header">
+                            <ion-col>
+                              Operacion: {{ operacion.nro_operacion }}
+                            </ion-col>
+                          </ion-row>
+                          <ion-row class="header">
+                            Datos Titular Tarjeta
+                          </ion-row>
+                          <ion-row class="listado">
+                            <ion-col>
+                                {{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}} - {{ operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col>
+                          ENTREGAR TICKETS: <ion-checkbox (click)="operacionClicked(operacion.id)"></ion-checkbox>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                    
+                  </ion-card-content>
+                </ion-card>
+              </div>
+              
+            </ion-content>
+  
+            <ion-footer>
+              <ion-toolbar>
+                <ion-buttons left>
+                  <button ion-button (click)="salirClicked()" color="danger">
+                    Salir
+                  </button>
+                </ion-buttons>
+                <ion-buttons right  >
+  
+                  <button ion-button (click)="siguienteEstadoClicked()" color="danger" *ngIf="operaciones && operaciones.length" >
+                    Entregar
+                  </button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-footer>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  

@@ -1,0 +1,39 @@
+page-entrega-tickets {
+
+    ion-card-header.card-header-md {
+        background-color: #f8f8f8;
+        border-bottom: 1px solid #b2b2b2;
+        padding: 2px;
+
+        .card-title-md {
+            display: block;
+            font-size: 14px;
+            color: #000;
+            text-align: center;
+            font-weight: 600;
+            white-space: normal;
+        }
+        
+    }
+
+    ion-grid {
+        .datos-compra {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .nro-cupon {
+            display: block;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .checkbox-md {
+            vertical-align: text-bottom;
+        }
+    }
+
+    
+    
+}

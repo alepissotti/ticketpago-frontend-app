@@ -1,0 +1,7 @@
+<ion-buttons>
+  <button ion-button (click)="editarTexto()">
+    <label *ngIf="!label">Editar Texto</label>
+    <label *ngIf="label">{{label}}</label>
+
+  </button>
+</ion-buttons>

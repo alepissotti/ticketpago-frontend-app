@@ -1,0 +1,34 @@
+detalle-precios {
+
+  font-family: Raleway, Geneva, Arial, Helvetica, sans-serif;
+
+  ion-header {
+    ion-toolbar.toolbar-md-primary .toolbar-background {
+          background: #1e807d;
+      //background: #fe8934;
+    }
+  }
+  ion-title {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  ion-grid {
+    .row {
+      border-bottom: 1px solid #CCC;
+
+      .precio {
+        color: #FE8934;
+        font-weight: 900;
+      }
+    }
+  }
+
+  ion-footer {
+    text-align: center;
+    
+    .boton-regreso {
+      color: #FFF !important;
+    }
+  }
+}

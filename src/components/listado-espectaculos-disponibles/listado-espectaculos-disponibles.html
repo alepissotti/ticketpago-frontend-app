@@ -1,0 +1,52 @@
+<div class="ticketway-card full-height">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+        {{titulo}}
+      </ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="updateClicked()">
+          <ion-icon name="md-refresh"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content padding>
+    <ion-spinner *ngIf="loading"></ion-spinner>
+    <ion-list class="espectaculo">
+      <button ion-item *ngFor="let espectaculo of (espectaculos | buscadorTituloEspectaculo: busqueda )" 
+              (click)="espectaculoClicked(espectaculo)"
+              [disabled]="!espectaculo.disponibilidad || espectaculo.cancelado">
+        <ion-thumbnail item-start>
+          <img src="{{espectaculo.imagen_mini | baseUrl}}"/>
+        </ion-thumbnail>
+        <h2>{{espectaculo.nombre}}</h2>
+        <p>{{espectaculo.establecimiento.nombre}}</p>
+        <p *ngIf="espectaculo.cancelado" class="item-cancelado">CANCELADO</p>
+        <div item-end *ngIf="!isOnline && mostrarDisponibilidad(espectaculo)">
+          <circle-progress titleFontSize="12" percent="{{100 - espectaculo.disponibilidad}}"
+                           title="{{(100 - ceil(espectaculo.disponibilidad)) + '%'}}">
+          </circle-progress>
+        </div>
+      </button>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-col col-10>
+        <div>
+          <ion-searchbar #buscadorEspectaculos [(ngModel)]="busqueda" placeholder="Buscar">
+
+          </ion-searchbar>
+        </div>
+      </ion-col>
+      <ion-col col-2>
+        <ion-buttons left>
+          <button ion-button small clear color="danger"(click)="cancelarClicked()">
+            Cancelar
+          </button>
+        </ion-buttons>
+      </ion-col>
+    </ion-toolbar>
+  </ion-footer>
+</div>

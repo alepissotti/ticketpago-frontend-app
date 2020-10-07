@@ -1,0 +1,114 @@
+<ion-content padding class="no-scrollbar">
+    <ion-grid class="full-height">
+      <ion-row class="full-height">
+        <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+          <div class="ticketway-card full-height">
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>
+                  Reimpresion de comprobantes
+                </ion-title>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col col-8>
+                          <ion-item>
+                            <ion-label stacked color="primary">Número de operación</ion-label>
+                            <ion-input type="number" [(ngModel)]="operacionId" #nroOperacionInput
+                              (keyup.enter)="buscarOperacionesVendidas()"></ion-input>
+                          </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col col-4>
+                          <ion-item>
+                            <ion-label stacked color="primary">Fecha desde (dia-mes-año)</ion-label>
+                            <ion-datetime 
+                              displayFormat="DD-MM-YYYY" 
+                              [(ngModel)]="fechaDesde"
+                              doneText="Aceptar"
+                              cancelText="Cancelar"
+                              min="2018"
+                            >
+                            </ion-datetime>
+                          </ion-item>
+                        </ion-col>
+                        <ion-col col-4>
+                          <ion-item>
+                            <ion-label stacked color="primary">Fecha hasta (dia-mes-año)</ion-label>
+                            <ion-datetime 
+                              displayFormat="DD-MM-YYYY" 
+                              [(ngModel)]="fechaHasta"
+                              doneText="Aceptar"
+                              cancelText="Cancelar"
+                              min="2018"
+                              >
+                            </ion-datetime>
+                          </ion-item>
+                        </ion-col>
+                        <ion-col col-1></ion-col>
+                        <ion-col col-2  style="display: flex; align-content: flex-end; align-items: flex-end;">
+                          <button ion-button (click)="buscarOperacionesVendidas()">
+                              Buscar
+                          </button>
+                      </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-list style="margin-top: 20px;" *ngIf="operaciones && !operaciones.length">
+                  <ion-list-header color="light" no-margin text-wrap>{{message}}</ion-list-header>
+                </ion-list>
+                <ion-list style="margin-top: 20px;" *ngIf="operaciones && operaciones.length">
+                  <ion-list-header color="light" no-margin text-wrap>{{message}}</ion-list-header>
+                    <ion-item style="margin-top: 10px;">
+                      <ion-label item-right text-right> Seleccionar Todo </ion-label>
+                      <ion-checkbox [(ngModel)]="selectAll" (click)="cambiarSeleccion()" item-end></ion-checkbox>
+                    </ion-item>
+                    <ion-grid *ngFor="let operacion of operaciones">
+                        <ion-row>
+                          <ion-col col-8>
+                              <ion-item  class="item-respuesta">
+                                <ion-label block text-wrap>
+                                  operación <strong>{{operacion.nro_operacion}}</strong> 
+                                  realizada por <strong>{{puntoVenta}}</strong>
+                                  el día <strong>{{operacion.operacion_fecha}}</strong>
+                                  al cliente <strong>{{operacion.nro_documento}} - {{operacion.titular}}. </strong>
+                                  Abonando un monto de <strong>${{operacion.importe_autorizado}}</strong>
+                                  en <strong>{{operacion.cuotas}} {{operacion.cuotas == 1 ?'cuota' :'cuotas'}}</strong>
+                                  con la tarjeta <strong>{{operacion.marca_tarjeta}}</strong>, 
+                                  últimos dígitos <strong>{{operacion.ultimos_digitos}}.</strong>
+                                </ion-label>
+                              </ion-item>
+                          </ion-col>
+                          <ion-col col-4>
+                            <ion-item class="seleccion-operacion" text-wrap>
+                              <ion-label>Seleccionar</ion-label>
+                              <ion-checkbox [ngModel]="seleccionar()" (click)="operacionClicked(operacion.operacion_id)"  item-end></ion-checkbox>
+                            </ion-item>
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                </ion-list>
+            </ion-content>
+            <ion-footer>
+              <ion-toolbar>
+                <ion-buttons left>
+                  <button ion-button (click)="salirClicked()" color="danger">
+                    Salir
+                  </button>
+                </ion-buttons>
+                <ion-buttons right *ngIf="operaciones && operaciones.length && selectedOperacion.length">
+                  <button ion-button solid color="primary" (click)='emitirComprobantes()'>
+                    Emitir Comprobantes
+                  </button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-footer>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>

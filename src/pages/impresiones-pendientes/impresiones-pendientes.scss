@@ -1,0 +1,8 @@
+page-impresiones-pendientes {
+  > .content {
+    background-color: color($colors, light);
+  }
+  ion-spinner {
+    width: 100%;
+  }
+}

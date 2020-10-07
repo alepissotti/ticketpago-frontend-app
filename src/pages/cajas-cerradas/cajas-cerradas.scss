@@ -1,0 +1,47 @@
+page-cajas-cerradas {
+
+  .selectores{
+    border: #afafaf solid 2px;
+    padding: 2px;
+    text-align: center;
+  }
+
+  .selectores .item-label-stacked ion-datetime, .selectores .item-label-floating ion-datetime{
+    padding: 2px;
+
+  }
+
+  .header-item-caja{
+    font-weight: bold;
+  }
+
+  .item-label-stacked .text-input-md, .item-label-floating .text-input-md {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .item-caja{
+    border-top: #afafaf solid 2px;
+  }
+
+  .label-md-primary, .item-input .label-md-primary, .item-select .label-md-primary, .item-datetime .label-md-primary {
+    margin-top: 2px;
+  }
+
+  .item-checkbox .label-md-primary {
+    margin-top: 15px;
+  }
+
+  selector-salida-reporte {
+
+    ion-grid {
+      padding-top: 10px;
+    }
+
+    ion-col{
+    text-align: left;
+    padding-left: 16px;
+    }
+  }
+
+}

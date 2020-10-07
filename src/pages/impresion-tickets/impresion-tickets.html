@@ -1,0 +1,111 @@
+<ion-content padding>
+    <ion-grid class="full-height">
+      <ion-row class="full-height">
+        <ion-col col-12 offset-md-1 col-md-10 class="full-height">
+          <div class="ticketway-card full-height">
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>
+                  Impresión de tickets
+                </ion-title>
+              </ion-toolbar>
+            </ion-header>
+  
+            <ion-content>
+
+              <ion-grid no-padding>
+                <ion-row>
+                  <ion-col>
+                    Impresión de tickets cuya compra a sido en forma online y la selección del envío haya sido boletería (si aún no fue impresa) o punto de venta.
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                      <ion-item>
+                        <ion-label stacked color="primary">Dni Titular Tarjeta</ion-label>
+                        <ion-input [(ngModel)]="dniTitularTarjeta" (keyup.enter)="closeKeyboard()">
+                        </ion-input>
+                      </ion-item>
+                      <ion-item>
+                        <button ion-button (click)="buscarOperaciones()">Buscar tickets</button>
+                      </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+              <ion-grid *ngIf="operaciones.length == 0 && busquedaIniciada">
+                <ion-row>
+                  <ion-col>
+                      No se han encontrado operaciones para ser impresas en este momento
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+              <div *ngIf="operaciones && busquedaIniciada">
+                <ion-card *ngFor="let operacion of operaciones">
+                  <ion-card-header>
+                    <ion-card-title>
+                      Espectaculo: {{ operacion.nombre_espectaculo}}
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <ion-grid no-padding>
+                      <ion-row class="datos-compra">
+                          <ion-grid no-padding>
+                          <ion-row class="header">
+                            <ion-col>
+                              Operacion: {{ operacion.nro_operacion }}
+                            </ion-col>
+                          </ion-row>
+                          <ion-row class="header">
+                            Datos Titular Tarjeta
+                          </ion-row>
+                          <ion-row class="listado">
+                            <ion-col>
+                                {{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}} - {{ operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}
+                            </ion-col>
+                          </ion-row>
+                        </ion-grid>
+                      </ion-row>
+                      <ion-row>
+                        <ion-col *ngIf="operacion.puede_imprimirse">
+                          ENTREGAR TICKETS: <ion-checkbox (click)="operacionClicked(operacion.id)"></ion-checkbox>
+                        </ion-col>
+                        <ion-col *ngIf="!operacion.puede_imprimirse">
+                          <p>
+                            Estado actual del envío de la operacion: <b>{{operacion.tipo_envio_estado.detalle}}</b>.
+                          </p>
+                          <p>
+                            Tipo de envío seleccionado: <b>{{operacion.operacion_envio.leyenda}}</b>
+                          </p>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                    
+                  </ion-card-content>
+                </ion-card>
+              </div>
+              
+            </ion-content>
+  
+            <ion-footer>
+              <ion-toolbar>
+                <ion-buttons left>
+                  <button ion-button (click)="salirClicked()" color="danger">
+                    Salir
+                  </button>
+                </ion-buttons>
+                <ion-buttons right  >
+  
+                  <button ion-button (click)="siguienteEstadoClicked()" color="danger" *ngIf="operaciones && operaciones.length" >
+                    Imprimir
+                  </button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-footer>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  

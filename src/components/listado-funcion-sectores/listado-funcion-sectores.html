@@ -1,0 +1,48 @@
+<div class="ticketway-card full-height">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+        Sectores de la función
+      </ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="updateClicked()">
+          <ion-icon name="md-refresh"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content padding>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      {{ funcionSectoresMessage }}
+      <ion-list>
+        <button ion-item *ngFor="let funcionSector of ( funcionSectores  | sort: {property: 'plano_configuracion_id', order: 1} )" 
+                (click)="funcionSectorClicked(funcionSector)"
+                [disabled]="!funcionSector.plano_configuracion_id" 
+                (mouseenter) ="mouseEnter(funcionSector.plano_configuracion_id) "  
+                (mouseleave) ="mouseLeave()"
+                [class.focused] = "funcionSector.plano_configuracion_id && funcionSector.plano_configuracion_id == planoConfiguracionId"
+                >
+          <h2>{{funcionSector.nombre_sector}}</h2>
+          <p>Precio venta: {{funcionSector.total.importe_formateado}}</p>
+          <p>Capacidad: {{funcionSector.capacidad}} - Ubicaciones disponibles: {{funcionSector.ubicaciones_disponibles}}</p>
+
+          <div item-end *ngIf="!isOnline">
+            <circle-progress titleFontSize="12" percent="{{100 - funcionSector.disponibilidad}}"
+                             title="{{(100 - ceil(funcionSector.disponibilidad)) + '%'}}">
+            </circle-progress>
+          </div>
+        </button>
+      </ion-list>
+    </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-col col-12>
+        <ion-buttons left>
+          <button ion-button small clear color="danger"(click)="cancelarClicked()">
+            Cancelar
+          </button>
+        </ion-buttons>
+      </ion-col>
+    </ion-toolbar>
+  </ion-footer>
+</div>

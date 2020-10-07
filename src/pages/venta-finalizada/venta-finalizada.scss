@@ -1,0 +1,19 @@
+page-venta-finalizada {
+  ion-content {
+
+    font-size: 16px;
+    text-align: center;
+
+    .field {
+      margin: 16px;
+      span {
+        font-weight: bold;
+      }
+    }
+
+    .extra-info {
+      font-size: 12px;
+      text-align: left;
+    }
+  }
+}

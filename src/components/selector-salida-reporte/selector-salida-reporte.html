@@ -1,0 +1,12 @@
+<ion-grid no-padding>
+        <ion-row>
+          <ion-col col-12>
+            <ion-label stacked color="primary">Formato de salida del reporte</ion-label>
+            <ion-select [(ngModel)]="tipoSalida" (ionChange)="updateSeleccion()" placeholder="Seleccione tipo de salida de archivo">
+                <!--<ion-option value="{{valorTipoSalidaExcel}}">EXCEL</ion-option>-->
+                <ion-option value="{{valorTipoSalidaHTML}}">HTML</ion-option>
+                <ion-option value="{{valorTipoSalidaPdf}}">PDF</ion-option>
+            </ion-select>
+        </ion-col>
+    </ion-row>
+</ion-grid>

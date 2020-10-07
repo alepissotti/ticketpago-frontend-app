@@ -1,0 +1,42 @@
+<div class="ticketway-card full-height">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+        Funciones
+      </ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="updateClicked()">
+          <ion-icon name="md-refresh"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content padding>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      {{ funcionesMessage }}
+      <ion-list class="funciones">
+        <button ion-item *ngFor="let funcion of funciones" (click)="funcionClicked(funcion)"
+                [disabled]="!funcion.disponibilidad || funcion.cancelada">
+          <h2>{{funcion.detalle}}</h2>
+          <p>{{funcion.fec_inicio | date:"medium"}}</p>
+          <p *ngIf="funcion.cancelada" class="item-cancelado">CANCELADO</p>
+          <div item-end *ngIf="!isOnline">
+            <circle-progress titleFontSize="12" percent="{{100 - funcion.disponibilidad}}"
+                             title="{{(100 - ceil(funcion.disponibilidad)) + '%'}}">
+            </circle-progress>
+          </div>
+        </button>
+      </ion-list>
+    </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-col col-12>
+        <ion-buttons left>
+          <button ion-button small clear color="danger"(click)="cancelarClicked()">
+            Cancelar
+          </button>
+        </ion-buttons>
+      </ion-col>
+    </ion-toolbar>
+  </ion-footer>
+</div>

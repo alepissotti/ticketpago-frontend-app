@@ -1,0 +1,67 @@
+<ion-content padding class="no-scrollbar">
+    <ion-grid class="full-height">
+        <ion-row class="full-height">
+            <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+                <div class="ticketway-card full-height">
+                    <ion-header>  
+                        <ion-toolbar>
+                            <ion-title>
+                                Devoluciones
+                            </ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content>
+                        <ion-list *ngIf="autorizacion">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                        <ion-list-header color="light" no-margin text-wrap>
+                                            <span class="subtitulo-list">DATOS DE LA AUTORIZACIÓN</span><br/>
+                                            <span>Importe autorizado: <strong>{{autorizacion.importe_autorizado.importe_formateado}}</strong></span><br/>
+                                            <span>Estado de devolución: <strong>{{autorizacion.estado_devolucion}}</strong></span><br/>
+                                            <span>Saldo Restante: <strong>{{autorizacion.saldo.importe_formateado}}</strong></span><br/>
+                                        </ion-list-header>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-list>
+                        <ion-list *ngIf="devoluciones && devoluciones.length">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col col-md-12>
+                                        <ion-list-header color="light" no-margin text-wrap>
+                                            <span class="subtitulo-list">DATOS DE LAS DEVOLUCIONES</span><hr/>
+                                            <span *ngFor="let devolucion of devoluciones">
+                                                <ion-grid>
+                                                    <ion-row>
+                                                        <ion-col col-md-9>
+                                                            <span>Fecha de devolución: <strong>{{devolucion.fec_devolucion}}</strong></span><br/>
+                                                            <span>Estado devolución: <strong>{{devolucion.estado_devolucion}}</strong></span><br/>
+                                                            <span>Importe devuelto: <strong>{{devolucion.importe_devolucion.importe_formateado}}</strong></span>
+                                                        </ion-col>
+                                                        <ion-col col-md-3>
+                                                            <button ion-button outline color="primary" (click)="reimprimirComprobante(devolucion.id)">Reimprimir</button>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ion-grid><hr/>
+                                            </span>
+                                        </ion-list-header>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-list>
+                    </ion-content>
+                    <ion-footer>
+                        <ion-toolbar>
+                            <ion-buttons right>
+                                <button ion-button color="primary" (click)="salirClicked()">
+                                    Volver
+                                </button>
+                            </ion-buttons>
+                        </ion-toolbar>
+                    </ion-footer>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

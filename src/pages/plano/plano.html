@@ -1,0 +1,44 @@
+<ion-content>
+  <div class="header-text">
+    Seleccione Ubicaciones del sector
+  </div>
+
+
+  <figure #figurePlanoElement id="projectsvg" style='height: 100%'>
+    <svg id="svg-plano" style="width: 100%; height: 100%"
+         #svgPlanoElement version="2.1" xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 1000 996" preserveAspectRatio="xMinYMin meet">
+      <image #imagenPlano></image>
+      <defs>
+        <g id="ubicacion" >
+          <circle r="6"></circle>
+        </g>
+      </defs>
+      <defs>
+
+        <g #tooltip id="tooltip">
+          <svg:polygon points="-15,-30 15,-30 0,-10" style="fill:black;stroke:black;stroke-width:1" />
+          <svg:rect class="tooltip_bg" id="tooltip_bg" x="-35" y="-70" rx="4" ry="4" width="55" height="17" />
+          <svg:text class="tooltip primer_linea" #primerLineaDetalle x="-15" y="-50" > </text>
+            <svg:text class="tooltip segunda_linea" #segundaLineaDetalle x="-15" y="-30" > </text>
+        </g>
+      </defs>
+    </svg>
+  </figure>
+
+</ion-content>
+
+<ion-footer>
+  <ion-navbar>
+    <ion-buttons left>
+        <button ion-button navPop small clear color="danger">
+          Cancelar
+        </button>
+    </ion-buttons>
+    <ion-buttons right *ngIf="maxUbicacionesParaVenta != 0">
+      <button ion-button solid color="primary" (click)='confirmarUbicaciones()'>
+        Confirmar Ubicaciones
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-footer>
