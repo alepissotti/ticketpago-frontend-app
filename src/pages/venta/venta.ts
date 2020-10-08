@@ -20,6 +20,7 @@ export class VentaPage {
   detalleCliente : string;
   ventaReservada : any;
   enviarDatos : boolean = false;
+  tieneLinkPago: boolean;
 
 
   
@@ -37,7 +38,7 @@ export class VentaPage {
               private modalCtrl : ModalController
               ) {
     
-
+    this.tieneLinkPago = this.user.tieneServicioLinkPago();
     this.ventaReservada = { operacion: null };
     this.getEmpresa();
     

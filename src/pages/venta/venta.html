@@ -52,7 +52,7 @@
               <ion-row>
                 <ion-col col-12 [hidden]="!formValid()">
                   <ion-buttons right>
-                    <button ion-button outline color="primary" (click)="generarLinkPago()">Generar Link de pago</button>
+                    <button *ngIf="tieneLinkPago" ion-button outline color="primary" (click)="generarLinkPago()">Generar Link de pago</button>
                     <button ion-button outline color="primary" (click)="continuarOperacion()">Siguiente</button>
                   </ion-buttons>
                 </ion-col>
