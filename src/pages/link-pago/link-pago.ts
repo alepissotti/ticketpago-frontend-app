@@ -40,7 +40,7 @@ export class LinkPagoPage {
     }
 
    obtenerParametros() {
-        this.params = atob(window.location.href.replace(window.location.origin,'').split('/')[3]);
+        this.params = atob(window.location.href.replace(window.location.origin,'').split('/')[5]);
         this.operacionId = parseInt(this.params.split('->')[0]);
         this.usernameLogin = this.params.split('->')[1];
         this.passwordLogin = this.params.split('->')[2];
