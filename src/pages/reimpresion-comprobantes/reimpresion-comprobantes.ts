@@ -1,5 +1,5 @@
 import {Component,ViewChild} from '@angular/core';
-import { IonicPage , LoadingController ,NavController} from 'ionic-angular';
+import { IonicPage , LoadingController ,NavController , AlertController} from 'ionic-angular';
 import {ErrorProvider, VentaProvider , UsuarioProvider} from "../../providers/providers";
 import {INGRESO_PUNTO_VENTA_PAGE} from "../pages";
 
@@ -29,6 +29,7 @@ puntoVenta : any;
 
 constructor(public loadingCtrl : LoadingController,
             public navCtrl : NavController,
+            public alertCtrl : AlertController,
             public venta : VentaProvider,
             public error : ErrorProvider,
             public usuario : UsuarioProvider,
@@ -46,16 +47,9 @@ constructor(public loadingCtrl : LoadingController,
 }
 
   ionViewDidLoad() {
-    this.inicializarFocusEnNroOperacionInput();
 
   }
 
-  inicializarFocusEnNroOperacionInput() {
-    setTimeout(() => {
-      this.nroOperacionInput.value = '';
-      this.nroOperacionInput.setFocus();
-    }, 500);
-  }
 
   operacionClicked(id) {
     let index = this.selectedOperacion.indexOf(id);
@@ -135,7 +129,6 @@ constructor(public loadingCtrl : LoadingController,
       }
       this.message = (this.operaciones.length) ? 'Seleccione alguna de las operaciones para emitir comprobantes de pago:' : 'No hay operaciones';
       loading.dismissAll();
-      this.inicializarFocusEnNroOperacionInput();
     }).catch(error => {
       error.logLevel = 'error';
       this.error.handle(error);
@@ -218,5 +211,29 @@ constructor(public loadingCtrl : LoadingController,
     }
     return operacionesIds;
   }
+
+  focusOperacion() {
+    document.getElementById('operacion').blur();
+    const operacion = this.operacionId
+    let alert = this.alertCtrl.create({
+      title : 'Número de operación',
+      buttons : [
+      {text : 'Cancelar' , handler : () => {} },
+      {text : 'OK' , handler : (alertData) => {
+        this.operacionId = alertData.operacion;
+      } }
+      ],
+      inputs : [
+        {type : 'number' , name : 'operacion' , value : operacion }
+      ]
+    })
+
+    alert.onWillDismiss(() => {});
+
+    setTimeout(() => {
+      alert.present();
+    },500)
+
+}
 
 }

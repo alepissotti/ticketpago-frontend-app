@@ -318,6 +318,140 @@ export class MediosLinkPagoPage {
   return fechaExpiracion;
  }
 
+ //Alerts de los inputs para dispositivos moviles
+ focusMailComprobante() {
+  const mailComprobante = (this.mailComprobante) ?this.mailComprobante.toString() : null;
+  let alert = this.alertCtrl.create({
+    title : 'Email comprobante',
+    buttons : [
+    {text : 'Cancelar' , handler : () => {} },
+    {text : 'OK' , handler : (alertData) => {
+      this.mailComprobante = alertData.mailComprobante;
+    } }
+    ],
+    inputs : [
+      {type : 'email' , name : 'mailComprobante' , value : mailComprobante }
+    ]
+  })
+
+  alert.onWillDismiss(() => {});
+
+  setTimeout(() => {
+    alert.present();
+  },500)
+}
+
+focusNumeroTarjeta() {
+  const card_number = (this.cardData.card_number) ?this.cardData.card_number.toString() : null;
+  let alert = this.alertCtrl.create({
+    title : 'Número de la tarjeta',
+    buttons : [
+    {text : 'Cancelar' , handler : () => {} },
+    {text : 'OK' , handler : (alertData) => {
+      this.cardData.card_number = (alertData.card_number) ?alertData.card_number :null;
+    } }
+    ],
+    inputs : [
+      {type : 'number' , name : 'card_number' , value : card_number }
+    ]
+  })
+
+  alert.onWillDismiss(() => {});
+  
+  setTimeout(() => {
+    alert.present();
+  },500)
+}
+
+focusVencimientoTarjeta() {
+  const vencimiento = (this.auxCardData.vencimiento) ?this.auxCardData.vencimiento.toString() : null;
+  let alert = this.alertCtrl.create({
+    title : 'Vencimiento de la tarjeta (MMAA)',
+    buttons : [
+    {text : 'Cancelar' , handler : () => {} },
+    {text : 'OK' , handler : (alertData) => {
+      this.auxCardData.vencimiento = (alertData.vencimiento) ?alertData.vencimiento :null;
+    } }
+    ],
+    inputs : [
+      {type : 'number' ,  name : 'vencimiento' , value : vencimiento }
+    ]
+  })
+
+  alert.onWillDismiss(() => {});
+  
+  setTimeout(() => {
+    alert.present();
+  },500)
+}
+
+focusTitularTarjeta() {
+  const titularTarjeta = (this.cardData.card_holder_name) ?this.cardData.card_holder_name.toString() : null;
+  let alert = this.alertCtrl.create({
+    title : 'Nombre del dueño de la tarjeta',
+    buttons : [
+    {text : 'Cancelar' , handler : () => {} },
+    {text : 'OK' , handler : (alertData) => {
+      this.cardData.card_holder_name = alertData.titularTarjeta;
+    } }
+    ],
+    inputs : [
+      {type : 'text' ,  name : 'titularTarjeta' , value : titularTarjeta }
+    ]
+  })
+
+  alert.onWillDismiss(() => {});
+  
+  setTimeout(() => {
+    alert.present();
+  },500)
+}
+
+focusCodigoSeguridad() {
+  const codigoSeguridad = (this.cardData.security_code) ?this.cardData.security_code.toString() : null;
+  let alert = this.alertCtrl.create({
+    title : 'Código de seguridad de la tarjeta',
+    buttons : [
+    {text : 'Cancelar' , handler : () => {} },
+    {text : 'OK' , handler : (alertData) => {
+      this.cardData.security_code = (alertData.codigoSeguridad) ?alertData.codigoSeguridad :null;
+    } }
+    ],
+    inputs : [
+      {type : 'password' ,  name : 'codigoSeguridad' , value : codigoSeguridad }
+    ]
+  })
+
+  alert.onWillDismiss(() => {});
+  
+  setTimeout(() => {
+    alert.present();
+  },500)
+}
+
+focusDniTitular() {
+  const documentoTitular = (this.nroDocumento) ?this.nroDocumento.toString() : null;
+  let alert = this.alertCtrl.create({
+    title : 'Número de documento',
+    buttons : [
+    {text : 'Cancelar' , handler : () => {} },
+    {text : 'OK' , handler : (alertData) => {
+      this.nroDocumento = (alertData.documentoTitular) ?alertData.documentoTitular :null;
+    } }
+    ],
+    inputs : [
+      {type : 'number' ,  name : 'documentoTitular' , value : documentoTitular }
+    ]
+  })
+
+  alert.onWillDismiss(() => {});
+
+
+  setTimeout(() => {
+    alert.present();
+  },500)
+}
+
 
 
 

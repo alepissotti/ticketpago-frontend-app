@@ -13,28 +13,31 @@
           <ion-content>
             <div [hidden]="(!consentimiento && user.isPuntoDeVentaOnline())">
               <div *ngIf="!user.isPuntoDeVentaOnline() && !loading">
-                <ion-label stacked>Mail de comprobante de venta</ion-label>
+                <ion-label stacked ion-text>Mail de comprobante de venta</ion-label>
                 <ion-input placeholder="email@email.com" [(ngModel)]="mailComprobante" (ionFocus)="focusMailComprobante()"></ion-input>
               </div>
 
               <ion-spinner *ngIf="loading"></ion-spinner>
 
-              {{message}}
+              <div>
+                <ion-label stacked>{{message}}</ion-label>
+              </div>
+              
               <ion-list>
                 <ion-item *ngIf="mediosDePago.length">
-                  <ion-label>Medio de pago</ion-label>
+                  <ion-label stacked>Medio de pago</ion-label>
                   <ion-select [(ngModel)]="selectedMedio" placeholder="Seleccione medio de pago" (ionChange)="selectedMedioChanged()">
                     <ion-option *ngFor="let medio of mediosDePago" [value]="medio">{{medio.detalle}}</ion-option>
                   </ion-select>
                 </ion-item>
                 <ion-item *ngIf="selectedMedio">
-                  <ion-label>Plan</ion-label>
+                  <ion-label stacked>Plan</ion-label>
                   <ion-select [(ngModel)]="selectedPlan" placeholder="Seleccione el plan" (ionChange)="selectedPlanChanged()">
                     <ion-option *ngFor="let plan of selectedMedio.planes" [value]="plan">{{plan.detalle}}</ion-option>
                   </ion-select>
                 </ion-item>
                 <ion-item *ngIf="selectedPlan">
-                  <ion-label>Cuotas</ion-label>
+                  <ion-label stacked>Cuotas</ion-label>
                   <ion-select [(ngModel)]="selectedCuota" placeholder="Seleccione cantidad de cuotas">
                     <ion-option *ngFor="let cuota of selectedPlan.plan_cuotas" [value]="cuota.id">{{cuota.cuotas}} - {{cuota.total_cuota_financiada.importe_formateado}}</ion-option>
                   </ion-select>
@@ -42,7 +45,9 @@
               </ion-list>
 
               <ion-list *ngIf="selectedPlan?.necesita_autorizacion && selectedCuota">
-                Datos de la tarjeta
+                <div>
+                  <ion-label stacked>Datos de la tarjeta</ion-label>
+                </div>
                 <ion-item>
                   <ion-label stacked>Numero de la tarjeta</ion-label>
                   <ion-input  type="number" 
@@ -51,7 +56,7 @@
                               (ionFocus)="focusNumeroTarjeta()" 
                               #cardNumberInput></ion-input>
                 </ion-item>
-                <ion-item no-lines>
+                <ion-item>
                   <ion-label stacked>Vencimiento de la tarjeta (MMAA)</ion-label>
                   <ion-input  type="string" 
                               [(ngModel)]="auxCardData.vencimiento"
@@ -78,15 +83,15 @@
                 </ion-item>
                 <ion-grid>
                   <ion-row>
-                    <ion-col col-3>
+                    <ion-col col-5 no-padding>
                       <ion-item>
-                        <ion-label stacked>Tipo de documento</ion-label>
+                        <ion-label stacked text-wrap>Tipo de documento</ion-label>
                         <ion-select [(ngModel)]="tipoDocumento">
                           <ion-option *ngFor="let tipoDoc of selectTipoDni" [value]="tipoDoc.detalle">{{tipoDoc.detalle}}</ion-option>
                         </ion-select>
                       </ion-item>
                     </ion-col>
-                    <ion-col col-9>
+                    <ion-col col-6 offset-1 no-padding>
                       <ion-item no-lines>
                         <ion-label stacked>DNI</ion-label>
                         <ion-input [(ngModel)]="nroDocumento" (ionFocus)="focusDniTitular()"></ion-input>

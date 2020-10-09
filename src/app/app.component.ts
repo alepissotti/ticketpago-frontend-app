@@ -79,7 +79,7 @@ export class MyApp {
     });
 
     this.events.subscribe(UsuarioProvider.EVENT_USUARIO_DESLOGUEADO, () => {
-      this.actualizarMenuUsuario();
+      this.userInfo = null;
     });
 
     this.events.subscribe(VentaFinalizadaPage.EVENT_NUEVA_VENTA, () => {

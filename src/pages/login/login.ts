@@ -1,6 +1,6 @@
 import { CARTELERA_PAGE } from './../pages';
 import {Component, ViewChild} from '@angular/core';
-import { IonicPage, NavController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, AlertController, Events } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ApiProvider, ErrorProvider, UsuarioProvider} from "../../providers/providers";
 import {MensajeProvider} from "../../providers/mensaje/mensaje";
@@ -18,6 +18,7 @@ export class LoginPage {
 
   constructor(private navCtrl: NavController,
               private usuario: UsuarioProvider,
+              private events: Events,
               private api: ApiProvider,
               private error: ErrorProvider,
               private alertCtrl: AlertController,
@@ -54,8 +55,13 @@ export class LoginPage {
   }
 
   listenToLoginEvents() {
-    if (window.sessionStorage.getItem('twnUser')){
-      window.history.go(-1);
+    
+    if (this.usuario.estaLogueado()){
+      const paginasApliadas = window.history.length;
+      this.events.publish(UsuarioProvider.EVENT_USUARIO_DESLOGUEADO);
+      for (let i=0 ; i < paginasApliadas ; i++) {
+        window.history.go(-1);
+      }
     }
   }
 
@@ -70,7 +76,7 @@ export class LoginPage {
       form.dispatchEvent(e1);
 
       //foco en el input del username
-      this.usernameInput.setFocus();
+      //this.usernameInput.setFocus();
     }, 500);
 
   }
