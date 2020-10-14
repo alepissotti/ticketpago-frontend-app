@@ -97,7 +97,8 @@ export class VentaPage {
     let params = btoa(operacionId + "->" + atob(window.sessionStorage['linkPago']));
     let linkPago = this.user.urlLinkPago + params.toString();
     let linkPagoModal = this.modalCtrl.create(MODAL_LINK_PAGO_PAGE,{
-        linkPago : linkPago
+        linkPago : linkPago,
+        nombreEmpresa : this.nombreEmpresa
     });
 
     linkPagoModal.onWillDismiss(() => {

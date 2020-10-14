@@ -38,7 +38,7 @@
                 </ion-item>
                 <ion-item *ngIf="selectedPlan">
                   <ion-label stacked>Cuotas</ion-label>
-                  <ion-select [(ngModel)]="selectedCuota" placeholder="Seleccione cantidad de cuotas">
+                  <ion-select [(ngModel)]="selectedCuota" placeholder="Seleccione cantidad de cuotas" (ionChange)="focusCardNumberInput()">
                     <ion-option *ngFor="let cuota of selectedPlan.plan_cuotas" [value]="cuota.id">{{cuota.cuotas}} - {{cuota.total_cuota_financiada.importe_formateado}}</ion-option>
                   </ion-select>
                 </ion-item>

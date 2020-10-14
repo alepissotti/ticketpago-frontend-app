@@ -50,6 +50,7 @@ export class MediosLinkPagoPage {
   }
 
   ionViewDidLoad() {
+    if (!this.mailComprobante) this.focusMailComprobante();
   }
 
   ionViewDidEnter() {
@@ -91,7 +92,7 @@ export class MediosLinkPagoPage {
 
   focusCardNumberInput() {
     setTimeout(() => {
-      if (this.cardNumberInput) {
+      if (this.cardNumberInput && !this.cardData.card_number) {
         this.cardNumberInput.setFocus();
       }
     }, 300)
@@ -349,6 +350,7 @@ focusNumeroTarjeta() {
     {text : 'Cancelar' , handler : () => {} },
     {text : 'OK' , handler : (alertData) => {
       this.cardData.card_number = (alertData.card_number) ?alertData.card_number :null;
+      if (!this.auxCardData.vencimiento) this.focusVencimientoTarjeta();
     } }
     ],
     inputs : [
@@ -371,6 +373,7 @@ focusVencimientoTarjeta() {
     {text : 'Cancelar' , handler : () => {} },
     {text : 'OK' , handler : (alertData) => {
       this.auxCardData.vencimiento = (alertData.vencimiento) ?alertData.vencimiento :null;
+      if(!this.cardData.card_holder_name) this.focusTitularTarjeta();
     } }
     ],
     inputs : [
@@ -393,6 +396,7 @@ focusTitularTarjeta() {
     {text : 'Cancelar' , handler : () => {} },
     {text : 'OK' , handler : (alertData) => {
       this.cardData.card_holder_name = alertData.titularTarjeta;
+      if(!this.cardData.security_code) this.focusCodigoSeguridad();
     } }
     ],
     inputs : [
@@ -415,6 +419,7 @@ focusCodigoSeguridad() {
     {text : 'Cancelar' , handler : () => {} },
     {text : 'OK' , handler : (alertData) => {
       this.cardData.security_code = (alertData.codigoSeguridad) ?alertData.codigoSeguridad :null;
+      if (!this.nroDocumento) this.focusDniTitular();
     } }
     ],
     inputs : [

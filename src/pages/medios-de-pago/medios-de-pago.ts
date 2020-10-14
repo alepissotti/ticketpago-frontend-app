@@ -92,6 +92,7 @@ export class MediosDePagoPage {
       this.mediosDePago = response;
       this.message = (this.mediosDePago.length) ? 'Seleccione el medio de pago:' : 'No hay medios de pago disponibles';
       this.loading = false;
+      if (!this.mailComprobante) this.focusMailComprobante();
     }).catch(error => {
       this.loading = false;
       error.logLevel = 'error';
@@ -107,6 +108,9 @@ export class MediosDePagoPage {
       this.selectedPlan = this.selectedMedio.planes[0];
       if (this.selectedPlan.plan_cuotas.length == 1) {
         this.selectedCuota = this.selectedPlan.plan_cuotas[0].id;
+        if (this.selectedPlan && this.selectedPlan.necesita_autorizacion) {
+          this.focusCardNumberInput();
+        }
       }
     }
   }
@@ -115,8 +119,20 @@ export class MediosDePagoPage {
     this.selectedCuota = null;
     if (this.selectedPlan && this.selectedPlan.plan_cuotas.length == 1) {
       this.selectedCuota = this.selectedPlan.plan_cuotas[0].id;
+      if (this.selectedPlan && this.selectedPlan.necesita_autorizacion) {
+        this.focusCardNumberInput();
+      }
     }
   }
+
+  focusCardNumberInput() {
+    setTimeout(() => {
+      if (this.cardNumberInput && !this.cardData.card_number) {
+        this.cardNumberInput.setFocus();
+      }
+    }, 300)
+  }
+
 
 
 
@@ -360,6 +376,7 @@ pagarConDecidir() {
       {text : 'Cancelar' , handler : () => {} },
       {text : 'OK' , handler : (alertData) => {
         this.cardData.card_number = (alertData.card_number) ?alertData.card_number :null;
+        if (!this.auxCardData.vencimiento) this.focusVencimientoTarjeta();
       } }
       ],
       inputs : [
@@ -382,6 +399,7 @@ pagarConDecidir() {
       {text : 'Cancelar' , handler : () => {} },
       {text : 'OK' , handler : (alertData) => {
         this.auxCardData.vencimiento = (alertData.vencimiento) ?alertData.vencimiento :null;
+        if(!this.cardData.card_holder_name) this.focusTitularTarjeta();
       } }
       ],
       inputs : [
@@ -404,6 +422,7 @@ pagarConDecidir() {
       {text : 'Cancelar' , handler : () => {} },
       {text : 'OK' , handler : (alertData) => {
         this.cardData.card_holder_name = alertData.titularTarjeta;
+        if(!this.cardData.security_code) this.focusCodigoSeguridad();
       } }
       ],
       inputs : [
@@ -426,6 +445,7 @@ pagarConDecidir() {
       {text : 'Cancelar' , handler : () => {} },
       {text : 'OK' , handler : (alertData) => {
         this.cardData.security_code = (alertData.codigoSeguridad) ?alertData.codigoSeguridad :null;
+        if (!this.nroDocumento) this.focusDniTitular();
       } }
       ],
       inputs : [

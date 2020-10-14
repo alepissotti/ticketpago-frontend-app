@@ -16,6 +16,7 @@ export class ModalLinkPagoPage {
 
 url : string;
 urlCopiada : boolean = false;
+nombreEmpresa : string;
 
 
 constructor(public loadingCtrl : LoadingController,
@@ -29,6 +30,7 @@ constructor(public loadingCtrl : LoadingController,
             ) {
 
               this.url = this.navParms.get('linkPago');
+              this.nombreEmpresa = this.navParms.get('nombreEmpresa');
   
 }
 
@@ -60,7 +62,7 @@ constructor(public loadingCtrl : LoadingController,
     if (newVariable && newVariable.share) {
       newVariable.share({
         title: 'TicketPago',
-        text: `Link de pago - ${this.usuario.getPuntoVenta().nombre}`,
+        text: `Link de pago - ${this.nombreEmpresa}`,
         url: this.url.toString(),
       })
         .then(() => {this.urlCopiada = true})
