@@ -732,4 +732,18 @@ export class VentaProvider {
     })
   }
 
+  registrarFirmaDigital(operacionId : number, firmaDigital : string): Promise <any> {
+    const params = {
+      operacionId : operacionId,
+      firmaDigital : firmaDigital
+    }
+    return new Promise( (resolve, reject) => {
+      this.api.postToUrlBackend("venta/registrarfirmadigitals",params).then(() => {
+        resolve();
+      }).catch(error => {
+        reject();
+      })
+    })
+  }
+
 }

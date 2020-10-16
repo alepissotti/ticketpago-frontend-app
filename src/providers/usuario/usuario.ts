@@ -293,6 +293,12 @@ export class UsuarioProvider {
     else return true;
   }
 
+  necesitaFirmaDigital() : boolean {
+    let usuarioPuntoVenta = this.getPuntoVenta();
+    if (usuarioPuntoVenta !== null) return usuarioPuntoVenta.necesita_firma_digital;
+    else return false; 
+  }
+
 
 
 }

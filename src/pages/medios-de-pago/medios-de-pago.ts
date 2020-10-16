@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {Events, IonicPage, LoadingController, NavController , AlertController} from 'ionic-angular';
+import {Events, IonicPage, LoadingController, NavController , AlertController, ModalController} from 'ionic-angular';
 import {ErrorProvider, VentaProvider, PrinterProvider, UsuarioProvider} from "../../providers/providers";
-import {VENTA_FINALIZADA_PAGE} from "../pages";
+import {VENTA_FINALIZADA_PAGE, MODAL_FIRMA_DIGITAL_PAGE} from "../pages";
 import {MensajeProvider} from "../../providers/mensaje/mensaje";
 import * as $ from 'jquery'
 
@@ -44,6 +44,7 @@ export class MediosDePagoPage {
               public user: UsuarioProvider,
               private loadingCtrl: LoadingController,
               private alertCtrl : AlertController,
+              private modalCtrl: ModalController,
               private mensaje: MensajeProvider,
               public events: Events) {
     this.ventaReservada = this.venta.getVentaReservada();
@@ -236,26 +237,8 @@ pagarConDecidir() {
   loading.present();
   
   this.venta.pagar(this.selectedCuota, this.selectedPlan.necesita_autorizacion ? this.selectedPlan.key : null, this.selectedPlan.necesita_autorizacion ? this.selectedPlan.url_sps : null, this.selectedPlan.necesita_autorizacion ? this.cardData : null, this.mailComprobante ? this.mailComprobante : null).then(() => {
-    this.mensaje.presentar(
-      'Compra Aprobada',
-      (this.user.isPuntoDeVentaOnline() || this.venta.tieneEnvio()) ? 'La compra se ha registrado correctamente' : 'La compra se ha registrado correctamente. Se esta generando el comrprobante',
-      {
-        buttons: ['Ok'],
-      }
-      );
     loading.dismissAll();
-
-
-    this.navCtrl.push(VENTA_FINALIZADA_PAGE).then(() => {
-      this.enviarDatos = true;
-    });
-    
-    if (this.cobranzaCuentaTercero) {
-      const operacionId = this.venta.getOperacionId().toString();
-      this.venta.imprimirComprobanteVentaCuentaTercerosGet(this.user, 
-                                          {'operacionesIds': operacionId , 'loteId' : null});
-    }
-  
+    this.alertVentaFinalizada();
     }).catch(error => {
     this.showResumen = true;
     loading.dismissAll();
@@ -268,25 +251,8 @@ pagarConDecidir() {
     loading.present();
     
     this.venta.pagarLineWeb(this.selectedCuota,this.selectedPlan.necesita_autorizacion ? this.selectedPlan.key : null, this.selectedPlan.necesita_autorizacion ? this.selectedPlan.url_sps : null, this.asignarDatosTokenLine() ,this.mailComprobante ? this.mailComprobante : null, this.getUtimos4DigitosTarjeta()).then(() => {
-      this.mensaje.presentar(
-        'Compra Aprobada',
-        'La compra se ha registrado correctamente.',
-        {
-          buttons: ['Ok'],
-        }
-        );
       loading.dismissAll();
-
-      this.navCtrl.push(VENTA_FINALIZADA_PAGE).then(() => {
-        this.enviarDatos = true;
-      });
-      
-      if (this.cobranzaCuentaTercero) {
-        const operacionId = this.venta.getOperacionId().toString();
-        this.venta.imprimirComprobanteVentaCuentaTercerosGet(this.user, 
-                                            {'operacionesIds': operacionId , 'loteId' : null});
-      }
-    
+      this.alertVentaFinalizada();
       }).catch(error => {
       this.showResumen = true;
       loading.dismissAll();
@@ -294,11 +260,53 @@ pagarConDecidir() {
     })
   }
 
-  /**
-   *  La operación puede imprimirse si la venta se realiza en un punto de venta que tiene habilitado imprimir tickets y no tiene envio seteado
-   */
-  operacionPuedeImprimirse(): boolean {
-    return !this.user.isPuntoDeVentaOnline() && !this.venta.tieneEnvio() && !this.user.noImprimeTicket();
+  modalFirmaDigital() {
+    if (this.user.necesitaFirmaDigital() ) {
+      const operacionId = this.venta.getOperacionId();
+
+      let modalFirmaDigital = this.modalCtrl.create(MODAL_FIRMA_DIGITAL_PAGE,{
+        operacionId : operacionId
+      },{enableBackdropDismiss : false})
+  
+      modalFirmaDigital.onWillDismiss(() => {
+        this.navCtrl.push(VENTA_FINALIZADA_PAGE).then(() => {
+        this.enviarDatos = true;
+        });
+      
+        if (this.cobranzaCuentaTercero) {
+        const operacionId = this.venta.getOperacionId().toString();
+        this.venta.imprimirComprobanteVentaCuentaTercerosGet(this.user, 
+                                            {'operacionesIds': operacionId , 'loteId' : null});
+        }
+      })
+
+      modalFirmaDigital.present();
+    } else {
+        this.navCtrl.push(VENTA_FINALIZADA_PAGE).then(() => {
+        this.enviarDatos = true;
+        });
+      
+        if (this.cobranzaCuentaTercero) {
+        const operacionId = this.venta.getOperacionId().toString();
+        this.venta.imprimirComprobanteVentaCuentaTercerosGet(this.user, 
+                                            {'operacionesIds': operacionId , 'loteId' : null});
+        }  
+      }
+
+  }
+
+  alertVentaFinalizada() {
+    let alert = this.alertCtrl.create({
+      title : 'Operación exitosa',
+      subTitle : 'El pago ha sido autorizado.',
+      buttons : [{text : 'Aceptar' , handler : () => {} }]
+    })
+
+    alert.onWillDismiss( () => {
+      this.modalFirmaDigital();
+    })
+
+    alert.present();
   }
 
   isFormValid(): boolean {

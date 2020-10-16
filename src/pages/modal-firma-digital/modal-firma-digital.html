@@ -1,0 +1,29 @@
+<ion-card class="contenedor">
+    <ion-card-header text-wrap >
+      <ion-card-title class="titulo">Firma Digital</ion-card-title>
+      <ion-label text-wrap>
+        Solicitele la firma al cliente dentro del recuadro
+      </ion-label>
+    </ion-card-header>
+
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col id="contenedor-firma" class="contenedor-firma">
+                    <signature-pad (onBeginEvent)="drawStart()"></signature-pad>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-buttons right *ngIf="tieneFirma">
+                    <button ion-button color="danger" (click)="rehacerFirma()">Rehacer</button>
+                    <button ion-button (click)="guardarFirma()">Guardar</button>
+                </ion-buttons>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-card>

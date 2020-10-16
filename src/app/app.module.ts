@@ -35,6 +35,7 @@ import {LinkTicketPagoModule} from '../pages/link-ticket-pago/link-ticket-pago.m
 import {MediosLinkPagoModule} from '../pages/medios-link-pago/medios-link-pago.module';
 import {DevolucionesLineModule} from '../pages/devoluciones-line/devoluciones-line.module';
 import {ModalDevolucionesModule} from '../pages/modal-devoluciones/modal-devoluciones.module';
+import {ModalFirmaDigitalModule} from '../pages/modal-firma-digital/modal-firma-digital.module';
 import {VentaPageModule} from "../pages/venta/venta.module";
 import { CajaProvider } from '../providers/caja/caja';
 import { PuntoVentaProvider } from '../providers/punto-venta/punto-venta';
@@ -42,6 +43,7 @@ import {LineProvider} from '../providers/line/line';
 import { MensajeProvider } from '../providers/mensaje/mensaje';
 import { registerLocaleData } from '@angular/common';
 import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-interceptor';
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 registerLocaleData(es);
 
@@ -54,6 +56,7 @@ registerLocaleData(es);
     BrowserAnimationsModule,
     HttpClientModule,
     HttpInterceptorModule,
+    SignaturePadModule,
     IonicModule.forRoot(MyApp, {
       mode: 'md'
     }),
@@ -86,6 +89,7 @@ registerLocaleData(es);
     MediosLinkPagoModule,
     DevolucionesLineModule,
     ModalDevolucionesModule,
+    ModalFirmaDigitalModule,
     
   ],
   bootstrap: [IonicApp],

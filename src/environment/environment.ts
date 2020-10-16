@@ -2,9 +2,9 @@ export const environment = {
   debug: false,
   apiConfig: {
     backend: {
-      url: 'https://www.ticketway.com.ar/twn/be/',
-      __url: 'http://192.168.1.37/',
-      _url: 'http://192.168.1.15/twn/be/',
+      __url: 'https://www.ticketway.com.ar/twn/be/',
+      _url: 'http://192.168.1.37/',
+      url: 'http://192.168.1.15/twn/be/',
 
     },
     linkPago: {
@@ -14,5 +14,5 @@ export const environment = {
     }
   },
   AuthorizationQueryParameterName: 'Authorization',
-  version: '1.0.2v'
+  version: '1.0.3v'
 };

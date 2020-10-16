@@ -44,3 +44,4 @@ export const LINK_TICKET_PAGO_PAGE = 'LinkTicketPagoPage';
 export const MEDIOS_LINK_PAGO_PAGE = 'MediosLinkPagoPage';
 export const DEVOLUCIONES_LINE_PAGE = 'DevolucionesLinePage';
 export const MODAL_DEVOLUCIONES_PAGE = 'ModalDevolucionesPage';
+export const MODAL_FIRMA_DIGITAL_PAGE = 'ModalFirmaDigitalPage';
