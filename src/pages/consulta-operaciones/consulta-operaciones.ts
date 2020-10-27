@@ -114,9 +114,13 @@ export class ConsultaOperacionesPage {
     buscarOperacionesPendientes() {
         let loading = this.loadingCtrl.create();
         loading.present();
+
+        const operacionTipoId = 1;
+        const puntoVentaId = this.usuario.getPuntoVenta().id;
         
         let search = {
-            operacion_tipo_id : 1
+            punto_venta_id : puntoVentaId,
+            operacion_tipo_id : operacionTipoId
         }
 
         this.venta.buscarOperacion(search).then(response => {
