@@ -36,6 +36,8 @@ import {MediosLinkPagoModule} from '../pages/medios-link-pago/medios-link-pago.m
 import {DevolucionesLineModule} from '../pages/devoluciones-line/devoluciones-line.module';
 import {ModalDevolucionesModule} from '../pages/modal-devoluciones/modal-devoluciones.module';
 import {ModalFirmaDigitalModule} from '../pages/modal-firma-digital/modal-firma-digital.module';
+import {ConsultaOperacionesPageModule} from '../pages/consulta-operaciones/consulta-operaciones.module';
+import {ListadoConsultaOperacionesPageModule} from '../pages/listado-consulta-operaciones/listado-consulta-operaciones.module';
 import {VentaPageModule} from "../pages/venta/venta.module";
 import { CajaProvider } from '../providers/caja/caja';
 import { PuntoVentaProvider } from '../providers/punto-venta/punto-venta';
@@ -90,6 +92,8 @@ registerLocaleData(es);
     DevolucionesLineModule,
     ModalDevolucionesModule,
     ModalFirmaDigitalModule,
+    ConsultaOperacionesPageModule,
+    ListadoConsultaOperacionesPageModule,
     
   ],
   bootstrap: [IonicApp],

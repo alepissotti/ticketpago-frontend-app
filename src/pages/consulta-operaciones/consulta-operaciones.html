@@ -1,0 +1,80 @@
+<ion-content padding class="no-scrollbar">
+    <ion-grid class="full-height">
+        <ion-row class="full-height">
+        <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+            <div class="ticketway-card full-height">
+                <ion-header>
+                    <ion-toolbar>
+                        <ion-title>
+                            <ion-label text-wrap>Consulta operación/es</ion-label>
+                        </ion-title>
+                    </ion-toolbar>
+                </ion-header>
+                <ion-content>
+                    <ion-grid no-padding>
+                        <ion-row>
+                            <ion-col col-12 margin-left>
+                                <ion-label stacked ion-text text-wrap color="primary">Seleccione un tipo de consulta</ion-label>
+                            </ion-col>
+                            <ion-col col-12 col-md-6>
+                                <ion-item>
+                                    <ion-label stacked text-wrap>Tipo de consulta</ion-label>
+                                    <ion-select [(ngModel)]="selectedTipoConsulta" (ionChange)="selectedTipoConsultaChange()">
+                                        <ion-option *ngFor="let tipoConsulta of tipoConsultas" [value]="tipoConsulta">{{tipoConsulta.detalle}}</ion-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row margin-top *ngIf="seleccionoOperacionEnParticular()">
+                            <ion-col col-12 margin-left>
+                                <ion-label stacked ion-text text-wrap color="primary">Indique nro. de operación y/o DNI del cliente</ion-label>
+                            </ion-col>
+                            <ion-col col-12 col-md-6>
+                                <ion-item>
+                                    <ion-label stacked>Nro. Operación</ion-label>
+                                    <ion-input id="nroOperacion" [(ngModel)]="nroOperacion" type="number" (ionFocus)="focusNroOperacion()"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-12 col-md-6>
+                                <ion-item>
+                                    <ion-label stacked>DNI Cliente</ion-label>
+                                    <ion-input id="dniCliente" [(ngModel)]="dniCliente" type="number" (ionFocus)="focusDniCliente()"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row margin-top *ngIf="seleccionoOperacionesFinalizadasOfinalizadasPendientes()">
+                            <ion-col col-12 margin-left>
+                                <ion-label stacked ion-text text-wrap color="primary">Indique fecha desde y hasta para la búsqueda</ion-label>
+                            </ion-col>
+                            <ion-col col-12 col-md-6>
+                                <ion-item>
+                                    <ion-label stacked>Fecha desde (dia-mes-año)</ion-label>
+                                    <ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="fechaDesde" doneText="Aceptar" cancelText="Cancelar" min="2018"> </ion-datetime>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col col-12 col-md-6>
+                                <ion-item>
+                                    <ion-label stacked>Fecha hasta (dia-mes-año)</ion-label>
+                                    <ion-datetime displayFormat="DD-MM-YYYY" [(ngModel)]="fechaHasta" doneText="Aceptar" cancelText="Cancelar" min="2018"> </ion-datetime>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-content>
+                <ion-footer>
+                    <ion-toolbar>
+                        <ion-buttons>
+                            <button ion-button color="danger" (click)="salirClicked()">
+                                Salir
+                            </button>
+                            <button ion-button float-right color="primary" (click)="buscarClicked()">
+                                Buscar
+                            </button>
+                        </ion-buttons>
+                    </ion-toolbar>
+                </ion-footer>
+            </div>
+        </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

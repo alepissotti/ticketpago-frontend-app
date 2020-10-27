@@ -253,10 +253,6 @@ p[data-f-id="pbf"] {
   height: 100%;
 }
 
-alert-movil {
-  position: fixed;
-  background-color: #3880ff;
-}
 
 ion-alert {
   -webkit-user-select: text;
@@ -264,3 +260,18 @@ ion-alert {
   -ms-user-select: text;
   user-select: text;
 }
+
+.alert-ios .alert-radio-label{
+  white-space: pre-line;
+  }
+  
+.alert-md .alert-radio-label{
+  white-space: pre-line;
+}
+  
+.alert-wp .alert-radio-label{
+  white-space: pre-line;
+}
+
+
+

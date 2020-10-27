@@ -467,14 +467,22 @@ export class VentaProvider {
     })
   }
 
-  getOperacionFinalizada(nroOperacion : number) : Promise<any> {
-    const param = {
-      datos : {
-        nroOperacion : nroOperacion
-      }
+  buscarOperacion(params: { nro_operacion?: number, reserva_dni?: number, punto_venta_id?: number, operacion_tipo_id?: number}) : Promise<any> {
+    let param : any = {}
+    if (params.nro_operacion) {
+      param.nroOperacion = params.nro_operacion;
+    }
+    if (params.reserva_dni) {
+      param.reserva_dni = params.reserva_dni;
+    }
+    if (params.punto_venta_id) {
+      param.puntoVenta = params.punto_venta_id;
+    }
+    if (params.operacion_tipo_id) {
+      param.operacionTipo = params.operacion_tipo_id;
     }
     return new Promise( (resolve,reject) => {
-      this.api.postToUrlBackend("buscaroperaciones" , param)
+      this.api.postToUrlBackend("buscaroperaciones" , {datos: param})
       .then(response => {
         resolve(response.data.operaciones);
       }).catch(error => {
@@ -482,6 +490,27 @@ export class VentaProvider {
       })
     })
   }
+
+  buscarOperacionesPorRangoDeFechas(params: {fecha_desde: string, fecha_hasta: string, punto_venta_id?: number, operacion_tipo_id?: number}) : Promise<any> {
+    let param : any = {
+      fechaDesde : params.fecha_desde,
+      fechaHasta : params.fecha_hasta
+    }
+    if (params.punto_venta_id) {
+      param.puntoVenta = params.punto_venta_id;
+    }
+    if (params.operacion_tipo_id) {
+      param.operacionTipo = params.operacion_tipo_id;
+    }
+    return new Promise ( (resolve,reject) => {
+      this.api.postToUrlBackend("buscaroperacionesporrangodefechas",{datos: param})
+      .then(response => {
+        resolve(response.data.operaciones);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  } 
 
   anular(id: number, selectedUbicaciones: number[], anulacionElegida: number): Promise<any> {
     let param = {

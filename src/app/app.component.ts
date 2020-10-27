@@ -10,7 +10,7 @@ import {
   CARTELERA_PAGE, ESPECTACULOS_DISPONIBLES_PAGE, ESPECTACULOS_DISPONIBLES_PRODUCTOR_PAGE, IMPRESIONES_PENDIENTES_PAGE,
   INGRESO_PUNTO_VENTA_PAGE, LOGIN_PAGE, REIMPRESION_COMPROBANTES_PAGE,
   RESERVAS_PAGE, SALIDA_PAGE, DESPACHOS_PAGE, CAJA_SISTEMA_PAGE, CAJAS_CERRADAS_PAGE, LISTADO_BORDERAUX_PAGE,
-  DEVOLUCIONES_LINE_PAGE,VENTA_PAGE,
+  DEVOLUCIONES_LINE_PAGE,VENTA_PAGE, CONSULTA_OPERACIONES_PAGE,
 } from "../pages/pages";
 import {VentaFinalizadaPage} from "../pages/venta-finalizada/venta-finalizada";
 import {SideMenuSettings} from "../components/side-menu-content/models/side-menu-settings";
@@ -136,6 +136,7 @@ export class MyApp {
       let ventaItems = [];
       let cajaItems = [];
       let reporteItems = [];
+      let consultaItems = [];
       this.cuentaTercero = this.usuario.esCuentaTercero();
 
       if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) ) {
@@ -144,6 +145,10 @@ export class MyApp {
 
       if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) ) {
         ventaItems.push(this.getRedirectMenuItem('Reimpresión de comprobantes', REIMPRESION_COMPROBANTES_PAGE));
+      }
+
+      if (this.usuario.permiso(this.usuario.PERMISO_VENTA_REGISTRAR) ) {
+        consultaItems.push(this.getRedirectMenuItem('Consultas operación/es',CONSULTA_OPERACIONES_PAGE) );
       }
 
       if (this.usuario.permiso(this.usuario.PERMISO_LISTADO_OPERACIONES_A_ENTREGAR)) {
@@ -216,6 +221,13 @@ export class MyApp {
         this.menuItems.push({
           displayText: 'Venta',
           suboptions: ventaItems,
+        })
+      }
+
+      if (consultaItems.length) {
+        this.menuItems.push({
+          displayText : 'Consultas',
+          suboptions: consultaItems,
         })
       }
 

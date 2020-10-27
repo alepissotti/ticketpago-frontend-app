@@ -64,8 +64,13 @@ export class DevolucionesLinePage {
     this.montoDevolucionParcial = null;
     let loading = this.loadingCtrl.create();
     loading.present();
+
+    const nroOperacion = (this.nroOperacion) ?parseFloat(this.nroOperacion) : null;
+    let search = {
+      nro_operacion : nroOperacion,
+    };
     
-    this.venta.getOperacionFinalizada(parseInt(this.nroOperacion)).then(response => {
+    this.venta.buscarOperacion(search).then(response => {
       this.operaciones = response;
 
       if (this.operaciones.length && (this.operaciones[0].operacion_medios_pago.length === 0) ){
