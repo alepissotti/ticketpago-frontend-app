@@ -1,0 +1,95 @@
+<ion-content no-padding class="no-scrollbar">
+    <ion-grid class="full-height">
+        <ion-row class="full-height">
+            <ion-col col-12 offset-md-3 col-md-6 class="full-height">
+                <div class="ticketway-card full-height">
+                    <ion-header>
+                        <ion-toolbar>
+                            <ion-title>
+                                <ion-label text-wrap>Operación</ion-label>
+                            </ion-title>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content>
+                        <ion-grid *ngIf="operacion">
+                            <ion-row>
+                                <ion-col col-12>
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DE LA OPERACIÓN</ion-label>
+                                    <ion-label no-margin ion-text text-wrap *ngIf="operacion.nro_operacion">Operación: <strong>{{operacion.nro_operacion}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Fecha: <strong>{{operacion.fecha_operacion}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Estado: <strong>{{operacion.operacion_tipo_nombre}}</strong></ion-label>
+                                </ion-col>
+                                <ion-col col-12 *ngIf="operacion.reserva_dni || operacion.reserva_detalle">
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DEL CLIENTE</ion-label>
+                                    <ion-label no-margin ion-text text-wrap *ngIf="operacion.reserva_dni" >DNI: <strong>{{operacion.reserva_dni}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap *ngIf="operacion.reserva_detalle">Detalle: <strong>{{operacion.reserva_detalle}}</strong></ion-label>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="!busquedaPorfecha">
+                                <ion-col col-12>
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DEL PUNTO DE VENTA</ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Nombre: <strong>{{operacion.usuario.punto_venta.nombre}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Usuario: <strong>{{operacion.usuario.persona.nombres}} {{operacion.usuario.persona.apellido}}</strong></ion-label>  
+                                </ion-col>
+                                <ion-col col-12>
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DE LA EMPRESA</ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Nombre: <strong>{{operacion.operacion_funcion_sectores[0].espectaculo.nombre}}</strong></ion-label>
+                                </ion-col>
+                                <ion-col *ngIf="operacion.operacion_medios_pago && operacion.operacion_medios_pago.length"  col-12>
+                                        <ion-label no-margin text-wrap class="subtitulo">DATOS DEL MEDIO DE PAGO</ion-label>
+                                        <ion-label no-margin ion-text text-wrap >Tipo: <strong>{{operacion.operacion_medios_pago[0].medio_pago_tipo_detalle}}</strong></ion-label>
+                                        <ion-label no-margin ion-text text-wrap>Nombre: <strong>{{operacion.operacion_medios_pago[0].medio_pago_detalle}}</strong></ion-label>  
+                                </ion-col>
+                                <ion-col *ngIf="operacion.operacion_medios_pago && operacion.operacion_medios_pago.length && operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion">
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DE LA TRANSACCIÓN</ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Titular: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Documento: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.detalle_documento}} - {{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Tarjeta: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.marca_tarjeta}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Últimos dígitos: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.ultimos_cuatro_digitos_tarjeta}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Importe autorizado: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.importe_autorizado.importe_formateado}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Estado autorización: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.estado_autorizacion}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Cuotas: <strong>{{operacion.operacion_medios_pago[0].cuotas}}</strong></ion-label>      
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="busquedaPorfecha">
+                                <ion-col col-12>
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DEL PUNTO DE VENTA</ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Nombre: <strong>{{operacion.punto_venta_nombre}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Usuario: <strong>{{operacion.usuario_nombre}} {{operacion.usuario_apellido}}</strong></ion-label>  
+                                </ion-col>
+                                <ion-col col-12>
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DE LA EMPRESA</ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Nombre: <strong>{{operacion.espectaculo_nombre}}</strong></ion-label>
+                                </ion-col>
+                                <ion-col *ngIf="operacion.medio_pago_detalle && operacion.medio_pago_tipo_detalle"  col-12>
+                                        <ion-label no-margin text-wrap class="subtitulo">DATOS DEL MEDIO DE PAGO</ion-label>
+                                        <ion-label no-margin ion-text text-wrap >Tipo: <strong>{{operacion.medio_pago_tipo_detalle}}</strong></ion-label>
+                                        <ion-label no-margin ion-text text-wrap>Nombre: <strong>{{operacion.medio_pago_detalle}}</strong></ion-label>  
+                                </ion-col>
+                                <ion-col *ngIf="operacion.estado_autorizacion">
+                                    <ion-label no-margin text-wrap class="subtitulo">DATOS DE LA TRANSACCIÓN</ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Titular: <strong>{{operacion.nombre_apellido_titular}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Documento: <strong>{{operacion.detalle_documento_titular}} - {{operacion.numero_documento_titular}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Tarjeta: <strong>{{operacion.marca_tarjeta}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Últimos dígitos: <strong>{{operacion.ultimos_cuarto_digitos_tarjeta}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Importe autorizado: <strong>{{operacion.moneda_signo}}{{operacion.importe_autorizado}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap >Estado autorización: <strong>{{operacion.estado_autorizacion}}</strong></ion-label>
+                                    <ion-label no-margin ion-text text-wrap>Cuotas: <strong>{{operacion.cuotas}}</strong></ion-label>      
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-content>
+                    <ion-footer>
+                        <ion-toolbar>
+                            <ion-buttons right>
+                                <button ion-button color="danger" (click)="volver()">
+                                    Volver
+                                </button>
+                            </ion-buttons>
+                        </ion-toolbar>
+                    </ion-footer>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

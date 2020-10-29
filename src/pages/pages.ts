@@ -47,3 +47,4 @@ export const MODAL_DEVOLUCIONES_PAGE = 'ModalDevolucionesPage';
 export const MODAL_FIRMA_DIGITAL_PAGE = 'ModalFirmaDigitalPage';
 export const CONSULTA_OPERACIONES_PAGE = 'ConsultaOperacionesPage';
 export const LISTADO_CONSULTA_OPERACIONES_PAGE = 'ListadoConsultaOperacionesPage';
+export const MODAL_LISTADO_OPERAIONES_PAGE = 'ModalListadoOperacionesPage';

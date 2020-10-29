@@ -1,0 +1,27 @@
+modal-listado-operaciones {
+    .contenedor {
+    box-sizing: content-box;
+    width: 90%;
+    padding:1px;
+    margin-left: 5%;
+    margin-top: 20%;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+    box-shadow: 5px 5px 15px 5px #000000;
+    }
+
+    .titulo {
+        text-align: center;
+        background-color: color($colors, primary);
+        color: white;
+    }
+
+    .subtitulo {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+
+}

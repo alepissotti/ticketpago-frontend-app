@@ -19,32 +19,37 @@
                                             <span class="subtitulo-list">DATOS DE LA OPERACIÓN</span><br/>
                                             <span *ngIf="operacion.nro_operacion">Operación: <strong>{{operacion.nro_operacion}}</strong><br/></span>
                                             <span>Fecha: <strong>{{operacion.fecha_operacion}}</strong><br/></span>
-                                            Estado: <strong>{{operacion.operacion_tipo_nombre}}</strong><br/>
-                                            <span *ngIf="operacion.reserva_dni || operacion.reserva_detalle">
-                                                <span class="subtitulo-list">DATOS DEL CLIENTE</span><br/>
-                                                <span *ngIf="operacion.reserva_dni">DNI: <strong>{{operacion.reserva_dni}}</strong><br/></span>
-                                                <span *ngIf="operacion.reserva_detalle">Detalle: <strong>{{operacion.reserva_detalle}}</strong><br/></span>
-                                            </span>
-                                            <span class="subtitulo-list">DATOS DEL PUNTO DE VENTA</span><br/>
-                                            Nombre: <strong>{{operacion.usuario.punto_venta.nombre}}</strong><br/>
-                                            Usuario: <strong>{{operacion.usuario.persona.nombres}} {{operacion.usuario.persona.apellido}}</strong><br/>
-                                            <span class="subtitulo-list">DATOS DE LA EMPRESA</span><br/>
-                                            Nombre: <strong>{{operacion.operacion_funcion_sectores[0].espectaculo.nombre}}</strong><br/>
-                                            <span *ngIf="operacion.operacion_medios_pago && operacion.operacion_medios_pago.length">
-                                                <span class="subtitulo-list">DATOS DEL MEDIO DE PAGO</span><br/>
-                                                Tipo: <strong>{{operacion.operacion_medios_pago[0].medio_pago_tipo_detalle}}</strong><br/>
-                                                Nombre: <strong>{{operacion.operacion_medios_pago[0].medio_pago_detalle}}</strong><br/>
-                                                <span *ngIf="operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion">
-                                                    <span class="subtitulo-list">DATOS DE LA TRANSACCIÓN</span><br/>
-                                                    Titular: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}}</strong><br/>
-                                                    Documento: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.detalle_documento}} - {{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}</strong><br/>
-                                                    Tarjeta: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.marca_tarjeta}}</strong><br/>
-                                                    Últimos dígitos: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.ultimos_cuatro_digitos_tarjeta}}</strong><br/>
-                                                    Importe autorizado: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.importe_autorizado.importe_formateado}}</strong><br/>
-                                                    Estado autorización: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.estado_autorizacion}}</strong><br/>
-                                                    Cuotas: <strong>{{operacion.operacion_medios_pago[0].cuotas}}</strong><br/>
+                                                  Estado: <strong>{{operacion.operacion_tipo_nombre}}</strong><br/>
+                                            <span *ngIf="operaciones.length >= 5">
+                                                <button ion-button block outline color="primary" (click)="verDetallesOperacion(operacion)">Ver Detalles</button>
+                                            </span>      
+                                            <span *ngIf="operaciones.length < 5">
+                                                <span *ngIf="operacion.reserva_dni || operacion.reserva_detalle">
+                                                    <span class="subtitulo-list">DATOS DEL CLIENTE</span><br/>
+                                                    <span *ngIf="operacion.reserva_dni">DNI: <strong>{{operacion.reserva_dni}}</strong><br/></span>
+                                                    <span *ngIf="operacion.reserva_detalle">Detalle: <strong>{{operacion.reserva_detalle}}</strong><br/></span>
                                                 </span>
-                                            </span>  
+                                                <span class="subtitulo-list">DATOS DEL PUNTO DE VENTA</span><br/>
+                                                Nombre: <strong>{{operacion.usuario.punto_venta.nombre}}</strong><br/>
+                                                Usuario: <strong>{{operacion.usuario.persona.nombres}} {{operacion.usuario.persona.apellido}}</strong><br/>
+                                                <span class="subtitulo-list">DATOS DE LA EMPRESA</span><br/>
+                                                Nombre: <strong>{{operacion.operacion_funcion_sectores[0].espectaculo.nombre}}</strong><br/>
+                                                <span *ngIf="operacion.operacion_medios_pago && operacion.operacion_medios_pago.length">
+                                                    <span class="subtitulo-list">DATOS DEL MEDIO DE PAGO</span><br/>
+                                                    Tipo: <strong>{{operacion.operacion_medios_pago[0].medio_pago_tipo_detalle}}</strong><br/>
+                                                    Nombre: <strong>{{operacion.operacion_medios_pago[0].medio_pago_detalle}}</strong><br/>
+                                                    <span *ngIf="operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion">
+                                                        <span class="subtitulo-list">DATOS DE LA TRANSACCIÓN</span><br/>
+                                                        Titular: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nombre_apellido_titular}}</strong><br/>
+                                                        Documento: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.detalle_documento}} - {{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.nro_documento}}</strong><br/>
+                                                        Tarjeta: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.marca_tarjeta}}</strong><br/>
+                                                        Últimos dígitos: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.ultimos_cuatro_digitos_tarjeta}}</strong><br/>
+                                                        Importe autorizado: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.importe_autorizado.importe_formateado}}</strong><br/>
+                                                        Estado autorización: <strong>{{operacion.operacion_medios_pago[0].operacion_medio_pago_autorizacion.estado_autorizacion}}</strong><br/>
+                                                        Cuotas: <strong>{{operacion.operacion_medios_pago[0].cuotas}}</strong><br/>
+                                                    </span>
+                                                </span>  
+                                            </span>
                                         </ion-list-header>
                                     </ion-list>
                                     <ion-list *ngIf="busquedaPorFecha">
@@ -52,30 +57,35 @@
                                             <span class="subtitulo-list">DATOS DE LA OPERACIÓN</span><br/>
                                             <span *ngIf="operacion.nro_operacion">Operación: <strong>{{operacion.nro_operacion}}</strong><br/></span>
                                             <span>Fecha: <strong>{{operacion.fecha_operacion}}</strong><br/></span>
-                                            Estado: <strong>{{operacion.operacion_tipo_nombre}}</strong><br/>
-                                            <span *ngIf="operacion.reserva_dni || operacion.reserva_detalle">
-                                                <span class="subtitulo-list">DATOS DEL CLIENTE</span><br/>
-                                                <span *ngIf="operacion.reserva_dni">DNI: <strong>{{operacion.reserva_dni}}</strong><br/></span>
-                                                <span *ngIf="operacion.reserva_detalle">Detalle: <strong>{{operacion.reserva_detalle}}</strong><br/></span>
-                                            </span>
-                                            <span class="subtitulo-list">DATOS DEL PUNTO DE VENTA</span><br/>
-                                            Nombre: <strong>{{operacion.punto_venta_nombre}}</strong><br/>
-                                            Usuario: <strong>{{operacion.usuario_nombre}} {{operacion.usuario_apellido}}</strong><br/>
-                                            <span class="subtitulo-list">DATOS DE LA EMPRESA</span><br/>
-                                            Nombre: <strong>{{operacion.espectaculo_nombre}}</strong><br/>
-                                            <span *ngIf="operacion.medio_pago_detalle && operacion.medio_pago_tipo_detalle">
-                                                <span class="subtitulo-list">DATOS DEL MEDIO DE PAGO</span><br/>
-                                                Tipo: <strong>{{operacion.medio_pago_tipo_detalle}}</strong><br/>
-                                                Nombre: <strong>{{operacion.medio_pago_detalle}}</strong><br/>
-                                                <span *ngIf="operacion.estado_autorizacion">
-                                                    <span class="subtitulo-list">DATOS DE LA TRANSACCIÓN</span><br/>
-                                                    Titular: <strong>{{operacion.nombre_apellido_titular}}</strong><br/>
-                                                    Documento: <strong>{{operacion.detalle_documento_titular}} - {{operacion.numero_documento_titular}}</strong><br/>
-                                                    Tarjeta: <strong>{{operacion.marca_tarjeta}}</strong><br/>
-                                                    Últimos dígitos: <strong>{{operacion.ultimos_cuarto_digitos_tarjeta}}</strong><br/>
-                                                    Importe autorizado: <strong>{{operacion.importe_autorizado}}</strong><br/>
-                                                    Estado autorización: <strong>{{operacion.estado_autorizacion}}</strong><br/>
-                                                    Cuotas: <strong>{{operacion.cuotas}}</strong><br/>
+                                                  Estado: <strong>{{operacion.operacion_tipo_nombre}}</strong><br/>
+                                            <span *ngIf="operaciones.length >= 5">
+                                                <button ion-button block outline color="primary" (click)="verDetallesOperacion(operacion)">Ver Detalles</button>
+                                            </span>      
+                                            <span *ngIf="operaciones.length < 5">
+                                                <span *ngIf="operacion.reserva_dni || operacion.reserva_detalle">
+                                                    <span class="subtitulo-list">DATOS DEL CLIENTE</span><br/>
+                                                    <span *ngIf="operacion.reserva_dni">DNI: <strong>{{operacion.reserva_dni}}</strong><br/></span>
+                                                    <span *ngIf="operacion.reserva_detalle">Detalle: <strong>{{operacion.reserva_detalle}}</strong><br/></span>
+                                                </span>
+                                                <span class="subtitulo-list">DATOS DEL PUNTO DE VENTA</span><br/>
+                                                Nombre: <strong>{{operacion.punto_venta_nombre}}</strong><br/>
+                                                Usuario: <strong>{{operacion.usuario_nombre}} {{operacion.usuario_apellido}}</strong><br/>
+                                                <span class="subtitulo-list">DATOS DE LA EMPRESA</span><br/>
+                                                Nombre: <strong>{{operacion.espectaculo_nombre}}</strong><br/>
+                                                <span *ngIf="operacion.medio_pago_detalle && operacion.medio_pago_tipo_detalle">
+                                                    <span class="subtitulo-list">DATOS DEL MEDIO DE PAGO</span><br/>
+                                                    Tipo: <strong>{{operacion.medio_pago_tipo_detalle}}</strong><br/>
+                                                    Nombre: <strong>{{operacion.medio_pago_detalle}}</strong><br/>
+                                                    <span *ngIf="operacion.estado_autorizacion">
+                                                        <span class="subtitulo-list">DATOS DE LA TRANSACCIÓN</span><br/>
+                                                        Titular: <strong>{{operacion.nombre_apellido_titular}}</strong><br/>
+                                                        Documento: <strong>{{operacion.detalle_documento_titular}} - {{operacion.numero_documento_titular}}</strong><br/>
+                                                        Tarjeta: <strong>{{operacion.marca_tarjeta}}</strong><br/>
+                                                        Últimos dígitos: <strong>{{operacion.ultimos_cuarto_digitos_tarjeta}}</strong><br/>
+                                                        Importe autorizado: <strong>{{operacion.moneda_signo}}{{operacion.importe_autorizado}}</strong><br/>
+                                                        Estado autorización: <strong>{{operacion.estado_autorizacion}}</strong><br/>
+                                                        Cuotas: <strong>{{operacion.cuotas}}</strong><br/>
+                                                    </span>
                                                 </span>
                                             </span>
                                         </ion-list-header>
