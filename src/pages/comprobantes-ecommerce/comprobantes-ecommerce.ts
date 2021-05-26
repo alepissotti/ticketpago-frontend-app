@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UsuarioProvider} from '../../providers/providers';
+import {UsuarioProvider, VentaProvider} from '../../providers/providers';
 import { IonicPage, NavController} from 'ionic-angular';
 import {DESPACHOS_PAGE} from '../pages';
 
@@ -34,36 +34,51 @@ export class ComprobantesEcommercePage {
 
   constructor(
               public usuario : UsuarioProvider,
+              public venta: VentaProvider,
               public navCtrl : NavController) {             
     
       this.obtenerParametros();
-      this.validarUsuario();
                     
   }
 
     ionViewDidLoad() {
-
+      this.validarUsuario();
     }
 
 
 
     
     obtenerParametros() {
-      this.params = atob(window.location.href.replace(window.location.origin,'').split('/')[3]);
-      this.usuarioLogin.username = this.params.split('->')[0];
-      this.usuarioLogin.password = this.params.split('->')[1];
-      this.empresaId = parseFloat(this.params.split('->')[2]);
+      const numberSplit = (window.location.href.includes('www.ticketway.com.ar') ) ?5 :3;
+      this.params = atob(window.location.href.replace(window.location.origin,'').split('/')[numberSplit]);
+      const datosEnviados = (!this.params) ?null :JSON.parse(this.params);
+      this.usuarioLogin.username = (!datosEnviados) ?null :datosEnviados.usernameLogin;
+      this.usuarioLogin.password = (!datosEnviados) ?null :datosEnviados.passwordLogin;
+      this.empresaId = (!datosEnviados) ?null :datosEnviados.empresaId;
     }
 
     validarUsuario() {
       this.usuario.loginUsuario(this.usuarioLogin).then(() => {
-        this.loading = false;
-        
-        this.enviarDatos();
-      }).catch(error => {
+        this.validarEmpresa();
+      }).catch(() => {
         this.loading = false;
         this.denegadoText = 'Acceso denegado , datos de usuario inválidos. Por favor , revise los datos enviados al sistema.';
       });
+    }
+
+    validarEmpresa() {
+      this.venta.getEspectaculosDisponibles().then(response => {
+        const espectaculos_disponibles = response.espectaculos_disponibles;
+        if (espectaculos_disponibles.filter(empresa => empresa.id == this.empresaId).length != 1) {
+          this.loading = false;
+          this.denegadoText = 'Acceso denegado, el id de la empresa no existe o no esta asociada al usuario. Por favor intente nuevamente';          
+        } else {
+          this.enviarDatos();
+        }
+      }).catch(() => {
+        this.loading = false;
+        this.denegadoText = "Hubo un error, intente nuevamente."
+      })
     }
 
     enviarDatos() {

@@ -152,7 +152,7 @@ export class VentaProvider {
         operacionId: (this.ventasReservadas && this.ventasReservadas.operacion) ? this.ventasReservadas.operacion.id : null
       }).then(response => {
         this.ventasReservadas = response.data;
-        resolve();
+        resolve(response.data);
       }).catch(error => {
         reject(error);
       })
@@ -200,9 +200,9 @@ export class VentaProvider {
     })
   }
 
-  getMediosDePagoDisponibles(): Promise<any> {
+  getMediosDePagoDisponibles(medioPagoTarjetaId?: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.api.postToUrlBackend("venta/mediospagosdisponibles", {operacionId: this.ventasReservadas.operacion.id}).then(response => {
+      this.api.postToUrlBackend("venta/mediospagosdisponibles", {operacionId: this.ventasReservadas.operacion.id, medioPagoTarjetaId: medioPagoTarjetaId}).then(response => {
         this.ventaEnCurso.mediosDePago = response.data;
         resolve(this.ventaEnCurso.mediosDePago);
       }).catch(error => {
@@ -276,7 +276,7 @@ export class VentaProvider {
       }).then(response => {
         if ( this.getOperacionId() !== null) this.ventasReservadas.operacion = response.data.operacion;
         else this.operacion = response.data.operacion;
-        resolve();
+        resolve(response.data);
       }).catch(error => {
         reject(error);
       })
@@ -693,6 +693,20 @@ export class VentaProvider {
         reject(error);
       })
     });
+  }
+
+  tieneTransaccionIdentica(funcionSectorId: number, transaccionId: string): Promise<any> {
+    const params = {
+      funcionSectorId: funcionSectorId,
+      transaccionId: transaccionId
+    }
+    return new Promise((resolve,reject) => {
+      this.api.postToUrlBackend("tienetransaccionidenticas",params).then(response => {
+        resolve(response.data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
   }
 
   getOperacionesPorPuntoDeVenta(punto_venta_id: number): Promise<any> {

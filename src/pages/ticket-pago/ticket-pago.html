@@ -5,43 +5,123 @@
                 <div class="ticketway-card full-height">
                     <ion-header>
                         <ion-toolbar color="primary">
-                            <ion-title>TicketPago</ion-title>
+                            <ion-title><ion-icon name="cart"></ion-icon> TicketPago</ion-title>
                         </ion-toolbar>
                     </ion-header>
-                    <ion-content class="venta-content no-scrollbar">
-                        <ion-content padding>
-                            <ion-spinner *ngIf="loading"></ion-spinner>
-
-                            <ion-card *ngIf="!loading">
-                                <ion-item>
-                                    <ion-label class="punto-venta"><ion-icon name="cart"></ion-icon> {{puntoVenta.nombre}}</ion-label>
-                                </ion-item>
-
-                                <ion-card-content>
-                                    <ion-grid>
-                                        <ion-row>
-                                            <ion-col col-12>
-                                                <ion-item>
-                                                    <ion-label block text-wrap>
-                                                        <ion-icon name="ios-information-circle-outline"></ion-icon>
-                                                        Su compra tiene un monto total de ${{total}}.
-                                                    </ion-label>
-                                                </ion-item>
-                                            </ion-col>
-                                        </ion-row>
-                                    </ion-grid>
-                                </ion-card-content>
-                                <ion-item>
-                                    <button item-end ion-button solid color="danger" (click)="alertVolver()">
-                                        Cancelar
-                                    </button>
-                                    <button item-end ion-button solid color="primary" (click)="registrarVentaEnCurso()">
-                                        Siguiente
-                                    </button>
-                                </ion-item>
-                            </ion-card>
-                        </ion-content>
+                    <ion-content>
+                            <ion-spinner *ngIf="loading" lines color="primary"></ion-spinner>
+                            <ion-grid no-padding *ngIf="!loading">
+                                <ion-row>
+                                    <ion-col col-11 margin-top>
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">Email Comprobante</ion-label>
+                                            <ion-input #emailInput [(ngModel)]="email" [readonly]="envioEmail()"></ion-input>
+                                        </ion-item>
+                                    </ion-col>
+                                    <!-- Datos del medio de pago -->
+                                    <ion-col col-11 margin-top>
+                                        <ion-item *ngIf="mediosPagoDisponibles && mediosPagoDisponibles.length">
+                                            <ion-label class="label-titulo" stacked color="primary">Medio de Pago</ion-label>
+                                            <ion-select [(ngModel)]="selectedMedioPago" [disabled]="medioPagoReadOnly" (ionChange)="selectedMedioChanged()">
+                                              <ion-option *ngFor="let medio of mediosPagoDisponibles" [value]="medio">{{medio.detalle}}</ion-option>
+                                            </ion-select>
+                                        </ion-item>
+                                        <ion-item *ngIf="selectedMedioPago">
+                                            <ion-label class="label-titulo" stacked color="primary">Plan</ion-label>
+                                            <ion-select [(ngModel)]="selectedPlan" [disabled]="planReadOnly" (ionChange)="selectedPlanChanged()">
+                                              <ion-option *ngFor="let plan of selectedMedioPago.planes" [value]="plan">{{plan.detalle}}</ion-option>
+                                            </ion-select>
+                                        </ion-item>
+                                        <ion-item *ngIf="selectedCuota && planCuotaReadOnly">
+                                            <ion-label class="label-titulo" stacked color="primary">Cuotas</ion-label>
+                                            <ion-label class="label-valor">{{ selectedCuota.cuotas }} - {{ selectedCuota.total_cuota_financiada.importe_formateado }}</ion-label>
+                                        </ion-item>
+                                        <ion-item *ngIf="selectedPlan && !planCuotaReadOnly">
+                                            <ion-label class="label-titulo" stacked color="primary">Cuotas</ion-label>
+                                            <ion-select [(ngModel)]="selectedCuota" (ionChange)="setFocusInput()">
+                                              <ion-option *ngFor="let cuota of selectedPlan.plan_cuotas" [value]="cuota.id">{{cuota.cuotas}} - {{ cuota.total_cuota_financiada.importe_formateado }} </ion-option>
+                                            </ion-select>
+                                        </ion-item>
+                                    </ion-col>
+                                    <!--Datos de la tarjeta -->
+                                    <ion-col col-11 margin-top *ngIf="selectedPlan?.necesita_autorizacion && selectedCuota"> 
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">N° de Tarjeta</ion-label>
+                                            <ion-input
+                                                #numeroTarjetaInput
+                                                type="number"
+                                                [(ngModel)]="cardData.card_number"
+                                                [readonly]="envioNumeroDeTarjeta()"
+                                                id="card_number"
+                                            >
+                                            </ion-input> 
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">Vencimiento (MMAA)</ion-label>
+                                            <ion-input
+                                                #vencimientoInput
+                                                type="string"
+                                                [(ngModel)]="auxCardData.vencimiento"
+                                                [readonly]="envioVencimiento()"
+                                                maxlength="4"
+                                                id="vencimiento"
+                                            >
+                                            </ion-input> 
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">Nombre del dueño de la tarjeta</ion-label>
+                                            <ion-input
+                                                #duenioTarjetaInput
+                                                type="string"
+                                                [(ngModel)]="cardData.card_holder_name"
+                                                [readonly]="envioCliente()"
+                                                id="card_holder_name"
+                                            >
+                                            </ion-input> 
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">Código de seguridad</ion-label>
+                                            <ion-input  type="password" 
+                                                        [(ngModel)]="cardData.security_code"
+                                                        (blur)="checkFields()"
+                                                        id="security_code"
+                                                        #codigoSeguridadInput
+                                                        >
+                                            </ion-input>
+                                          </ion-item>
+                                    </ion-col>
+                                    <!-- Tipo y numero de documento -->
+                                    <ion-col col-3 *ngIf="selectedCuota">
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">Tipo de documento</ion-label>
+                                            <ion-select [(ngModel)]="tipoDocumento">
+                                              <ion-option *ngFor="let tipoDoc of selectTipoDni" [value]="tipoDoc.detalle">{{tipoDoc.detalle}}</ion-option>
+                                            </ion-select>
+                                        </ion-item>
+                                    </ion-col>
+                                    <ion-col col-9 col-md-8 *ngIf="selectedCuota">
+                                        <ion-item>
+                                            <ion-label class="label-titulo" stacked color="primary">DNI</ion-label>
+                                            <ion-input [(ngModel)]="nroDocumento"></ion-input>
+                                        </ion-item>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
                     </ion-content>
+                    <ion-footer>
+                        <ion-toolbar>
+                          <ion-buttons left *ngIf="!loading">
+                            <button ion-button solid (click)='alertVolver()' color="danger">
+                                Cancelar
+                              </button>
+                          </ion-buttons> 
+                          <ion-buttons right *ngIf="!loading">
+                            <button ion-button solid (click)='pagarClicked()' color="primary">
+                              Pagar
+                            </button>
+                          </ion-buttons>
+                        </ion-toolbar>
+                    </ion-footer>
                 </div>
             </ion-col>
         </ion-row>
