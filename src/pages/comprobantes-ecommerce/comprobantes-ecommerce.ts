@@ -49,7 +49,7 @@ export class ComprobantesEcommercePage {
 
     
     obtenerParametros() {
-      const numberSplit = (window.location.href.includes('www.ticketway.com.ar') ) ?5 :3;
+      const numberSplit = (window.location.href.includes('localhost') ) ?3 :5;
       this.params = atob(window.location.href.replace(window.location.origin,'').split('/')[numberSplit]);
       const datosEnviados = (!this.params) ?null :JSON.parse(this.params);
       this.usuarioLogin.username = (!datosEnviados) ?null :datosEnviados.usernameLogin;

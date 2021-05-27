@@ -21,6 +21,9 @@ export class TicketPagoPage {
 
     datos : any;
     errorString : string = 'Error de comunicación con Ticketpago, por favor intente nuevamente.';
+    codigoRespuestaExitosa: number = 1;
+    codigoRespuestaCancelada: number = 2;
+    codigoRespuestaError: number = 3;
     
     //Obligatorios
     usernameLogin: any;
@@ -84,7 +87,7 @@ export class TicketPagoPage {
         this.selectTipoDni = response.data.tipos_documento;
         this.tipoDocumento = "DNI";
       }).catch(() => {
-        window.open(this.urlPagina + this.getResponseToUrl(this.errorString), '_self');
+        window.open(this.urlPagina + this.getResponseToUrl(this.errorString,this.codigoRespuestaError), '_self');
         
       })
   
@@ -131,7 +134,7 @@ export class TicketPagoPage {
       if (!this.total) validacion = false;
       if (!this.urlPagina) validacion = false;
       
-      if (!validacion) window.open(this.urlPagina + this.getResponseToUrl('Faltan datos obligatorios, por favor intente nuevamente.'), '_self');
+      if (!validacion) window.open(this.urlPagina + this.getResponseToUrl('Faltan datos obligatorios, por favor intente nuevamente.',this.codigoRespuestaError), '_self');
       else this.loginUsuario()
 
     }
@@ -142,15 +145,16 @@ export class TicketPagoPage {
                   .then(() => {
                     this.getFuncionSector()
                   }).catch(() => {
-                    window.open(this.urlPagina + this.getResponseToUrl(this.errorString), '_self');
+                    window.open(this.urlPagina + this.getResponseToUrl(this.errorString,this.codigoRespuestaError), '_self');
                   })
     }
 
     //Obtener la respuesta para enviar al cliente externo
-    getResponseToUrl(response: String) {
+    getResponseToUrl(response: String, codigoRespuesta: number) {
       const objResponse = {
         transaccionID: this.transaccionID,
-        respuesta: response
+        respuesta: response,
+        codigoRespuesta: codigoRespuesta,
       }
       return '?' +  btoa(JSON.stringify(objResponse) );
     }
@@ -164,7 +168,7 @@ export class TicketPagoPage {
         const funcionSectorId = (!funcionSector) ?null :funcionSector.id;
         this.tieneTransaccionIdentica(funcionSectorId)
       }).catch(() => {
-        window.open(this.urlPagina + this.getResponseToUrl(this.errorString), '_self');
+        window.open(this.urlPagina + this.getResponseToUrl(this.errorString,this.codigoRespuestaError), '_self');
       })
     }
 
@@ -175,13 +179,13 @@ export class TicketPagoPage {
           if (!response.tiene_transaccion_identica) {
             this.registrarVentaEnCurso(funcionSectorId);
           } else {
-            window.open(this.urlPagina + this.getResponseToUrl('Ya existe una operación con es Id, por favor intente nuevamente.'), '_self');
+            window.open(this.urlPagina + this.getResponseToUrl('Ya existe una operación con es Id, por favor intente nuevamente.',this.codigoRespuestaError), '_self');
           }
         }).catch(() => {
-          window.open(this.urlPagina + this.getResponseToUrl('Ya existe una operación con es Id, por favor intente nuevamente.'), '_self');
+          window.open(this.urlPagina + this.getResponseToUrl('Ya existe una operación con es Id, por favor intente nuevamente.',this.codigoRespuestaError), '_self');
         })
       } else {
-        window.open(this.urlPagina + this.getResponseToUrl(this.errorString), '_self');
+        window.open(this.urlPagina + this.getResponseToUrl(this.errorString,this.codigoRespuestaError), '_self');
       }
     }
     
@@ -191,7 +195,7 @@ export class TicketPagoPage {
                 .then(() => {
                   this.registrarEnvio()
                 }).catch(() => {
-                  window.open(this.urlPagina + this.getResponseToUrl('Hubo un error al intentar registrar la operación, por favor intente nuevamente.'), '_self');
+                  window.open(this.urlPagina + this.getResponseToUrl('Hubo un error al intentar registrar la operación, por favor intente nuevamente.',this.codigoRespuestaError), '_self');
                 })
     }
 
@@ -202,7 +206,7 @@ export class TicketPagoPage {
         this.getMediosDePagoDisponibles()
       }).catch(async () => {
         await this.venta.cancelarVentaReservada();
-        window.open(this.urlPagina + this.getResponseToUrl(this.errorString), '_self');
+        window.open(this.urlPagina + this.getResponseToUrl(this.errorString,this.codigoRespuestaError), '_self');
       });
     }
     
@@ -213,7 +217,7 @@ export class TicketPagoPage {
         this.setMedioPago();
       }).catch(async () => {
         await this.venta.cancelarVentaReservada();
-        window.open(this.urlPagina + this.getResponseToUrl('Hubo un error al intentar obtener los medios de pago disponibles, por favor intente nuevamente.'), '_self');
+        window.open(this.urlPagina + this.getResponseToUrl('Hubo un error al intentar obtener los medios de pago disponibles, por favor intente nuevamente.',this.codigoRespuestaError), '_self');
       })
     }
 
@@ -232,7 +236,7 @@ export class TicketPagoPage {
         });
         if (this.envioMedioPago() && !this.selectedMedioPago) {
           await this.venta.cancelarVentaReservada();
-          window.open(this.urlPagina + this.getResponseToUrl('El medio de pago enviado no existe o no se encuentra disponible, por favor intente nuevamente'), '_self');
+          window.open(this.urlPagina + this.getResponseToUrl('El medio de pago enviado no existe o no se encuentra disponible, por favor intente nuevamente',this.codigoRespuestaError), '_self');
         } 
       }
       this.loading= false;
@@ -250,7 +254,7 @@ export class TicketPagoPage {
         });
         if (this.envioCuota() && !this.selectedCuota) {
           await this.venta.cancelarVentaReservada();
-          window.open(this.urlPagina + this.getResponseToUrl('El número de cuotas enviado no existe o no se encuentra disponible, por favor intente nuevamente.'), '_self');
+          window.open(this.urlPagina + this.getResponseToUrl('El número de cuotas enviado no existe o no se encuentra disponible, por favor intente nuevamente.',this.codigoRespuestaError), '_self');
         }
       }
     }
@@ -380,7 +384,7 @@ export class TicketPagoPage {
           let loading = this.loadingCtrl.create();
           loading.present();
           await this.venta.cancelarVentaReservada();
-          window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido cancelada.'), '_self');
+          window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido cancelada.',this.codigoRespuestaCancelada), '_self');
         }
       }
       ]
@@ -548,7 +552,7 @@ getCantidadDeCuotas() {
     })
 
     alert.onWillDismiss( () => {
-      window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.'), '_self');
+      window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa), '_self');
     })
 
     alert.present();

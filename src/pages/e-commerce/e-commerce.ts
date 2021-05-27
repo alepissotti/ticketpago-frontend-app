@@ -33,9 +33,9 @@ export class EcommercePage {
     }
 
     obtenerParametros() {
-        const numberSplit = (window.location.href.includes('www.ticketway.com.ar') ) ?5 :3;
+        const numberSplit = (window.location.href.includes('localhost') ) ?3 :5;
         const data = atob(window.location.href.replace(window.location.origin,'').split('/')[numberSplit]);
-        this.datosEnviados = (!data) ?null :JSON.parse(data);  
+        this.datosEnviados = (!data) ?null :JSON.parse(data);
     }
 
     enviarDatos() {
