@@ -150,12 +150,16 @@ export class TicketPagoPage {
     }
 
     //Obtener la respuesta para enviar al cliente externo
-    getResponseToUrl(response: String, codigoRespuesta: number) {
-      const objResponse = {
+    getResponseToUrl(response: String, codigoRespuesta: number, codigoAutorizacion?, cupon?) {
+      
+      let objResponse = {
         transaccionID: this.transaccionID,
         respuesta: response,
         codigoRespuesta: codigoRespuesta,
+        codigoAutorizacion: (!codigoAutorizacion) ?null :codigoAutorizacion,
+        cupon: (!cupon) ?null :cupon
       }
+
       return '?' +  btoa(JSON.stringify(objResponse) );
     }
 
@@ -169,6 +173,15 @@ export class TicketPagoPage {
         this.tieneTransaccionIdentica(funcionSectorId)
       }).catch(() => {
         window.open(this.urlPagina + this.getResponseToUrl(this.errorString,this.codigoRespuestaError), '_self');
+      })
+    }
+
+    //ConsultarTransaccionTercero
+    consultarTransaccionTercero(): any {
+      this.venta.consultarTransaccionTercero(this.empresaId,this.transaccionID).then(response => {
+        return response
+      }).catch(() => {
+        return null;
       })
     }
 
@@ -552,7 +565,18 @@ getCantidadDeCuotas() {
     })
 
     alert.onWillDismiss( () => {
-      window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa), '_self');
+      let loading = this.loadingCtrl.create();
+      loading.present()
+      this.venta.consultarTransaccionTercero(this.empresaId,this.transaccionID).then(response => {
+        loading.dismissAll();
+        const codAutorizacion = (!response[0]) ?null :response[0].codigo_autorizacion;
+        const cupon = (!response[0]) ?null :response[0].cupon;
+        window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa,codAutorizacion,cupon), '_self');
+      }).catch(() => {
+        loading.dismissAll();
+        window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa), '_self');
+      })
+      //window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa), '_self');
     })
 
     alert.present();

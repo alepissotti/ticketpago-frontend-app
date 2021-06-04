@@ -9,10 +9,10 @@ export const environment = {
     },
     linkPago: {
       _url: 'http://192.168.1.37:8100/#/link-pago/',
-      __url: 'http://192.168.1.15/#/link-pago/',
-      url: 'https://www.ticketway.com.ar/twn/app/#/link-pago/',
+      url: 'http://192.168.1.15/#/link-pago/',
+      __url: 'https://www.ticketway.com.ar/twn/app/#/link-pago/',
     }
   },
   AuthorizationQueryParameterName: 'Authorization',
-  version: '1.1.2v'
+  version: '1.1.3v'
 };
