@@ -14,5 +14,5 @@ export const environment = {
     }
   },
   AuthorizationQueryParameterName: 'Authorization',
-  version: '1.1.3v'
+  version: '1.1.4v'
 };

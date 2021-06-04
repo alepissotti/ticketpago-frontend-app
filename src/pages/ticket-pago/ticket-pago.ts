@@ -150,14 +150,24 @@ export class TicketPagoPage {
     }
 
     //Obtener la respuesta para enviar al cliente externo
-    getResponseToUrl(response: String, codigoRespuesta: number, codigoAutorizacion?, cupon?) {
+    getResponseToUrl(response: String, codigoRespuesta: number, codigoAutorizacion?, cupon?, totTransaccion? ,carServicioTransaccion? ,tranEstadoNombre? ,fecPago? ,ultCDT? ,nomApeTitular? ,cuo? ,marTarjeta? ,detDocumento? ,nroDocumento?) {
       
       let objResponse = {
         transaccionID: this.transaccionID,
         respuesta: response,
         codigoRespuesta: codigoRespuesta,
         codigoAutorizacion: (!codigoAutorizacion) ?null :codigoAutorizacion,
-        cupon: (!cupon) ?null :cupon
+        cupon: (!cupon) ?null :cupon,
+        total_transaccion: (!totTransaccion) ? null : totTransaccion,
+        cargo_servicio_transaccion: (!carServicioTransaccion) ? null :carServicioTransaccion,
+        transaccion_estado_nombre: (!tranEstadoNombre) ? null : tranEstadoNombre,
+        fecha_pago: (!fecPago) ? null : fecPago,
+        ultimos_cuatro_digitos_tarjeta: (!ultCDT) ? null : ultCDT,
+        nombre_apellido_titular: (!nomApeTitular) ? null : nomApeTitular,
+        cuotas: (!cuo) ? null : cuo,
+        marca_tarjeta: (!marTarjeta) ? null : marTarjeta,
+        detalle_documento: (!detDocumento) ? null : detDocumento,
+        nro_documento: (!nroDocumento) ? null : nroDocumento
       }
 
       return '?' +  btoa(JSON.stringify(objResponse) );
@@ -571,7 +581,18 @@ getCantidadDeCuotas() {
         loading.dismissAll();
         const codAutorizacion = (!response[0]) ?null :response[0].codigo_autorizacion;
         const cupon = (!response[0]) ?null :response[0].cupon;
-        window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa,codAutorizacion,cupon), '_self');
+        const totTransaccion = (!response[0]) ?null :response[0].total_transaccion;
+        const carServicioTransaccion = (!response[0]) ?null :response[0].cargo_servicio_transaccion;
+        const tranEstadoNombre = (!response[0]) ?null :response[0].transaccion_estado_nombre;
+        const fecPago = (!response[0]) ?null :response[0].fecha_pago;
+        const ultCDT = (!response[0]) ?null :response[0].ultimos_cuatro_digitos_tarjeta;
+        const nomApeTitular = (!response[0]) ?null :response[0].nombre_apellido_titular;
+        const cuo = (!response[0]) ?null :response[0].cuotas;
+        const marTarjeta = (!response[0]) ?null :response[0].marca_tarjeta ;
+        const detDocumento = (!response[0]) ?null: response[0].detalle_documento;
+        const nroDocumento = (!response[0]) ?null : response[0].nro_documento;
+
+        window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa,codAutorizacion,cupon,totTransaccion,carServicioTransaccion,tranEstadoNombre,fecPago,ultCDT,nomApeTitular,cuo,marTarjeta,detDocumento,nroDocumento), '_self');
       }).catch(() => {
         loading.dismissAll();
         window.open(this.urlPagina + this.getResponseToUrl('La operación ha sido aprobada.',this.codigoRespuestaExitosa), '_self');
