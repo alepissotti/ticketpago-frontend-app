@@ -309,6 +309,11 @@ pagarConDecidir() {
     alert.present();
   }
 
+  esEnteroPositivo(variable) {
+    const expresion= new RegExp(/^\d*$/);
+    return ( (variable === null) || (expresion.test(variable)) )
+  }
+
   isFormValid(): boolean {
     if( ((this.ventaTelefonica && this.ventaReservada.operacion.operacion_envio)
           ||
@@ -331,6 +336,10 @@ pagarConDecidir() {
       }
       if(this.auxCardData.vencimiento.length != 4) {
         this.error.handle({text: 'Verifique que la fecha de vencimiento sea la correcta, siendo dos números para el mes y dos para el año.'});
+        return false;
+      }
+      if (!this.esEnteroPositivo(this.auxCardData.vencimiento)) {
+        this.error.handle({text: 'El vencimiento de la tarjeta no es correcto, Formato: MMAA'});
         return false;
       }
       if (!this.cardData.security_code) {
